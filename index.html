@@ -746,6 +746,41 @@ input[type=range]{width:100%;accent-color:var(--green)}
 .env .act-logo{position:absolute;z-index:4;left:190px;top:34px;width:380px;filter:drop-shadow(0 18px 30px rgba(110,27,12,.45)) drop-shadow(0 0 30px rgba(255,200,80,.45))}
 .env-front{z-index:5;filter:drop-shadow(0 -6px 14px rgba(60,10,0,.35))}
 
+/* ===== اسم الفريق واضح تحت شارة الدور ===== */
+.tm{padding-top:26px;padding-bottom:12px}
+.tm .turn{top:-26px}
+.tm h4{overflow:visible;text-overflow:clip;line-height:1.6;padding:0 6px}
+.tm .sc{height:112px}
+.tm .mask{height:112px}
+.tm .mask svg{width:104px;height:104px}
+
+/* ===== فواصل الأسئلة ===== */
+#trans{position:absolute;inset:0;z-index:48;display:none;overflow:hidden;pointer-events:none}
+#trans.show{display:block}
+#stage.tr-on #fx{z-index:49}
+#stage.tr-on #flash{z-index:50}
+#stage.tr-on .ring-fx{z-index:50}
+.tr-panel{position:absolute;inset:0;background:radial-gradient(circle at 50% 46%,#22B86C 0%,#0B7A40 45%,#063D22 100%)}
+.tr-panel::before{content:"";position:absolute;inset:0;background:var(--lattice) 0 0/140px 140px;opacity:.16;filter:brightness(3)}
+.tr-panel.gold{background:radial-gradient(circle at 50% 46%,#FFE08A 0%,#F4B93B 45%,#B87A08 100%)}
+.tr-panel.gold::before{filter:none;opacity:.22}
+.tr-rays{position:absolute;left:50%;top:50%;width:2400px;height:2400px;margin:-1200px 0 0 -1200px;animation:spin 24s linear infinite;opacity:.5}
+.tr-rays svg{width:100%;height:100%}
+.tr-logo{position:absolute;left:50%;top:50%;width:560px;margin:-252px 0 0 -280px;transform-origin:50% 100%;will-change:transform}
+.tr-logo .logo{filter:drop-shadow(0 26px 30px rgba(0,0,0,.3))}
+.tr-shadow{position:absolute;left:50%;top:50%;width:420px;height:46px;margin:262px 0 0 -210px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.35),rgba(0,0,0,0))}
+.tr-eyes{position:absolute;left:0;right:0;top:25%;display:flex;justify-content:center;gap:34px;pointer-events:none}
+.tr-eyes i{position:relative;width:86px;height:86px;border-radius:50%;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,.25),inset 0 0 0 5px #143A2A;transform-origin:50% 50%}
+.tr-eyes b{position:absolute;left:50%;top:50%;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:#143A2A;box-shadow:inset 8px -8px 0 -4px rgba(255,255,255,.9)}
+.tr-blind{position:absolute;top:0;bottom:0;transform-origin:50% 0}
+.tr-half{position:absolute;top:0;bottom:0;width:calc(50% + 2px);background-size:200% 100%!important}
+.tr-half.l{background-position:0 0!important}.tr-half.r{background-position:100% 0!important}
+.tr-half.l{left:0;transform-origin:0 50%}.tr-half.r{right:0}
+.tr-star{position:absolute;width:44px;height:44px;background:#FFD978;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);filter:drop-shadow(0 0 8px rgba(255,217,120,.9))}
+.tr-orbit{position:absolute;left:50%;top:50%;width:0;height:0;margin-top:-250px;animation:spin 1s linear infinite}
+.tr-flame{position:absolute;left:50%;top:50%;width:150px;height:240px;margin:250px 0 0 -75px;border-radius:50% 50% 46% 46%/40% 40% 60% 60%;background:radial-gradient(ellipse 60% 70% at 50% 25%,#FFF6C2 0%,#FFD24A 22%,#FF8A1F 48%,rgba(232,70,30,.85) 66%,rgba(232,70,30,0) 74%);filter:blur(4px);transform-origin:50% 0;animation:jet .09s linear infinite alternate}
+@keyframes jet{to{transform:scale(.86,1.12)}}
+
 @media (prefers-reduced-motion:reduce){
   #bg .lattice,#bg .glow,#bg .sun svg,#gate::before,.gate-bg i{animation:none}
 }
@@ -950,6 +985,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
       <span>مستوى الصوت</span>
       <input type="range" id="optVol" min="10" max="100" step="5" value="90">
     </div>
+    <label class="row"><span>فواصل متحركة بين الأسئلة</span><input type="checkbox" id="optTrans" class="switch" checked></label>
     <label class="row"><span>تشغيل المؤقت تلقائيًا مع بداية كل سؤال</span><input type="checkbox" id="optAutoTimer" class="switch" checked></label>
     <label class="row"><span>إيقاف المؤقت عند الحكم على الجواب</span><input type="checkbox" id="optAutoStop" class="switch" checked></label>
     <div class="row col">
@@ -1090,6 +1126,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
       <canvas id="fx" width="1920" height="1080"></canvas>
       <div id="callout" aria-live="assertive"></div>
       <div id="rules" aria-live="polite"></div>
+      <div id="trans" aria-hidden="true"></div>
       <div id="crown"></div>
      </div>
     </div>
@@ -2383,9 +2420,196 @@ function initScreen() {
     await moveTurn(v.turn);
   }
 
+
+  /* ---------- فواصل الأسئلة: الشعار في مقالب مختلفة كل مرة (بدون أي كلام) ---------- */
+  const transEl = $('#trans');
+  let lastTr = -1;
+  const trRays = (col) => `<div class="tr-rays"><svg viewBox="0 0 1000 1000"><g fill="${col}">${Array.from({ length: 24 }, (_, i) => { const a = i * Math.PI / 12, w = .05, p = (g, r) => (500 + Math.cos(g) * r).toFixed(1) + ',' + (500 + Math.sin(g) * r).toFixed(1); return `<polygon points="${p(a - w, 520)} 500,500 ${p(a + w, 520)}"/>`; }).join('')}</g></svg></div>`;
+  function trPanel(cls, rays) { const p = el('div', 'tr-panel ' + (cls || ''), rays === false ? '' : trRays(cls === 'gold' ? 'rgba(255,255,255,.28)' : 'rgba(255,217,120,.16)')); transEl.appendChild(p); return p; }
+  function trLogo() { const w = el('div', 'tr-logo', logoFull()); transEl.appendChild(w); return w; }
+  const go = (n, kf, o) => n.animate(kf, Object.assign({ fill: 'forwards' }, typeof o === 'number' ? { duration: o } : o)).finished;
+  const land = (n, k = 1) => go(n, [{ transform: 'none' }, { transform: `scale(${1 + .32 * k},${1 - .3 * k})` }, { transform: `scale(${1 - .14 * k},${1 + .16 * k})` }, { transform: `scale(${1 + .06 * k},${1 - .05 * k})` }, { transform: 'none' }], { duration: 560, easing: 'ease-out' });
+  const puffs = (x, y, n = 3) => { for (let k = 0; k < n; k++) Fx.puff(x + rand(-140, 140), y, 8, 50, 'rgba(255,255,255,.8)', true); };
+  const trBurst = (x = 960, y = 540) => Fx.burst(x, y, { n: 70, speed: 17, life: 60, w: 120 });
+
+  /* ١) يطيح من فوق ويتلطّخ مثل الجيلي */
+  async function trJelly(mid) {
+    const p = trPanel(), L = trLogo(), sh = el('div', 'tr-shadow'); transEl.insertBefore(sh, L);
+    L.style.opacity = 0; sh.style.opacity = 0;
+    Sfx.whoosh(.6, true);
+    await go(p, [{ transform: 'translateY(-100%)' }, { transform: 'translateY(4%)', offset: .8 }, { transform: 'none' }], { duration: 480, easing: 'cubic-bezier(.5,0,.4,1)' });
+    mid(); L.style.opacity = 1; sh.style.opacity = 1;
+    go(sh, [{ transform: 'scale(.2)', opacity: 0 }, { transform: 'none', opacity: 1 }], 420);
+    await go(L, [{ transform: 'translateY(-900px)' }, { transform: 'none' }], { duration: 430, easing: 'cubic-bezier(.6,0,1,.6)' });
+    Sfx.impact(.7); Sfx.boing(); shake(12, 420); puffs(960, 800, 4);
+    await land(L, 1.1);
+    await go(L, [{ transform: 'none' }, { transform: 'rotate(-6deg) scale(1.04)' }, { transform: 'rotate(5deg)' }, { transform: 'rotate(-3deg)' }, { transform: 'none' }], 620);
+    Sfx.pop();
+    await go(L, [{ transform: 'none' }, { transform: 'scale(1.18)', offset: .3 }, { transform: 'scale(0) rotate(200deg)', opacity: 0 }], { duration: 420, easing: 'cubic-bezier(.5,0,.8,.5)' });
+    Sfx.whoosh(.6);
+    await go(p, [{ transform: 'none' }, { transform: 'translateY(100%)' }], { duration: 420, easing: 'cubic-bezier(.5,0,.6,1)' });
+  }
+  /* ٢) يلف مثل العملة ويرنّ */
+  async function trCoin(mid) {
+    const p = trPanel('gold'), L = trLogo();
+    L.style.opacity = 0;
+    Sfx.whoosh(.7);
+    await go(p, [{ clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(75% at 50% 50%)' }], { duration: 520, easing: 'cubic-bezier(.5,0,.4,1)' });
+    mid(); L.style.opacity = 1;
+    for (let k = 0; k < 7; k++) setTimeout(() => Sfx.clack(.5 + k * .06), k * 150);
+    await go(L, [{ transform: 'perspective(1200px) rotateY(0) scale(0)' }, { transform: 'perspective(1200px) rotateY(1440deg) scale(1)' }], { duration: 1150, easing: 'cubic-bezier(.15,.7,.3,1)' });
+    Sfx.kaching(); Sfx.sparkle(14, .7); ringFx(960, 520, '#fff', 360, 900); setTimeout(() => ringFx(960, 520, '#FFD978', 240, 800), 120); trBurst(960, 520);
+    await go(L, [{ transform: 'none' }, { transform: 'scale(1.12)' }, { transform: 'none' }], 380);
+    await sleep(300);
+    await go(L, [{ transform: 'none' }, { transform: 'perspective(1200px) rotateY(-540deg) scale(0)', opacity: 0 }], { duration: 520, easing: 'cubic-bezier(.6,0,.9,.4)' });
+    Sfx.whoosh(.5, true);
+    await go(p, [{ clipPath: 'circle(75% at 50% 50%)' }, { clipPath: 'circle(0% at 50% 50%)' }], { duration: 420, easing: 'cubic-bezier(.5,0,.6,1)' });
+  }
+  /* ٣) يطلّ من تحت بعيون، يتلفّت، يرمش، ثم ينط ويختفي */
+  async function trPeek(mid) {
+    const p = trPanel(), L = trLogo();
+    const eyes = el('div', 'tr-eyes', '<i><b></b></i><i><b></b></i>'); L.appendChild(eyes);
+    L.style.opacity = 0;
+    Sfx.whoosh(.6);
+    await go(p, [{ transform: 'translateX(100%)' }, { transform: 'none' }], { duration: 440, easing: 'cubic-bezier(.5,0,.3,1)' });
+    mid(); L.style.opacity = 1;
+    await go(L, [{ transform: 'translateY(780px)' }, { transform: 'translateY(330px)' }], { duration: 520, easing: 'cubic-bezier(.2,1.2,.3,1)' });
+    const pupils = $$('b', eyes), lids = $$('i', eyes);
+    const look = (x, y, ms) => Promise.all(pupils.map(b => go(b, [{ transform: getComputedStyle(b).transform === 'none' ? 'none' : getComputedStyle(b).transform }, { transform: `translate(${x}px,${y}px)` }], { duration: ms, easing: 'ease-in-out' })));
+    Sfx.zip();
+    await look(-20, -8, 260); await sleep(260);
+    await look(20, -8, 300); await sleep(240);
+    await Promise.all(lids.map(i => go(i, [{ transform: 'none' }, { transform: 'scaleY(.08)' }, { transform: 'none' }], 200)));
+    Sfx.pop();
+    await look(0, -18, 160);
+    Sfx.boing();
+    await go(L, [{ transform: 'translateY(330px)' }, { transform: 'translateY(380px) scale(1.2,.8)', offset: .25 }, { transform: 'translateY(-60px) scale(.9,1.15)', offset: .6 }, { transform: 'none' }], { duration: 620, easing: 'ease-out' });
+    trBurst();
+    await sleep(380);
+    Sfx.whoosh(.7);
+    await go(L, [{ transform: 'none' }, { transform: 'translateY(40px) scale(1.1,.9)', offset: .2 }, { transform: 'translateY(-1300px) scale(.8,1.3)' }], { duration: 520, easing: 'cubic-bezier(.5,0,.8,.4)' });
+    await go(p, [{ transform: 'none' }, { transform: 'translateX(-100%)' }], { duration: 420, easing: 'cubic-bezier(.5,0,.6,1)' });
+  }
+  /* ٤) صاروخ: يرجف، يطلق دخان، ينطلق */
+  async function trRocket(mid) {
+    const p = trPanel(), L = trLogo(), fl = el('div', 'tr-flame'); L.appendChild(fl);
+    fl.style.cssText = 'left:50%;top:auto;bottom:-200px;margin:0 0 0 -75px';
+    L.style.opacity = 0;
+    Sfx.whoosh(.7);
+    await go(p, [{ transform: 'translateX(-130%) skewX(-18deg)' }, { transform: 'skewX(0)' }], { duration: 480, easing: 'cubic-bezier(.5,0,.3,1)' });
+    mid(); L.style.opacity = 1;
+    await go(L, [{ transform: 'translateY(760px)' }, { transform: 'translateY(170px)' }], { duration: 480, easing: 'cubic-bezier(.2,1,.3,1)' });
+    Sfx.fireRoar();
+    const rumble = L.animate(Array.from({ length: 8 }, (_, k) => ({ transform: `translate(${k % 2 ? 6 : -6}px,${170 + (k % 3) * 3}px) rotate(${k % 2 ? 1.5 : -1.5}deg)` })), { duration: 700, iterations: 1, fill: 'forwards' });
+    for (let k = 0; k < 5; k++) setTimeout(() => puffs(960, 1000, 3), k * 140);
+    await rumble.finished;
+    shake(16, 600);
+    await go(L, [{ transform: 'translateY(170px)' }, { transform: 'translateY(-40px)', offset: .7 }, { transform: 'none' }], { duration: 520, easing: 'cubic-bezier(.3,1.3,.4,1)' });
+    const hover = L.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-14px)' }], { duration: 300, iterations: 3, direction: 'alternate' });
+    await hover.finished;
+    Sfx.whoosh(1.1); Sfx.impact(.5); puffs(960, 900, 5);
+    await go(L, [{ transform: 'none' }, { transform: 'translateY(60px) scale(1.06,.94)', offset: .2 }, { transform: 'translateY(-1400px) scale(.9,1.2)' }], { duration: 620, easing: 'cubic-bezier(.6,0,.9,.3)' });
+    await go(p, [{ transform: 'none' }, { transform: 'translateX(130%) skewX(-18deg)' }], { duration: 440, easing: 'cubic-bezier(.5,0,.6,1)' });
+  }
+  /* ٥) ينطّ ثلاث نطّات مع غبار */
+  async function trHop(mid) {
+    const p = trPanel('gold'), L = trLogo(), sh = el('div', 'tr-shadow'); transEl.insertBefore(sh, L);
+    L.style.opacity = 0; sh.style.opacity = 0;
+    Sfx.whoosh(.6);
+    await go(p, [{ opacity: 0, transform: 'scale(1.15)' }, { opacity: 1, transform: 'none' }], { duration: 380, easing: 'ease-out' });
+    mid(); L.style.opacity = 1; sh.style.opacity = 1;
+    const xs = [1400, 760, 300, 0];
+    for (let k = 0; k < 3; k++) {
+      const a = xs[k], b = xs[k + 1];
+      sh.animate([{ transform: `translateX(${a}px) scale(.9)` }, { transform: `translateX(${(a + b) / 2}px) scale(.5)`, opacity: .4 }, { transform: `translateX(${b}px)`, opacity: 1 }], { duration: 480, fill: 'forwards' });
+      await go(L, [{ transform: `translate(${a}px,0)` }, { transform: `translate(${(a + b) / 2}px,-300px) rotate(-14deg)`, easing: 'cubic-bezier(.2,0,.6,1)' }, { transform: `translate(${b}px,0)` }], { duration: 480, easing: 'cubic-bezier(.4,0,.6,1)' });
+      Sfx.boing(); puffs(960 + b, 800, 2);
+      const keep = `translate(${b}px,0)`;
+      await go(L, [{ transform: keep }, { transform: `${keep} scale(1.3,.72)` }, { transform: `${keep} scale(.92,1.1)` }, { transform: keep }], { duration: 300, easing: 'ease-out' });
+    }
+    Sfx.sparkle(12, .6); trBurst(960, 480);
+    await go(L, [{ transform: 'none' }, { transform: 'rotate(-8deg) scale(1.08)' }, { transform: 'rotate(8deg) scale(1.08)' }, { transform: 'none' }], 520);
+    Sfx.whoosh(.6);
+    await Promise.all([go(L, [{ transform: 'none' }, { transform: 'translate(-500px,-320px) rotate(-14deg)', offset: .5 }, { transform: 'translate(-1300px,0) rotate(-30deg)' }], { duration: 560, easing: 'linear' }), go(sh, [{ opacity: 1 }, { opacity: 0 }], 300)]);
+    await go(p, [{ opacity: 1 }, { opacity: 0, transform: 'scale(1.1)' }], 360);
+  }
+  /* ٦) ستائر وفلاش كاميرا */
+  async function trBlinds(mid) {
+    const N = 8, w = 1920 / N, cols = ['#0B7A40', '#0E8C4A', '#F4B93B', '#0B7A40', '#E8A425', '#0E8C4A', '#0B7A40', '#F4B93B'];
+    const bl = Array.from({ length: N }, (_, k) => { const b = el('div', 'tr-blind'); b.style.cssText = `left:${(k * w).toFixed(0)}px;width:${Math.ceil(w) + 1}px;background:linear-gradient(180deg,${cols[k]},#063D22)`; transEl.appendChild(b); return b; });
+    const L = trLogo(); L.style.opacity = 0;
+    Sfx.whoosh(.8);
+    await Promise.all(bl.map((b, k) => go(b, [{ transform: 'scaleY(0)' }, { transform: 'none' }], { duration: 380, delay: k * 45, easing: 'cubic-bezier(.5,0,.3,1)' })));
+    mid(); L.style.opacity = 1;
+    Sfx.lock();
+    await go(L, [{ transform: 'scale(0) rotate(-180deg)' }, { transform: 'scale(1.15) rotate(10deg)', offset: .7 }, { transform: 'none' }], { duration: 560, easing: 'cubic-bezier(.2,1.3,.3,1)' });
+    for (let k = 0; k < 3; k++) { await sleep(200); flash(260, .95); Sfx.stamp(); Sfx.sparkle(4, .2); L.animate([{ transform: 'scale(1.06)' }, { transform: 'none' }], 200); }
+    await sleep(250);
+    await go(L, [{ transform: 'none' }, { transform: 'scale(.2) rotate(270deg)', opacity: 0 }], { duration: 420, easing: 'cubic-bezier(.6,0,.8,.4)' });
+    Sfx.whoosh(.6, true);
+    await Promise.all(bl.map((b, k) => go(b, [{ transform: 'none' }, { transform: 'scaleX(0)' }], { duration: 340, delay: (N - 1 - k) * 40, easing: 'cubic-bezier(.5,0,.7,.4)' })));
+  }
+  /* ٧) يدوخ بعد اللف، نجوم حوله، ثم يطيح على جنبه */
+  async function trDizzy(mid) {
+    const p = trPanel(), L = trLogo();
+    const orbit = el('div', 'tr-orbit'); L.appendChild(orbit);
+    [0, 120, 240].forEach(a => { const st = el('i', 'tr-star'); st.style.transform = `rotate(${a}deg) translate(120px) rotate(-${a}deg)`; st.style.margin = '-22px 0 0 -22px'; orbit.appendChild(st); });
+    orbit.style.cssText = 'left:50%;top:6%;opacity:0';
+    L.style.opacity = 0;
+    Sfx.whoosh(.7);
+    await go(p, [{ clipPath: 'inset(50% 50% 50% 50% round 60px)' }, { clipPath: 'inset(0 0 0 0 round 0)' }], { duration: 480, easing: 'cubic-bezier(.5,0,.3,1)' });
+    mid(); L.style.opacity = 1;
+    for (let k = 0; k < 6; k++) setTimeout(() => Sfx.whoosh(.25), k * 140);
+    await go(L, [{ transform: 'rotate(-1440deg) scale(0)' }, { transform: 'none' }], { duration: 950, easing: 'cubic-bezier(.2,.8,.3,1)' });
+    orbit.style.opacity = 1; Sfx.boing(); Sfx.sparkle(10, .8);
+    await go(L, [{ transform: 'none' }, { transform: 'rotate(-12deg) translateX(-20px)' }, { transform: 'rotate(10deg) translateX(18px)' }, { transform: 'rotate(-8deg) translateX(-14px)' }, { transform: 'rotate(6deg) translateX(10px)' }, { transform: 'none' }], { duration: 1100, easing: 'ease-in-out' });
+    Sfx.whoosh(.6, true);
+    await go(L, [{ transform: 'none' }, { transform: 'rotate(-20deg)', offset: .3 }, { transform: 'rotate(-90deg) translate(-200px,40px)', offset: .6 }, { transform: 'rotate(-110deg) translate(-1200px,80px)' }], { duration: 760, easing: 'cubic-bezier(.5,0,.9,.6)' });
+    Sfx.impact(.6); shake(10, 360);
+    await go(p, [{ clipPath: 'inset(0 0 0 0 round 0)' }, { clipPath: 'inset(50% 50% 50% 50% round 60px)' }], { duration: 420, easing: 'cubic-bezier(.5,0,.6,1)' });
+  }
+  /* ٨) جدارين يعصرونه… ثم يفلت */
+  async function trSqueeze(mid) {
+    const l = el('div', 'tr-half l tr-panel'), r = el('div', 'tr-half r tr-panel');
+    l.style.inset = 'auto'; r.style.inset = 'auto'; l.style.cssText += ';top:0;bottom:0;left:0'; r.style.cssText += ';top:0;bottom:0;right:0';
+    transEl.appendChild(l); transEl.appendChild(r);
+    const L = trLogo(); L.style.opacity = 0;
+    Sfx.whoosh(.7);
+    await Promise.all([go(l, [{ transform: 'translateX(-100%)' }, { transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.5,0,.3,1)' }), go(r, [{ transform: 'translateX(100%)' }, { transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.5,0,.3,1)' })]);
+    Sfx.stamp(); shake(8, 300);
+    mid(); L.style.opacity = 1;
+    await go(L, [{ transform: 'scale(0)' }, { transform: 'scale(1.1)', offset: .7 }, { transform: 'none' }], { duration: 460, easing: 'cubic-bezier(.2,1.4,.4,1)' });
+    await sleep(250);
+    Sfx.deflate();
+    const squeeze = L.animate([{ transform: 'none' }, { transform: 'scale(.42,1.28)' }], { duration: 700, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+    await squeeze.finished;
+    const tremble = L.animate([{ transform: 'scale(.42,1.28) translateX(-6px)' }, { transform: 'scale(.42,1.28) translateX(6px)' }], { duration: 60, iterations: 8, direction: 'alternate' });
+    await tremble.finished;
+    squeeze.cancel();
+    Sfx.impact(.9); Sfx.boing(); trBurst(); shake(14, 400);
+    await Promise.all([
+      go(L, [{ transform: 'scale(.42,1.28)' }, { transform: 'scale(1.35,.8)', offset: .35 }, { transform: 'scale(.9,1.1)', offset: .7 }, { transform: 'none' }], { duration: 560, easing: 'ease-out' }),
+      go(l, [{ transform: 'none' }, { transform: 'translateX(-100%)' }], { duration: 480, easing: 'cubic-bezier(.2,1,.3,1)' }),
+      go(r, [{ transform: 'none' }, { transform: 'translateX(100%)' }], { duration: 480, easing: 'cubic-bezier(.2,1,.3,1)' })
+    ]);
+    await go(L, [{ transform: 'none' }, { transform: 'scale(1.15)', offset: .3 }, { transform: 'scale(0) rotate(-120deg)', opacity: 0 }], { duration: 380, easing: 'cubic-bezier(.5,0,.8,.5)' });
+  }
+  const TRS = [trJelly, trCoin, trPeek, trRocket, trHop, trBlinds, trDizzy, trSqueeze];
+  async function transition(mid) {
+    let i; do { i = randInt(0, TRS.length - 1); } while (i === lastTr && TRS.length > 1);
+    if (typeof window.__trForce === 'number') i = window.__trForce;
+    lastTr = i;
+    transEl.innerHTML = ''; transEl.classList.add('show'); stage.classList.add('tr-on');
+    let done = false; const safeMid = () => { if (!done) { done = true; mid(); } };
+    try { await TRS[i](safeMid); } catch (e) { console.error(e); }
+    safeMid();
+    transEl.classList.remove('show'); transEl.innerHTML = ''; stage.classList.remove('tr-on');
+  }
+
   async function doQuestion(v) {
     if (S.rules) await hideRules(false);
     if (S.action) await exitAction(true);
+    if (v.trans !== false) await transition(() => { clearQuestion(); const st0 = v.strikes || [0, 0]; [0, 1].forEach(i => renderStrikes(i, st0[i])); });
     Sfx.whoosh(.7);
     [0, 1].forEach(i => {
       const on = $$('#stk' + i + ' i.on');
@@ -2402,6 +2626,7 @@ function initScreen() {
     if (wasMasked) [0, 1].forEach(i => $('#tmScore' + i).animate([{ transform: 'scale(.3) rotate(-10deg)', opacity: 0 }, { transform: 'scale(1.15)', opacity: 1, offset: .6 }, { transform: 'none', opacity: 1 }], { duration: 600, easing: 'cubic-bezier(.2,1.5,.4,1)' }));
     await Promise.all([0, 1].map(i => S.scores[i] != null && S.scores[i] !== v.teams[i].score ? countScore(i, v.teams[i].score, 1100) : null));
     await sleep(200);
+    send({ type: 'qshown', qi: v.q.i });
   }
 
   /* ---------- أظهر بقية الإجابات ---------- */
@@ -2650,7 +2875,7 @@ function initHost() {
     turn: saved.turn || 0,
     teams: saved.teams || [{ name: 'الفريق الأول', score: 0 }, { name: 'الفريق الثاني', score: 0 }],
     timer: { total: (saved.timer && saved.timer.total) || 30, remaining: (saved.timer && saved.timer.remaining) || (saved.timer && saved.timer.total) || 30, running: false, endsAt: 0 },
-    opts: Object.assign({ sound: true, vol: .9, suspense: 'high', autoStop: true, adj: 1, fake: true, autoTimer: true }, saved.opts || {}),
+    opts: Object.assign({ sound: true, vol: .9, suspense: 'high', autoStop: true, adj: 1, fake: true, autoTimer: true, trans: true }, saved.opts || {}),
     history: saved.history || [],
     sig: saved.sig || null,
     done: saved.done || {},
@@ -2715,6 +2940,7 @@ function initHost() {
       turn: H.turn,
       timer: { total: H.timer.total, remaining: H.timer.remaining, running: H.timer.running, endsAt: H.timer.endsAt },
       sound: H.opts.sound,
+      trans: H.opts.trans,
       vol: H.opts.vol
     };
   }
@@ -2864,7 +3090,7 @@ function initHost() {
     back.hidden = false;
     setTimeout(() => { const f = $('button', box); f && f.focus(); }, 30);
   }
-  let autoT = 0;
+  let autoT = 0, pendingAuto = null;
   function selectQ(i, force) {
     if (!live() || !Q[i] || i === H.qi) return;
     if (!force && H.qi >= 0 && Q[H.qi] && !isDone(H.qi)) {
@@ -2885,7 +3111,9 @@ function initHost() {
     push({ kind: 'question' });
     if (H.opts.autoTimer) {
       const mark = H.history.length;
-      autoT = setTimeout(() => { if (live() && H.qi === i && H.history.length === mark && !H.timer.running) timerStart(); }, 2600);
+      pendingAuto = () => { pendingAuto = null; clearTimeout(autoT); if (live() && H.qi === i && H.history.length === mark && !H.timer.running && !H.action) timerStart(); };
+      /* يبدأ لما تبلّغ الشاشة إن السؤال ظهر؛ وإذا ما فيه شاشة يبدأ بعد مهلة */
+      autoT = setTimeout(() => pendingAuto && pendingAuto(), Date.now() - lastAlive < 6500 ? 14000 : 2600);
     }
   }
   /* خدعة الألوان: تشتغل أحيانًا لما تكون المنافسة حامية */
@@ -3114,6 +3342,8 @@ function initHost() {
   $('#optAutoStop').onchange = e => { H.opts.autoStop = e.target.checked; save(); };
   $('#optAutoTimer').checked = H.opts.autoTimer;
   $('#optAutoTimer').onchange = e => { H.opts.autoTimer = e.target.checked; save(); };
+  $('#optTrans').checked = H.opts.trans;
+  $('#optTrans').onchange = e => { H.opts.trans = e.target.checked; push(); };
   $('#optFake').checked = H.opts.fake;
   $('#optFake').onchange = e => { H.opts.fake = e.target.checked; save(); };
   function paintSeg() { $$('#optSuspense button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === H.opts.suspense))); }
@@ -3163,6 +3393,7 @@ function initHost() {
   /* الرسائل من الشاشة */
   listen(m => {
     if (m.type === 'hello') { lastAlive = Date.now(); push(); }
+    else if (m.type === 'qshown') { if (pendingAuto && m.qi === H.qi) pendingAuto(); }
     else if (m.type === 'alive') { const was = Date.now() - lastAlive >= 6500; lastAlive = Date.now(); if (was) push(); }
   });
 
