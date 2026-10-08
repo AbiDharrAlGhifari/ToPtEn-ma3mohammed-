@@ -479,6 +479,8 @@ input[type=range]{width:100%;accent-color:var(--green)}
 .co.bad .sub{color:var(--red-d);box-shadow:var(--shadow-lg),inset 0 0 0 3px #F3B4B5}
 .co .buzz{font-size:var(--bz,140px);font-weight:900;line-height:1;color:var(--red);-webkit-text-stroke:12px #fff;paint-order:stroke fill;filter:drop-shadow(0 10px 0 rgba(185,42,48,.3)) drop-shadow(0 0 40px rgba(229,72,77,.55));white-space:nowrap;display:inline-flex}
 .co .buzz span{display:inline-block}
+.co .say{white-space:nowrap;line-height:1.15}
+.co .say span{display:inline-block}
 .co svg.x{width:var(--xs,220px);height:var(--xs,220px);filter:drop-shadow(0 14px 24px rgba(229,72,77,.45))}
 .co svg.x circle{fill:var(--red);stroke:#fff;stroke-width:10}
 .co svg.x path{fill:none;stroke:#fff;stroke-width:24;stroke-linecap:round;stroke-dasharray:130;stroke-dashoffset:130}
@@ -490,6 +492,8 @@ input[type=range]{width:100%;accent-color:var(--green)}
 .plus.neg{background:linear-gradient(135deg,#F2777A,#E5484D);box-shadow:0 12px 30px rgba(229,72,77,.45),inset 0 0 0 4px rgba(255,255,255,.6)}
 .ring-fx{position:absolute;border-radius:50%;border:6px solid var(--green);pointer-events:none;z-index:14}
 .bubble{position:absolute;z-index:17;max-width:420px;padding:16px 28px;border-radius:26px;background:#fff;font-size:36px;font-weight:900;color:var(--ink);box-shadow:var(--shadow-lg),inset 0 0 0 3px var(--c,var(--gold));white-space:nowrap;pointer-events:none;transform-origin:50% 0}
+.bubble{display:inline-flex;align-items:center;gap:14px}
+.bubble svg{width:46px;height:46px;flex:none}
 .bubble::before{content:"";position:absolute;top:-17px;left:50%;margin-left:-16px;width:32px;height:18px;background:var(--c,var(--gold));clip-path:polygon(50% 0,100% 100%,0 100%)}
 .bubble::after{content:"";position:absolute;top:-11px;left:50%;margin-left:-11px;width:22px;height:14px;background:#fff;clip-path:polygon(50% 0,100% 100%,0 100%)}
 .token{position:absolute;z-index:18;pointer-events:none;width:96px;height:96px;display:grid;place-items:center}
@@ -498,6 +502,135 @@ input[type=range]{width:100%;accent-color:var(--green)}
 
 #soundhint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);font-size:20px;font-weight:700;color:var(--ink2);z-index:40;padding:8px 20px;border-radius:99px;background:rgba(255,255,255,.9);box-shadow:var(--shadow);transition:opacity .5s}
 #soundhint.gone{opacity:0}
+
+/* ===== ألوان الفريقين على الشاشة ===== */
+#team0{--tc:var(--t0c,#2E7CD6);--tcd:var(--t0d,#1F62B3);--tcdd:var(--t0dd,#123F78);--tcl:var(--t0l,#8DBBEF);--tct:var(--t0t,#E7F1FC)}
+#team1{--tc:var(--t1c,#8A4FD3);--tcd:var(--t1d,#6D37B3);--tcdd:var(--t1dd,#4A2280);--tcl:var(--t1l,#C3A2EE);--tct:var(--t1t,#F2EBFC)}
+.tm{box-shadow:var(--shadow-lg),inset 0 0 0 4px var(--tcl)}
+.tm .tmi::after{background:linear-gradient(180deg,var(--tct),rgba(255,255,255,.6) 45%,#fff 82%)}
+.tm h4{color:var(--tcdd)}
+.tm h4::before{content:"";display:inline-block;width:24px;height:24px;margin-inline-end:12px;vertical-align:-2px;background:var(--tc);clip-path:polygon(50% 0,64% 15%,85% 15%,85% 36%,100% 50%,85% 64%,85% 85%,64% 85%,50% 100%,36% 85%,15% 85%,15% 64%,0 50%,15% 36%,15% 15%,36% 15%)}
+.tm .sc{color:var(--tcd)}
+.tm .mask{display:none;height:128px;align-items:center;justify-content:center;gap:4px;font-size:104px;line-height:1;font-weight:900;color:var(--tcl);text-shadow:0 6px 0 var(--tct)}
+.tm .mask i{font-style:normal;display:inline-block;animation:qbob 1.8s ease-in-out infinite}
+.tm .mask i:nth-child(2){animation-delay:.22s}.tm .mask i:nth-child(3){animation-delay:.44s}
+@keyframes qbob{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-10px) rotate(5deg)}}
+.tm.masked .sc{display:none}
+.tm.masked .mask{display:flex}
+.tm .streak{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%) scale(0);display:flex;align-items:center;gap:8px;padding:6px 20px 6px 14px;border-radius:99px;font-size:28px;font-weight:900;color:#fff;white-space:nowrap;z-index:3;transition:transform .45s cubic-bezier(.2,1.6,.4,1);direction:ltr;font-variant-numeric:tabular-nums}
+.tm .streak.on{transform:translateX(-50%) scale(1)}
+.tm .streak.ok{background:linear-gradient(135deg,#2FBF73,#00A352);box-shadow:0 8px 18px rgba(0,163,82,.4),inset 0 0 0 3px rgba(255,255,255,.55)}
+.tm .streak.no{background:linear-gradient(135deg,#F2777A,#E5484D);box-shadow:0 8px 18px rgba(229,72,77,.4),inset 0 0 0 3px rgba(255,255,255,.55)}
+.tm .streak svg{width:28px;height:28px;color:#fff}
+.layer.on.by0{--fc:var(--t0c,#2E7CD6);--se:var(--t0d,#1F62B3);--o:var(--t0dd,#123F78);--tc:#fff}
+.layer.on.by1{--fc:var(--t1c,#8A4FD3);--se:var(--t1d,#6D37B3);--o:var(--t1dd,#4A2280);--tc:#fff}
+.layer.on.miss{--fc:#EEF1EC;--se:#D5DDD6;--o:#A9B8AE;--tc:var(--ink2)}
+.layer.on.miss .lgl{opacity:.35}
+.layer.greenn{--o:var(--green-d);--fc:#D3F1DF;--se:var(--green)}
+.layer.greenn .ln svg{fill:var(--green);stroke:var(--green-d)}
+.layer.greenn .ln b{color:#fff}
+.pg.played svg{fill:#FFF8E4;stroke:var(--gold-l)}
+.pg.played b{color:var(--gold-dd)}
+
+/* ===== التتويج ===== */
+#crown{position:absolute;inset:0;z-index:50;display:none;overflow:hidden}
+#crown.show{display:block}
+#stage.ended #fx{z-index:60}
+.cr-bg{position:absolute;inset:0;background:radial-gradient(70% 80% at 50% 36%,var(--tc) 0%,var(--tdd) 60%,#0A1A13 100%)}
+.cr-bg.tie{background:linear-gradient(90deg,var(--b) 0%,#132219 50%,var(--a) 100%)}
+.cr-rays{position:absolute;left:50%;top:36%;width:2600px;height:2600px;margin:-1300px 0 0 -1300px;opacity:.55;animation:spin 70s linear infinite;pointer-events:none}
+.cr-rays svg{width:100%;height:100%}
+.cr-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:40px;text-align:center;color:#fff}
+.cr-kick{display:inline-flex;align-items:center;gap:14px;font-size:40px;font-weight:900;color:#3B2800;padding:8px 36px;border-radius:99px;background:linear-gradient(135deg,#FFE08A,#F4B93B 60%,#E8A425);box-shadow:0 10px 30px rgba(244,185,59,.45)}
+.cr-kick svg{width:30px;height:30px;fill:#fff}
+.cr-team{display:flex;flex-direction:column;align-items:center;margin-top:16px}
+.crs{width:240px;height:170px;color:var(--tc);filter:drop-shadow(0 14px 22px rgba(0,0,0,.35)) drop-shadow(0 0 34px rgba(255,217,120,.6));overflow:visible}
+.cr-name{font-size:118px;font-weight:900;line-height:1.4;margin-bottom:-14px;color:#fff;margin-top:-4px;text-shadow:0 8px 0 rgba(0,0,0,.2),0 0 60px rgba(255,255,255,.3);max-width:1700px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 20px}
+.cr-score{display:inline-flex;align-items:baseline;gap:12px;margin-top:8px;padding:4px 32px;border-radius:99px;background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);font-weight:900}
+.cr-score b{font-size:56px;color:#FFE08A;font-variant-numeric:tabular-nums}
+.cr-score span{font-size:28px;color:rgba(255,255,255,.85)}
+.cr-names{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:18px 18px;max-width:1560px;margin-top:30px;flex:1;min-height:0}
+.cr-pl{display:inline-flex;align-items:center;gap:12px;height:72px;padding:0 30px 0 20px;border-radius:99px;background:#fff;color:var(--tdd);font-size:40px;font-weight:900;box-shadow:0 14px 28px rgba(0,0,0,.28),inset 0 0 0 4px var(--tl);transform:rotate(-1.5deg)}
+.cr-pl:nth-child(even){transform:rotate(1.5deg) translateY(6px)}
+.cr-pl svg{width:32px;height:32px;fill:#F4B93B;stroke:#fff;stroke-width:6;flex:none}
+.cr-go{font-family:var(--serif);font-size:78px;font-weight:900;line-height:1.3;color:#FFE08A;text-shadow:0 6px 0 rgba(0,0,0,.28)}
+.cr-tease{margin:2px 0 40px;font-size:30px;font-weight:700;color:rgba(255,255,255,.85)}
+.cr-lose{position:absolute;left:44px;bottom:40px;display:flex;align-items:center;gap:16px;padding:10px 26px;border-radius:20px;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 2px rgba(255,255,255,.22);color:rgba(255,255,255,.75);font-size:26px;font-weight:900}
+.cr-lose span{font-size:34px;color:#fff;font-variant-numeric:tabular-nums}
+.cr-tie{display:flex;gap:70px;justify-content:center;align-items:flex-start;margin-top:12px;flex:1;min-height:0}
+.cr-col{display:flex;flex-direction:column;align-items:center;width:780px}
+.cr-col .crs{width:170px;height:120px}
+.cr-col .cr-name{font-size:80px;max-width:780px}
+.cr-col .cr-names{max-width:780px;gap:12px;margin-top:22px;flex:none}
+.cr-col .cr-pl{font-size:30px;height:56px;padding:0 22px 0 16px}
+.cr-col .cr-pl svg{width:24px;height:24px}
+.cr-duel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:56px;background:radial-gradient(70% 70% at 50% 50%,#1E3A2D,#0A1A13)}
+.cd-cap{position:absolute;top:110px;left:0;right:0;text-align:center;font-size:46px;font-weight:900;color:#FFE08A;letter-spacing:.01em}
+.cd{width:640px;height:520px;border-radius:44px;background:linear-gradient(180deg,var(--tt),#fff 55%);box-shadow:0 30px 80px rgba(0,0,0,.45),inset 0 0 0 8px var(--tl);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:transform .6s cubic-bezier(.2,1.4,.4,1),filter .6s,opacity .6s,box-shadow .6s}
+.cd h3{font-size:62px;font-weight:900;color:var(--tdd);max-width:580px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cd b{font-size:230px;line-height:1;font-weight:900;color:var(--tc);font-variant-numeric:tabular-nums;direction:ltr}
+.cd.stop{box-shadow:0 30px 80px rgba(0,0,0,.45),inset 0 0 0 8px var(--tc)}
+.cd.win{transform:scale(1.1);box-shadow:0 0 0 12px #F4B93B,0 30px 90px rgba(244,185,59,.6)}
+.cd.lose{transform:scale(.84);filter:grayscale(.85) brightness(.7);opacity:.7}
+.cd-vs{font-size:90px;font-weight:900;color:rgba(255,255,255,.35)}
+
+/* ===== المقدم: ألوان الفريقين واللاعبين والإنهاء ===== */
+.team::before{content:"";position:absolute;inset-inline-start:-1px;top:14px;bottom:14px;width:6px;border-radius:6px;background:var(--tcc,var(--green))}
+.team .t-name{color:var(--tcdd,var(--ink))}
+.team .t-score{color:var(--tcc,var(--green-dd))}
+.t-colors{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.t-colors span{font-size:13px;font-weight:700;color:var(--ink3);margin-inline-end:2px}
+.t-colors button{width:26px;height:26px;border-radius:50%;background:var(--sw);box-shadow:inset 0 0 0 3px rgba(255,255,255,.55);transition:transform .15s,box-shadow .15s}
+.t-colors button:hover{transform:scale(1.12)}
+.t-colors button[aria-pressed="true"]{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--sw);transform:scale(1.06)}
+.t-players{border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line)}
+.t-players summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding:9px 12px;font-weight:900;font-size:15px;color:var(--ink2)}
+.t-players summary::-webkit-details-marker{display:none}
+.t-players summary::after{content:"";width:8px;height:8px;border-bottom:2px solid currentColor;border-left:2px solid currentColor;transform:rotate(-45deg);transition:transform .2s;margin-top:-4px}
+.t-players[open] summary::after{transform:rotate(135deg);margin-top:4px}
+.t-players .cnt{margin-inline-start:auto;font-size:13px;color:var(--ink3);font-weight:700}
+.pl-list{display:flex;flex-direction:column;gap:6px;padding:0 10px 8px}
+.pl-row{display:flex;align-items:center;gap:6px}
+.pl-row>span{width:22px;flex:none;text-align:center;font-size:13px;font-weight:900;color:var(--ink3);font-variant-numeric:tabular-nums}
+.pl-row input{flex:1;min-width:0;min-height:36px;padding:4px 10px;border:0;border-radius:9px;background:var(--bg2);box-shadow:inset 0 0 0 1.5px var(--line);font-size:15px;font-weight:700;color:var(--ink)}
+.pl-row input:focus{outline:0;box-shadow:inset 0 0 0 2px var(--tcc,var(--gold))}
+.pl-row button{width:30px;height:30px;flex:none;border-radius:8px;color:var(--ink3);font-size:18px;font-weight:900}
+.pl-row button:hover{background:var(--red-t);color:var(--red-d)}
+.pl-add{margin:0 10px 10px;min-height:38px!important;width:calc(100% - 20px);font-size:15px!important}
+.hid-note{font-size:12px;font-weight:900;color:var(--gold-dd);background:var(--gold-t);padding:3px 10px;border-radius:99px;letter-spacing:0}
+.qchip.done{background:#2D4036;color:#8DA497;box-shadow:none}
+.qchip.done::after{content:"✓";position:absolute;inset-inline-end:5px;top:3px;font-size:12px;line-height:1;color:#7FD3A6;width:auto;height:auto;background:none;border-radius:0}
+.qchip.cur.done{background:linear-gradient(135deg,#FFD978,#F4B93B);color:#3B2800}
+.qchip.cur.done::after{color:#8F6200}
+.acard.taken{--o:var(--tcl,#A8D9BC);--f:var(--tct,var(--green-t));--s:var(--tcl,#BFE3CD)}
+.acard.taken .tx{color:var(--tcdd,var(--green-dd))}
+.acard.taken .rk::before{background:var(--tcc,var(--green))}
+.acard.taken .by{color:var(--tcdd,var(--green-dd))}
+.acard.shown{--o:#C9D0C8;--f:#F0F2EE;--s:#DDE2DB;cursor:default}
+.acard.shown .tx{color:var(--ink2)}
+.acard.shown .rk::before{background:var(--ink3)}
+.acard.shown .by{color:var(--ink2)}
+.v-more{display:flex;gap:10px;margin-top:10px}
+.v-more .btn{flex:1}
+.btn.reveal{background:#fff;box-shadow:inset 0 0 0 2px var(--line2);color:var(--ink);font-weight:900}
+.btn.reveal.arm,.btn.endg.arm{background:var(--gold);color:#3B2800;box-shadow:none}
+.btn.endg{width:100%;margin-top:12px;background:linear-gradient(135deg,#1E3A2D,#0B5E36);color:#FFE08A;box-shadow:0 6px 18px rgba(11,94,54,.35)}
+.btn.endg svg{width:26px;height:26px}
+#btnResume{width:100%;margin-top:10px}
+.m-back{position:fixed;inset:0;z-index:60;background:rgba(20,58,42,.38);display:grid;place-items:center;padding:16px;backdrop-filter:blur(3px)}
+.modal{width:min(480px,100%);background:#fff;border-radius:22px;padding:24px 24px 20px;box-shadow:0 30px 80px rgba(20,58,42,.35);animation:mIn .28s cubic-bezier(.2,1.4,.4,1)}
+@keyframes mIn{from{transform:scale(.9);opacity:0}}
+.modal h3{font-size:24px;font-weight:900;color:var(--ink);margin-bottom:8px}
+.modal p{font-size:16px;color:var(--ink2);line-height:1.7;margin-bottom:18px}
+.m-btns{display:flex;flex-direction:column;gap:10px}
+.m-btns .btn{min-height:52px;font-size:18px;font-weight:900}
+
+/* الخط العربي ما ينقص من فوق ولا من تحت */
+.layer .la{line-height:1.55;overflow:visible}
+.layer .la .txt{display:none;flex:none;white-space:nowrap;overflow:visible;line-height:1.55;-webkit-line-clamp:unset;max-width:none}
+.layer.on .la .txt{display:inline-block}
+.tm{padding-top:12px;padding-bottom:16px}
+.tm h4{line-height:1.55;padding:0 6px}
 
 @media (prefers-reduced-motion:reduce){
   #bg .lattice,#bg .glow,#bg .sun svg,#gate::before,.gate-bg i{animation:none}
@@ -518,6 +651,8 @@ input[type=range]{width:100%;accent-color:var(--green)}
     <mask id="mMoon" maskUnits="userSpaceOnUse" x="0" y="0" width="520" height="520"><circle cx="260" cy="104" r="25" fill="#fff"/><circle cx="272" cy="96" r="21" fill="#000"/></mask>
     <clipPath id="cBand"><rect x="40" y="334" width="440" height="78" rx="6"/></clipPath>
     <symbol id="octa" viewBox="0 0 100 100"><polygon points="50.00,2.00 64.06,16.06 83.94,16.06 83.94,35.94 98.00,50.00 83.94,64.06 83.94,83.94 64.06,83.94 50.00,98.00 35.94,83.94 16.06,83.94 16.06,64.06 2.00,50.00 16.06,35.94 16.06,16.06 35.94,16.06"/></symbol>
+    <linearGradient id="gCrown" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFEFB0"/><stop offset=".5" stop-color="#F4B93B"/><stop offset="1" stop-color="#C98A10"/></linearGradient>
+    <symbol id="crownS" viewBox="-8 -4 256 174"><path d="M24 132 L10 44 L72 92 L120 16 L168 92 L230 44 L216 132 Z" fill="url(#gCrown)" stroke="#8F6200" stroke-width="6" stroke-linejoin="round"/><rect x="20" y="124" width="200" height="34" rx="11" fill="url(#gCrown)" stroke="#8F6200" stroke-width="6"/><circle cx="10" cy="44" r="12" fill="#FFE08A" stroke="#8F6200" stroke-width="5"/><circle cx="120" cy="16" r="13" fill="#FFE08A" stroke="#8F6200" stroke-width="5"/><circle cx="230" cy="44" r="12" fill="#FFE08A" stroke="#8F6200" stroke-width="5"/><path d="M120 62 L133 92 L120 106 L107 92Z" fill="currentColor" stroke="#fff" stroke-width="3"/><circle cx="120" cy="141" r="10" fill="currentColor" stroke="#fff" stroke-width="3"/><circle cx="74" cy="141" r="7" fill="currentColor" stroke="#fff" stroke-width="3"/><circle cx="166" cy="141" r="7" fill="currentColor" stroke="#fff" stroke-width="3"/><path d="M40 112 Q120 100 200 112" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/></symbol>
     <symbol id="xm" viewBox="0 0 100 100"><path d="M27 27 L73 73 M73 27 L27 73" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></symbol>
     <symbol id="chk" viewBox="0 0 100 100"><path d="M22 54 L42 73 L79 30" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs>
@@ -569,14 +704,18 @@ input[type=range]{width:100%;accent-color:var(--green)}
   <div class="h-body">
     <aside class="h-side">
       <section class="card" id="cardTeams">
-        <h3>الفريقان</h3>
+        <h3>الفريقان<span class="sp"></span><span class="hid-note" id="hidNote" hidden>النتيجة مخفية على الشاشة</span></h3>
         <div class="team" data-t="0">
           <div class="t-top"><input class="t-name" id="name0" value="الفريق الأول" maxlength="22" aria-label="اسم الفريق الأول"><button class="t-turn" type="button" data-t="0">الدور</button></div>
           <div class="t-row"><b class="t-score" id="score0">0</b><span class="t-strikes" id="hStk0" aria-label="الأخطاء في هذا السؤال"></span></div>
+          <div class="t-colors" id="tCol0" role="group" aria-label="لون الفريق"></div>
+          <details class="t-players" id="tPl0"><summary>أسماء اللاعبين<span class="cnt"></span></summary><div class="pl-list"></div><button class="btn ghost pl-add" type="button">＋ إضافة لاعب</button></details>
         </div>
         <div class="team" data-t="1">
           <div class="t-top"><input class="t-name" id="name1" value="الفريق الثاني" maxlength="22" aria-label="اسم الفريق الثاني"><button class="t-turn" type="button" data-t="1">الدور</button></div>
           <div class="t-row"><b class="t-score" id="score1">0</b><span class="t-strikes" id="hStk1" aria-label="الأخطاء في هذا السؤال"></span></div>
+          <div class="t-colors" id="tCol1" role="group" aria-label="لون الفريق"></div>
+          <details class="t-players" id="tPl1"><summary>أسماء اللاعبين<span class="cnt"></span></summary><div class="pl-list"></div><button class="btn ghost pl-add" type="button">＋ إضافة لاعب</button></details>
         </div>
         <p class="turn-note">بعد كل حكم (صح أو خطأ) ينتقل الدور تلقائيًا للفريق الآخر.</p>
       </section>
@@ -617,6 +756,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
             <button class="btn big ok" id="btnOk" type="button"><svg viewBox="0 0 100 100"><use href="#chk"/></svg>جواب صحيح <span class="k">Enter</span></button>
             <button class="btn big no" id="btnNo" type="button"><svg viewBox="0 0 100 100"><use href="#xm"/></svg>جواب خاطئ <span class="k">X</span></button>
           </div>
+          <div class="v-more"><button class="btn reveal" id="btnReveal" type="button">أظهر بقية الإجابات</button></div>
           <p class="v-toast" id="vToast" aria-live="polite"></p>
         </div>
       </section>
@@ -627,6 +767,8 @@ input[type=range]{width:100%;accent-color:var(--green)}
         <h3>المسابقة</h3>
         <button class="btn big gold" id="btnStart" type="button">ابدأ المسابقة</button>
         <p class="live-note" id="liveNote" hidden><i class="dot"></i>المسابقة شغّالة على الشاشة</p>
+        <button class="btn big endg" id="btnEnd" type="button" hidden><svg viewBox="-8 -4 256 174" style="color:#00A352"><use href="#crownS"/></svg><span>أنهِ اللعبة</span></button>
+        <button class="btn ghost" id="btnResume" type="button" hidden>رجوع للعبة (إخفاء التتويج)</button>
         <div class="link-box">
           <p class="lb-t">الشاشة على جهاز آخر؟</p>
           <div class="lb-row"><b id="roomCode" dir="ltr">------</b><button class="btn ghost" id="btnCopyLink" type="button">نسخ رابط الشاشة</button></div>
@@ -665,6 +807,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
       <span>مستوى الصوت</span>
       <input type="range" id="optVol" min="10" max="100" step="5" value="90">
     </div>
+    <label class="row"><span>تشغيل المؤقت تلقائيًا مع بداية كل سؤال</span><input type="checkbox" id="optAutoTimer" class="switch" checked></label>
     <label class="row"><span>إيقاف المؤقت عند الحكم على الجواب</span><input type="checkbox" id="optAutoStop" class="switch" checked></label>
     <div class="row col">
       <span>مستوى الإثارة قبل كشف الحكم</span>
@@ -675,6 +818,8 @@ input[type=range]{width:100%;accent-color:var(--green)}
       </div>
       <p class="hint">نفس الحركات بالضبط للصح والخطأ، ثم يُكشف الحكم.</p>
     </div>
+    <label class="row"><span>خدعة الألوان لما تشتد المنافسة</span><input type="checkbox" id="optFake" class="switch" checked></label>
+    <p class="hint" style="margin-top:-6px">لما يكون الفرق بين الفريقين 5 نقاط أو أقل (وأحدهم وصل 10)، أحيانًا يومض لون معاكس ثم «بوف» ويظهر الحكم الحقيقي.</p>
     <div class="row col">
       <span>رابط الشيت</span>
       <input type="text" id="optSheet" class="field" dir="ltr" spellcheck="false" placeholder="رابط Google Sheets أو المعرّف">
@@ -688,14 +833,15 @@ input[type=range]{width:100%;accent-color:var(--green)}
       <span>اختبار أصوات الشاشة</span>
       <div class="seg" id="sfxTests">
         <button type="button" data-v="ok">صح</button>
-        <button type="button" data-v="bz1">بز</button>
-        <button type="button" data-v="bz3">بزززز</button>
+        <button type="button" data-v="bz1">صوت خطأ خفيف</button>
+        <button type="button" data-v="bz3">صوت خطأ قوي</button>
       </div>
     </div>
     <div class="row col">
       <button class="btn danger" id="btnReset" type="button">بدء مسابقة جديدة</button>
     </div>
   </aside>
+  <div class="m-back" id="mBack" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle"><h3 id="mTitle"></h3><p id="mText"></p><div class="m-btns" id="mBtns"></div></div></div>
 </section>
 
 <!-- ============ شاشة المتسابقين ============ -->
@@ -723,14 +869,18 @@ input[type=range]{width:100%;accent-color:var(--green)}
         <span class="turn"><svg viewBox="0 0 100 100"><use href="#octa" fill="#fff"/></svg>الدور عليكم</span>
         <h4 id="tmName0">الفريق الأول</h4>
         <b class="sc odo" id="tmScore0"></b>
+        <b class="mask" id="tmMask0" aria-label="النتيجة مخفية"><i>؟</i><i>؟</i><i>؟</i></b>
         <div class="stk" id="stk0"></div>
+        <span class="streak" id="tmStr0"></span>
       </div>
       <div class="tm ui" id="team1" data-t="1">
         <div class="tmi"></div>
         <span class="turn"><svg viewBox="0 0 100 100"><use href="#octa" fill="#fff"/></svg>الدور عليكم</span>
         <h4 id="tmName1">الفريق الثاني</h4>
         <b class="sc odo" id="tmScore1"></b>
+        <b class="mask" id="tmMask1" aria-label="النتيجة مخفية"><i>؟</i><i>؟</i><i>؟</i></b>
         <div class="stk" id="stk1"></div>
+        <span class="streak" id="tmStr1"></span>
       </div>
 
       <header id="qhead" class="ui dim">
@@ -767,6 +917,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
       <svg id="cracks" viewBox="0 0 1920 1080" preserveAspectRatio="none"></svg>
       <canvas id="fx" width="1920" height="1080"></canvas>
       <div id="callout" aria-live="assertive"></div>
+      <div id="crown"></div>
      </div>
       <div id="soundhint">اضغط في أي مكان لتفعيل الأصوات</div>
     </div>
@@ -800,6 +951,19 @@ const pick = a => a[Math.floor(Math.random() * a.length)];
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const ptLabel = n => (n === 1 ? 'نقطة' : n === 2 ? 'نقطتان' : n + ' نقاط');
+const ptWord = n => { const a = Math.abs(n) % 100; return Math.abs(n) === 1 ? 'نقطة' : Math.abs(n) === 2 ? 'نقطتان' : (a >= 3 && a <= 10) ? 'نقاط' : 'نقطة'; };
+/* ألوان الفريقين (مختارة بعيدًا عن أخضر الصح وأحمر الخطأ وذهبي الدور) */
+const TEAM_COLORS = {
+  blue:   { n: 'أزرق',    c: '#2E7CD6', d: '#1F62B3', dd: '#123F78', l: '#8DBBEF', t: '#E7F1FC' },
+  purple: { n: 'بنفسجي',  c: '#8A4FD3', d: '#6D37B3', dd: '#4A2280', l: '#C3A2EE', t: '#F2EBFC' },
+  teal:   { n: 'فيروزي',  c: '#0E9AA7', d: '#0A7C87', dd: '#075760', l: '#7FD0D7', t: '#E1F5F6' },
+  orange: { n: 'برتقالي', c: '#EB7A2A', d: '#C9611A', dd: '#8C4110', l: '#F5B587', t: '#FDEDE1' },
+  rose:   { n: 'وردي',    c: '#D6478C', d: '#B4316F', dd: '#7D1F4D', l: '#EDA0C5', t: '#FBE7F1' },
+  indigo: { n: 'نيلي',    c: '#4B5BD3', d: '#3846B0', dd: '#263083', l: '#A3ADEE', t: '#E9EBFB' }
+};
+const DEF_COLORS = ['blue', 'purple'];
+/* «يا فريق النسور» — وإذا الاسم أصلًا يبدأ بـ«فريق» ما نكررها */
+const teamCall = n => /^(ال)?فريق/.test(n) ? n : 'فريق ' + n;
 
 /* لون كل طبقة: الأسهل (1-5) من أخضر الشعار يتعمّق، والأصعب (6-10) من ذهب النجمة يتوهّج */
 const RANK = [null,
@@ -834,7 +998,7 @@ function logoFull() {
   };
   const rays = Array.from({ length: 16 }, (_, i) => ray(i, 16, 260, 250, 262, .075)).join('');
   const sp = (x, y, s) => `<path d="M${x} ${y - s}Q${x} ${y} ${x + s} ${y}Q${x} ${y} ${x} ${y + s}Q${x} ${y} ${x - s} ${y}Q${x} ${y} ${x} ${y - s}Z"/>`;
-  return `<svg class="logo" viewBox="0 0 520 520" role="img" aria-label="توب تن مع محمد">
+  return `<svg class="logo" viewBox="0 0 520 468" role="img" aria-label="توب تن مع محمد">
   <g class="lg-rays" fill="url(#gRay)">${rays}</g>
   <g class="lg-spin">
     <polygon class="lg-fill" points="${starPts(260, 263, 205)}" fill="rgba(20,58,42,.10)"/>
@@ -854,12 +1018,9 @@ function logoFull() {
     <rect x="40" y="334" width="440" height="78" rx="6" fill="url(#gBand)"/>
     <rect x="48" y="339" width="424" height="5" rx="2.5" fill="#fff" opacity=".28"/>
     <g clip-path="url(#cBand)"><g transform="skewX(-20)"><rect class="lg-shine" x="160" y="334" width="120" height="78" fill="url(#gShine)"/></g></g>
-    <text x="260" y="391" text-anchor="middle" font-size="58" fill="#fff">توب تن</text>
+    <text x="260" y="389" text-anchor="middle" font-size="50" fill="#fff">توب تن <tspan fill="#FFD978">مع محمد</tspan></text>
   </g>
-  <g class="lg-pill">
-    <rect x="148" y="430" width="224" height="60" rx="30" fill="url(#gGold)" stroke="#fff" stroke-width="5"/>
-    <text x="260" y="471" text-anchor="middle" font-size="33" fill="#3B2800">مع محمد</text>
-  </g>
+
   <g class="lg-spark" fill="#F4B93B">${sp(72, 112, 18)}${sp(452, 126, 14)}${sp(482, 296, 10)}${sp(40, 292, 12)}</g>
 </svg>`;
 }
@@ -1217,7 +1378,17 @@ const Sfx = (() => {
       v.gain.setValueAtTime(.0001, t0); v.gain.exponentialRampToValueAtTime(.3, t0 + .01); v.gain.exponentialRampToValueAtTime(.0001, t0 + d);
       o.connect(v); v.connect(master); o.start(t0); lfo.start(t0); o.stop(t0 + d + .05); lfo.stop(t0 + d + .05);
     },
-    rewind() { [0, .12, .24].forEach(t => noise({ t, d: .14, g: .22, f: 5000, to: 400, type: 'bandpass', q: 1.5 })); }
+    rewind() { [0, .12, .24].forEach(t => noise({ t, d: .14, g: .22, f: 5000, to: 400, type: 'bandpass', q: 1.5 })); },
+    /* «بوف» دخان الخدعة */
+    poof() { noise({ d: .5, g: .55, f: 900, to: 110, type: 'lowpass', a: .004 }); noise({ d: .26, g: .25, f: 2600, to: 500, type: 'bandpass', q: .8, a: .002 }); tone({ f: 340, to: 80, d: .24, g: .32, a: .002 }); },
+    /* التتويج */
+    drumroll(d) { if (!ok()) return; const n = Math.round(d * 30); for (let i = 0; i < n; i++) { const t = i / 30; noise({ t, d: .045, g: .1 + .32 * (t / d), f: rand(700, 1100), type: 'bandpass', q: 1.3, a: .002 }); tone({ f: 70, t, d: .05, g: .05 + .12 * (t / d), a: .002 }); } },
+    fanfare() {
+      [[523.25, 0, .15], [659.25, .15, .15], [783.99, .3, .15], [1046.5, .45, 1.1]].forEach(([f, t, d]) => { tone({ f, t, d, type: 'triangle', g: .17, a: .012 }); tone({ f: f / 2, t, d, type: 'square', g: .03, a: .012 }); tone({ f: f * 2, t, d: d * .8, type: 'sine', g: .03, a: .012 }); });
+      [523.25, 659.25, 783.99].forEach(f => tone({ f, t: .45, d: 1.4, type: 'triangle', g: .08, a: .03 }));
+      [0, .45].forEach(t => noise({ t, d: .5, g: .2, f: 7000, type: 'highpass', a: .002 }));
+    },
+    firework() { tone({ f: rand(500, 700), to: rand(1600, 2200), d: .32, g: .035, a: .01 }); noise({ t: .32, d: .55, g: .32, f: 3200, to: 260, type: 'lowpass', a: .002 }); for (let i = 0; i < 9; i++) noise({ t: .38 + rand(0, .6), d: .02, g: rand(.04, .13), f: rand(3000, 7500), type: 'bandpass', q: 3, a: .001 }); }
   };
 })();
 
@@ -1235,12 +1406,12 @@ const Fx = (() => {
     }
     go();
   }
-  function puff(x, y, n = 10, w = 40) {
-    for (let i = 0; i < n; i++) ps.push({ x: x + rand(-w, w), y: y + rand(-6, 6), vx: rand(-3, 3), vy: rand(-2.2, -.4), g: -.01, life: 0, max: rand(30, 50), s: rand(14, 30), c: 'rgba(160,170,150,.35)', r: 0, vr: 0, shape: 'puff' });
+  function puff(x, y, n = 10, w = 40, c, big) {
+    for (let i = 0; i < n; i++) ps.push({ x: x + rand(-w, w), y: y + rand(-6, 6), vx: rand(-3, 3) * (big ? 2.2 : 1), vy: rand(-2.2, -.4) * (big ? 1.8 : 1), g: -.01, life: 0, max: rand(30, 50) * (big ? 1.4 : 1), s: rand(14, 30) * (big ? 2.4 : 1), c: c || 'rgba(160,170,150,.35)', r: 0, vr: 0, shape: 'puff' });
     go();
   }
-  function rain(n = 90) {
-    for (let i = 0; i < n; i++) ps.push({ x: rand(0, 1920), y: rand(-400, -20), vx: rand(-2, 2), vy: rand(4, 10), g: .07, life: 0, max: rand(110, 180), s: rand(9, 18), c: pick(COLS), r: rand(0, 6.28), vr: rand(-.2, .2), shape: pick(['r', 'o', 'r']) });
+  function rain(n = 90, cols) {
+    for (let i = 0; i < n; i++) ps.push({ x: rand(0, 1920), y: rand(-400, -20), vx: rand(-2, 2), vy: rand(4, 10), g: .07, life: 0, max: rand(110, 180), s: rand(9, 18), c: pick(cols || COLS), r: rand(0, 6.28), vr: rand(-.2, .2), shape: pick(['r', 'o', 'r']) });
     go();
   }
   function star(s) {
@@ -1268,17 +1439,44 @@ const Fx = (() => {
 
 /* ---------- عبارات الغيظ والتشجيع ---------- */
 const TXT = {
-  praise: ['كفو!', 'صح لسانكم!', 'في الصميم!', 'يا سلام!', 'عز الطلب!', 'ذيب!', 'ولا غلطة!'],
-  praiseBig: ['ما شاء الله!', 'أسطورة!', 'عباقرة!'],
-  tease: ['وين كنتم؟ 😏', 'الحقوا عليهم! 🏃', 'سبقوكم! 😜', 'شدّوا حيلكم 💪', 'تحرّقتوا؟ 🔥', 'مو لكم ذي 😎'],
-  wrong: [
-    ['أفاا… مو كذا!', 'قريبة… بس لا!', 'خسارة!', 'ولا قريبة!', 'الجواب مو هنا!'],
-    ['مرة ثانية؟!', 'ركّزوا يا جماعة!', 'الثانية ولا أحلى!', 'وش السالفة؟!'],
-    ['الثالثة ثابتة!', 'يا ساتر! ثلاث مرات!', 'حرّقتوا أعصابنا!', 'خلاص… استريحوا 😅']
+  /* أخطاء ورا بعض لنفس الفريق: الخانة 0 = أول خطأ … الخانة 9 = العاشر وما بعده */
+  wrongStreak: [
+    ['لا لا لا لا', 'قريبة… بس لاااا'],
+    ['وبعديييين'],
+    ['هاتريك أخطاء !!!'],
+    ['لا تعلييق'],
+    ['أفا يا ذا العلم'],
+    ['بدييييييييهية دي !!'],
+    ['معقول محمد حاقد عليكم؟!؟'],
+    ['أممممممممممممم'],
+    ['الطيور طارت بأرزاقها'],
+    ['ما يطيح إلا الشاطر']
   ],
-  sad: ['😓', '🙈', '😬', '🤦'],
-  gloat: ['😏 جاء دورنا!', 'شكرًا على الهدية 🎁', 'هذي فرصتنا 😎', 'خلّوها علينا 💪']
+  /* صح ورا بعض لنفس الفريق ({team} = اسم الفريق) */
+  rightStreak: [
+    'صح صح صح صح',
+    'صحححح عليكم يا فريق {team}',
+    'ايووووووووووووووووا ياااااااا شيييييييييخ',
+    'هذا الكلاااااام',
+    'شغااااااااااااللللللللييييييين',
+    'لااااااااااا نراااااااكم',
+    'جواااااااااب صحححححححححححححححييييييييييييييييح',
+    'العععععب بعييييييييييييييد',
+    'يااااا معللللللللمممممم',
+    'وحش الوووووووحووووووووووش'
+  ],
+  tease: ['الحقوووا عليهم', 'نايمين؟', 'ترى الدور جاي عليكم', 'بدأنا نقلق', 'صحصحووو', 'الحقوا ع القطار'],
+  sad: ['راااحت علينا', 'ليش كذا؟', 'كانت بالجيب', 'عادي عادي…'],
+  gloat: ['جاااء دورنا', 'شكرا ع الهدية', 'فرصتنااا', 'حقنا', 'وسّعوا الطريق']
 };
+/* اختيار عشوائي بدون تكرار نفس العبارة مرتين ورا بعض */
+const _lastPick = new Map();
+function pickNR(a) {
+  if (a.length < 2) return a[0];
+  let x; do { x = a[Math.floor(Math.random() * a.length)]; } while (x === _lastPick.get(a));
+  _lastPick.set(a, x); return x;
+}
+const streakIdx = n => Math.max(0, Math.min(9, (n || 1) - 1));
 
 /* =========================================================
    البوابة
@@ -1304,8 +1502,9 @@ function initGate() {
    ========================================================= */
 function initScreen() {
   const stage = $('#stage'), world = $('#world'), stackEl = $('#stack');
-  const S = { k: 1, view: null, queue: Promise.resolve(), busy: 0, scores: [0, 0], strikes: [0, 0], turn: -1, qi: -1, timer: { total: 30, remaining: 30, running: false, endsAt: 0 }, lastVar: -1, lastSec: null, phase: 'intro', qtext: null };
+  const S = { k: 1, view: null, queue: Promise.resolve(), busy: 0, scores: [0, 0], strikes: [0, 0], masked: false, pal: [TEAM_COLORS.blue, TEAM_COLORS.purple], turn: -1, qi: -1, timer: { total: 30, remaining: 30, running: false, endsAt: 0 }, lastVar: -1, lastSec: null, phase: 'intro', qtext: null };
   Fx.init($('#fx'));
+  if (document.fonts) document.fonts.ready.then(() => layers.forEach(L => L && fitText(L)));
 
   /* ملاءمة المسرح للشاشة */
   function fit() { S.k = Math.min(innerWidth / 1920, innerHeight / 1080); stage.style.setProperty('--k', S.k); }
@@ -1329,15 +1528,23 @@ function initScreen() {
     L.style.cssText = `--rfc:${st.fc};--rse:${st.se};--ro:${st.o};--rtc:${st.tc}`;
     stackEl.appendChild(L); layers[r] = L;
   }
-  function fitText(L, text) {
-    const n = (text || '').length, la = $('.la', L);
-    la.style.fontSize = n > 34 ? '25px' : n > 26 ? '29px' : n > 18 ? '32px' : '';
+  /* سطر واحد بخط 36 (يكفي 28 حرف براحة)، وإذا طالت العبارة يصغر الخط بس بدون ما ينقص منها شي */
+  function fitText(L) {
+    const la = $('.la', L), tx = $('.txt', L);
+    la.style.fontSize = '';
+    if (!L.classList.contains('on') || !tx.textContent || !L.isConnected) return;
+    const max = la.clientWidth; if (!max) return;
+    let fs = 36;
+    while (tx.offsetWidth > max && fs > 16) { fs -= 1; la.style.fontSize = fs + 'px'; }
   }
-  function setTile(r, text, on) {
+  /* team: 0/1 = جاوبها الفريق (بلونه)، غير ذلك = انكشفت بدون ما أحد يجاوبها */
+  function setTile(r, text, on, team) {
     const L = layers[r];
-    $('.txt', L).textContent = text || ''; fitText(L, text);
+    $('.txt', L).textContent = text || '';
     L.classList.toggle('on', !!on);
-    L.classList.remove('scan', 'redd', 'lock', 'flashw');
+    L.classList.remove('scan', 'redd', 'greenn', 'lock', 'flashw', 'by0', 'by1', 'miss');
+    if (on) L.classList.add(team === 0 || team === 1 ? 'by' + team : 'miss');
+    fitText(L);
   }
   function clearTiles() { for (let r = 1; r <= 10; r++) setTile(r, '', false); }
   const hidden = () => layers.filter(L => L && !L.classList.contains('on'));
@@ -1383,29 +1590,57 @@ function initScreen() {
 
   /* ---------- عرض ثابت من حالة المقدم ---------- */
   function renderProgress(v) {
-    const g = $('#progGrid'), n = v.n || 10, cur = v.q ? v.q.i : -1, done = new Set(v.played || []);
-    const sig = n + '|' + cur + '|' + Array.from(done).join(',');
+    const g = $('#progGrid'), n = v.n || 10, cur = v.q ? v.q.i : -1, done = new Set(v.done || []), played = new Set(v.played || []);
+    const sig = n + '|' + cur + '|' + Array.from(done).join(',') + '|' + Array.from(played).join(',');
     if (g.dataset.sig === sig) return;
     g.dataset.sig = sig; g.innerHTML = '';
     $('#prog').style.setProperty('--pg', (n <= 10 ? 62 : n <= 18 ? 52 : n <= 28 ? 44 : n <= 40 ? 36 : 30) + 'px');
-    for (let i = 0; i < n; i++) g.insertAdjacentHTML('beforeend', `<div class="pg${i === cur ? ' cur' : done.has(i) ? ' done' : ''}"><svg viewBox="0 0 100 100"><use href="#octa"/></svg><b>${i + 1}</b></div>`);
+    for (let i = 0; i < n; i++) g.insertAdjacentHTML('beforeend', `<div class="pg${i === cur ? ' cur' : done.has(i) ? ' done' : played.has(i) ? ' played' : ''}"><svg viewBox="0 0 100 100"><use href="#octa"/></svg><b>${i + 1}</b></div>`);
+  }
+  /* النتيجة تظهر في بداية كل سؤال فقط، وتختفي من أول حكم */
+  function setMask(on) { S.masked = !!on; [0, 1].forEach(i => $('#team' + i).classList.toggle('masked', S.masked)); }
+  async function scoreTo(i, to, ms) {
+    if (S.masked) {
+      $('#tmMask' + i).animate([{ transform: 'scale(1)' }, { transform: 'scale(1.25) rotate(-6deg)' }, { transform: 'scale(1)' }], { duration: 560, easing: 'cubic-bezier(.2,1.6,.4,1)' });
+      Sfx.pop(); await sleep(420); return;
+    }
+    return countScore(i, to, ms);
+  }
+  function renderStreaks(v) {
+    (v.streaks || []).forEach((st, i) => {
+      const p = $('#tmStr' + i); if (!p) return;
+      const show = st && st.n >= 2, sig = show ? st.t + st.n : '';
+      if (p.dataset.sig === sig) return;
+      p.dataset.sig = sig;
+      if (!show) { p.className = 'streak'; return; }
+      p.className = 'streak on ' + st.t;
+      p.innerHTML = `<svg viewBox="0 0 100 100"><use href="#${st.t === 'ok' ? 'chk' : 'xm'}"/></svg><span>×${st.n}</span>`;
+      p.animate([{ transform: 'translateX(-50%) scale(.3)' }, { transform: 'translateX(-50%) scale(1.25)', offset: .6 }, { transform: 'translateX(-50%) scale(1)' }], { duration: 520, easing: 'cubic-bezier(.2,1.6,.4,1)' });
+    });
   }
   function settle(v) {
     if (!v) return;
     setTurn(v.turn);
+    setMask(v.hideScore && v.phase === 'live');
     const st = v.strikes || [0, 0];
     [0, 1].forEach(i => {
       if (S.strikes[i] !== st[i]) renderStrikes(i, st[i]);
       const sc = v.teams[i].score;
-      if (S.scores[i] !== sc) { S.scores[i] = sc; odos[i].set(sc); }
+      if (!S.masked && S.scores[i] !== sc) { S.scores[i] = sc; odos[i].set(sc); }
     });
+    renderStreaks(v);
     renderLeft();
   }
   function applyStatic(v) {
     Sfx.muted = !v.sound;
     if (v.vol != null) Sfx.setVol(v.vol);
     renderProgress(v);
-    v.teams.forEach((t, i) => { if ($('#tmName' + i).textContent !== t.name) $('#tmName' + i).textContent = t.name; });
+    v.teams.forEach((t, i) => {
+      if ($('#tmName' + i).textContent !== t.name) $('#tmName' + i).textContent = t.name;
+      const p = t.color || TEAM_COLORS[DEF_COLORS[i]];
+      S.pal[i] = p;
+      ['c', 'd', 'dd', 'l', 't'].forEach(k => stage.style.setProperty(`--t${i}${k}`, p[k]));
+    });
     S.timer = v.timer;
     if (!S.busy) settle(v);
   }
@@ -1417,7 +1652,7 @@ function initScreen() {
     qt.className = n > 120 ? 'xl' : n > 90 ? 'l' : n > 60 ? 'm' : '';
     qt.innerHTML = wordsHTML(q.text);
     clearTiles();
-    revealed.forEach(x => setTile(x.rank, x.text, true));
+    revealed.forEach(x => setTile(x.rank, x.text, true, x.team));
     renderLeft();
     if (instant) return;
     $$('.w', qt).forEach((w, i) => w.animate([
@@ -1453,6 +1688,7 @@ function initScreen() {
     if (v.q) showQuestion(v.q, v.revealed, true); else clearQuestion();
     S.scores = [null, null]; S.strikes = [-1, -1];
     settle(v);
+    if (v.phase === 'end') showCrown(v, true); else hideCrown();
   }
 
   /* ---------- أدوات المؤثرات ---------- */
@@ -1480,9 +1716,26 @@ function initScreen() {
     })();
   }
   function flash(ms = 900, peak = .9) { $('#flash').animate([{ opacity: 0 }, { opacity: peak, offset: .12 }, { opacity: 0 }], { duration: ms }); }
+  /* العبارة مقسّمة كلمات (مو حروف) عشان يبقى الحرف العربي موصول */
+  function phraseHTML(t) { return t.split(/\s+/).map(w => `<span>${esc(w)}</span>`).join(' '); }
+  function wobble(ms, level) {
+    $$('#callout .co:last-child .say span').forEach((s, i) => s.animate([
+      { transform: 'translate(0,0) scale(1)' },
+      { transform: `translate(${rand(-1, 1) * level * 3}px,${rand(-1, 1) * level * 5}px) scale(${1 + level * .05}) rotate(${rand(-1, 1) * level * 3}deg)` },
+      { transform: 'translate(0,0) scale(1)' }], { duration: 90 + rand(0, 60), iterations: Math.round(ms / 110), delay: i * 12 }));
+  }
+  /* تصغير الخط حتى تدخل العبارة الطويلة في المساحة */
+  function fitSay(n) {
+    const b = $('.say', n); if (!b) return;
+    const max = 1260; let fs = 150;
+    b.style.fontSize = fs + 'px';
+    while (b.scrollWidth > max && fs > 70) { fs -= 6; b.style.fontSize = fs + 'px'; }
+    if (b.scrollWidth > max) { b.style.whiteSpace = 'normal'; b.style.maxWidth = max + 'px'; }
+  }
   async function callout(html, cls, ms) {
     const c = $('#callout'), n = el('div', 'co ' + cls, html);
     c.appendChild(n);
+    fitSay(n);
     n.animate([{ opacity: 0, transform: 'scale(2.3)', filter: 'blur(14px)' }, { opacity: 1, transform: 'scale(1)', filter: 'blur(0)' }], { duration: 420, easing: 'cubic-bezier(.2,1.4,.4,1)', fill: 'forwards' });
     requestAnimationFrame(() => n.classList.add('show'));
     await sleep(ms);
@@ -1491,10 +1744,14 @@ function initScreen() {
   }
   async function bubble(team, text, color, ms = 2300) {
     const card = $('#team' + team), r = rectOf(card);
-    const b = el('div', 'bubble'); b.textContent = text; b.style.setProperty('--c', color);
+    const b = el('div', 'bubble');
+    const ico = color.includes('red') ? '<svg viewBox="0 0 100 100" style="color:#fff"><circle cx="50" cy="50" r="46" fill="#E5484D" stroke="#fff" stroke-width="6"/><use href="#xm"/></svg>'
+      : color.includes('green') ? '<svg viewBox="0 0 100 100" style="color:#fff"><circle cx="50" cy="50" r="46" fill="#00A352" stroke="#fff" stroke-width="6"/><use href="#chk"/></svg>'
+      : '<svg viewBox="0 0 100 100" style="fill:#F4B93B;stroke:#fff;stroke-width:5"><use href="#octa"/></svg>';
+    b.innerHTML = ico + '<span>' + esc(text) + '</span>'; b.style.setProperty('--c', color);
     world.appendChild(b);
     const w = b.offsetWidth;
-    b.style.left = (r.x + r.w / 2 - w / 2) + 'px'; b.style.top = (r.y + r.h + 26) + 'px';
+    b.style.left = (r.x + r.w / 2 - w / 2) + 'px'; b.style.top = (r.y + r.h + 46) + 'px';
     Sfx.pop();
     await b.animate([{ transform: 'scale(0) rotate(-12deg)', opacity: 0 }, { transform: 'scale(1.12) rotate(3deg)', opacity: 1, offset: .6 }, { transform: 'scale(1) rotate(0)', opacity: 1 }], { duration: 480, easing: 'cubic-bezier(.2,1.5,.4,1)', fill: 'forwards' }).finished;
     b.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-3deg)' }, { transform: 'rotate(3deg)' }, { transform: 'rotate(0)' }], { duration: 600, iterations: 3 });
@@ -1533,10 +1790,11 @@ function initScreen() {
   }
   async function floatChip(from, i, txt, neg) {
     const p = el('div', 'plus' + (neg ? ' neg' : ''), txt);
+    if (!neg) p.style.background = `linear-gradient(135deg,${S.pal[i].l},${S.pal[i].c})`;
     world.appendChild(p);
     const w = p.offsetWidth, h = p.offsetHeight;
     p.style.left = (from.x - w / 2) + 'px'; p.style.top = (from.y - h / 2) + 'px';
-    const dest = centerOf($('#tmScore' + i)), dx = dest.x - from.x, dy = dest.y - from.y;
+    const dest = centerOf($(S.masked ? '#tmMask' + i : '#tmScore' + i)), dx = dest.x - from.x, dy = dest.y - from.y;
     Sfx.zip();
     await p.animate([
       { transform: 'translate(0,0) scale(.3)', opacity: 0 },
@@ -1633,9 +1891,39 @@ function initScreen() {
   ];
   function pickVariant() { let i; do { i = Math.floor(Math.random() * VARIANTS.length); } while (i === S.lastVar && VARIANTS.length > 1); S.lastVar = i; return VARIANTS[i](); }
 
+  /* ---------- خدعة «اشتدت المنافسة»: لون معاكس… ثم بوف… ثم الحكم الحقيقي ---------- */
+  async function poof() {
+    Sfx.cut(130);
+    await sleep(180);
+    Sfx.poof();
+    flash(650, .9);
+    for (let k = 0; k < 8; k++) Fx.puff(rand(560, 1360), rand(340, 920), 10, 110, k % 2 ? 'rgba(255,255,255,.85)' : 'rgba(205,212,200,.55)', true);
+    world.animate([{ transform: 'scale(1)' }, { transform: 'scale(.982)' }, { transform: 'scale(1)' }], { duration: 420, easing: 'ease-out' });
+    await sleep(520);
+  }
+  async function fakeOut(kind) {
+    const pool = hidden().length ? hidden() : layers.filter(Boolean);
+    if (kind === 'red') {
+      pool.forEach(L => L.classList.add('redd'));
+      Sfx.buzzer(1); shake(10, 520);
+      vignette('red', 2, 560);
+    } else {
+      pool.forEach(L => L.classList.add('greenn'));
+      Sfx.sparkle(16, .9); Sfx.applause(1.1, .7);
+      vignette('green', 2, 560);
+      const c = { x: 960, y: 640 };
+      ringFx(c.x, c.y, '#00A352', 260);
+    }
+    await sleep(1250);
+    await poof();
+    pool.forEach(L => L.classList.remove('redd', 'greenn'));
+  }
+
   async function doCorrect(ev, v) {
     const { rank, text, team, points } = ev, L = layers[rank], other = 1 - team;
+    setMask(v.hideScore);
     await suspense(ev.suspense || 'high', team);
+    if (ev.fake) await fakeOut('red');
     /* القفل على الطبقة */
     Sfx.lock();
     L.classList.add('lock');
@@ -1643,34 +1931,38 @@ function initScreen() {
     L.classList.remove('lock');
     const variant = pickVariant(), box = rectOf(L);
     const fl = el('div', 'flyer'); fl.style.cssText = `left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px`;
-    const clone = L.cloneNode(true); clone.classList.add('on'); clone.style.cssText = L.style.cssText;
-    $('.txt', clone).textContent = text; fitText(clone, text);
-    fl.appendChild(clone); world.appendChild(fl);
+    const clone = L.cloneNode(true); clone.classList.remove('by0', 'by1', 'miss'); clone.classList.add('on', 'by' + team); clone.style.cssText = L.style.cssText;
+    $('.txt', clone).textContent = text;
+    fl.appendChild(clone); world.appendChild(fl); fitText(clone);
     L.style.visibility = 'hidden';
     Sfx.whoosh(.8);
     await fl.animate(variant.kf, { duration: variant.dur, fill: 'forwards' }).finished;
-    setTile(rank, text, true); L.style.visibility = '';
+    setTile(rank, text, true, team); L.style.visibility = '';
     fl.remove();
     renderLeft();
     /* لحظة الارتطام */
-    const c = centerOf(L), st = rankStyle(rank);
+    const c = centerOf(L), st = { c: S.pal[team].c };
     Sfx.impact(.55 + rank * .05); Sfx.sparkle(10 + rank * 2, 1);
     shake(4 + rank * 1.4, 420 + rank * 40);
     ringFx(c.x, c.y, st.c, 220); setTimeout(() => ringFx(c.x, c.y, '#F4B93B', 140), 120);
     Fx.puff(box.x + 40, box.y + 64, 8, 20); Fx.puff(box.x + box.w - 40, box.y + 64, 8, 20);
-    Fx.burst(c.x, c.y, { n: 26 + rank * 7, colors: ['#00A352', st.c, '#F4B93B', '#FFD978', '#4DBA80'], speed: 11 + rank * 1.5, life: 58, w: 300 });
+    Fx.burst(c.x, c.y, { n: 26 + rank * 7, colors: ['#00A352', st.c, S.pal[team].l, '#F4B93B', '#FFD978'], speed: 11 + rank * 1.5, life: 58, w: 300 });
     $('.ln', L).animate([{ transform: 'scale(1.7) rotate(-45deg)' }, { transform: 'scale(1) rotate(0)' }], { duration: 650, easing: 'cubic-bezier(.2,1.6,.4,1)' });
     L.animate([{ transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 500, easing: 'cubic-bezier(.2,1.6,.4,1)' });
     vignette('green', rank >= 8 ? 3 : rank >= 4 ? 2 : 1, 560);
     Sfx.applause(1.6 + rank * .14, .75 + rank * .035);
     if (rank >= 9) Fx.rain(rank === 10 ? 170 : 80);
-    if (rank === 10) { flash(1100); callout('<div class="big">الأصعب!</div><div class="sub">عشر نقاط كاملة</div>', 'gold', 1700); }
-    else if (rank >= 8) callout(`<div class="big">${pick(TXT.praiseBig)}</div><div class="sub">${ptLabel(points)}</div>`, 'gold', 1300);
-    else callout(`<div class="big">${pick(TXT.praise)}</div>`, 'good', 1100);
+    {
+      const phrase = TXT.rightStreak[streakIdx(ev.streak)].replace('فريق {team}', teamCall($('#tmName' + team).textContent.trim()));
+      const ms = Math.min(3200, 1500 + phrase.length * 30);
+      if (rank === 10) flash(1100);
+      callout(`<div class="big say">${phraseHTML(phrase)}</div><div class="sub">${ptLabel(points)}</div>`, rank >= 8 ? 'gold' : 'good', ms);
+      wobble(ms, 1);
+    }
     await sleep(380);
     await floatChip(c, team, '+' + points, false);
-    await countScore(team, v.teams[team].score, 650 + points * 45);
-    bubble(other, pick(TXT.tease), 'var(--gold)', 2000);
+    await scoreTo(team, v.teams[team].score, 650 + points * 45);
+    bubble(other, pickNR(TXT.tease), 'var(--gold)', 2000);
     await sleep(650);
     await moveTurn(v.turn);
   }
@@ -1694,7 +1986,9 @@ function initScreen() {
   }
   async function doWrong(ev, v) {
     const team = ev.team, other = 1 - team, level = Math.max(1, Math.min(3, ev.level || 1)), count = ev.count || level;
+    setMask(v.hideScore);
     await suspense(ev.suspense || 'high', team);
+    if (ev.fake) await fakeOut('green');
     const pool = hidden().length ? hidden() : layers.filter(Boolean);
     pool.forEach(L => L.classList.add('redd'));
     Sfx.buzzer(level);
@@ -1703,16 +1997,13 @@ function initScreen() {
     vignette('red', level + 1, [0, 600, 520, 460][level]);
     pool.forEach((L, i) => L.animate([{ transform: 'none' }, { transform: `translateX(${rand(-1, 1) * level * 10}px) rotate(${rand(-1, 1) * level * .6}deg)` }, { transform: 'none' }], { duration: 160, iterations: level * 2 + 1, delay: i * 20 }));
     if (level >= 3) { cracks(); flash(500, .7); }
-    const zs = [0, 3, 8, 13][level], size = [0, 132, 160, 196][level], xs = [0, 190, 220, 260][level];
-    /* «بز» معًا حتى تبقى الباء موصولة، والزايات بعدها منفصلة أصلًا فتهتز كل واحدة لحالها */
-    const buzzHTML = ['بز'].concat(Array(zs - 1).fill('ز')).map(ch => `<span>${ch}</span>`).join('') + (level >= 3 ? '<span>!</span>' : '');
-    const node = callout(`<svg class="x" viewBox="0 0 230 230" style="--xs:${xs}px"><circle cx="115" cy="115" r="104"/><path d="M74 74 L156 156"/><path d="M156 74 L74 156"/></svg><div class="buzz" style="--bz:${size}px">${buzzHTML}</div><div class="sub">${pick(TXT.wrong[level - 1])}</div>`, 'bad', dur);
-    /* حروف «بززز» تهتز وتتمدد */
+    const xs = [0, 190, 220, 260][level];
+    const phrase = pickNR(TXT.wrongStreak[streakIdx(ev.streak || count)]);
+    const wdur = Math.max(dur, Math.min(3400, 1600 + phrase.length * 35));
+    const node = callout(`<svg class="x" viewBox="0 0 230 230" style="--xs:${xs}px"><circle cx="115" cy="115" r="104"/><path d="M74 74 L156 156"/><path d="M156 74 L74 156"/></svg><div class="big say">${phraseHTML(phrase)}</div>`, 'bad', wdur);
+    /* كلمات العبارة تهتز وتتمدد (نفس حركة «بززز» القديمة) */
     await sleep(40);
-    $$('#callout .buzz span').forEach((s, i) => s.animate([
-      { transform: 'translate(0,0) scale(1)' },
-      { transform: `translate(${rand(-1, 1) * level * 3}px,${rand(-1, 1) * level * 5}px) scale(${1 + level * .05}) rotate(${rand(-1, 1) * level * 4}deg)` },
-      { transform: 'translate(0,0) scale(1)' }], { duration: 90 + rand(0, 60), iterations: Math.round(dur / 110), delay: i * 12 }));
+    wobble(wdur, level);
     await node;
     pool.forEach(L => L.classList.remove('redd'));
     /* علامة الخطأ تطير لمكانها تحت الفريق */
@@ -1737,22 +2028,23 @@ function initScreen() {
     setTimeout(() => card.classList.remove('hurt'), 1200);
     /* لمسة الغيظ */
     Sfx.boing();
-    bubble(team, pick(TXT.sad), 'var(--red)', 1700);
+    bubble(team, pickNR(TXT.sad), 'var(--red)', 1700);
     await sleep(380);
-    bubble(other, pick(TXT.gloat), 'var(--gold)', 1800);
+    bubble(other, pickNR(TXT.gloat), 'var(--green)', 1800);
     await sleep(900);
     await moveTurn(v.turn);
   }
 
   async function doAdjust(ev, v) {
-    const i = ev.team, node = $('#tmScore' + i), c = centerOf(node);
+    setMask(v.hideScore);
+    const i = ev.team, node = $(S.masked ? '#tmMask' + i : '#tmScore' + i), c = centerOf(node);
     const p = el('div', 'plus' + (ev.delta < 0 ? ' neg' : ''), (ev.delta > 0 ? '+' : '−') + Math.abs(ev.delta));
     world.appendChild(p);
     p.style.left = (c.x - p.offsetWidth / 2) + 'px'; p.style.top = (c.y - 150) + 'px';
     (ev.delta > 0 ? Sfx.pop : Sfx.boing)();
     p.animate([{ transform: 'translateY(30px) scale(.5)', opacity: 0 }, { transform: 'translateY(0) scale(1.15)', opacity: 1, offset: .3 }, { transform: 'translateY(-40px) scale(1)', opacity: 0 }], { duration: 1300, easing: 'ease-out' }).onfinish = () => p.remove();
     await sleep(250);
-    await countScore(i, v.teams[i].score, 700);
+    await scoreTo(i, v.teams[i].score, 700);
   }
 
   async function doTimeUp() {
@@ -1782,6 +2074,7 @@ function initScreen() {
   }
 
   function doReset() {
+    hideCrown(); setMask(false);
     setPhase('intro');
     [0, 1].forEach(i => { S.scores[i] = 0; odos[i].set(0); renderStrikes(i, 0); });
     clearQuestion();
@@ -1793,12 +2086,13 @@ function initScreen() {
     for (let r = 1; r <= 10; r++) {
       const on = layers[r].classList.contains('on'), want = v.revealed.find(x => x.rank === r);
       if (on && !want) { await layers[r].animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(-40px) scale(.95)', opacity: .1 }, { transform: 'none', opacity: 1 }], { duration: 480 }).finished; setTile(r, '', false); }
-      else if (!on && want) setTile(r, want.text, true);
+      else if (!on && want) setTile(r, want.text, true, want.team);
     }
     renderLeft();
     const st = v.strikes || [0, 0];
     [0, 1].forEach(i => { if (S.strikes[i] !== st[i]) renderStrikes(i, st[i]); });
-    await Promise.all([0, 1].map(i => S.scores[i] !== v.teams[i].score ? countScore(i, v.teams[i].score, 500) : null));
+    setMask(v.hideScore);
+    await Promise.all([0, 1].map(i => S.scores[i] !== v.teams[i].score ? scoreTo(i, v.teams[i].score, 500) : null));
     await moveTurn(v.turn);
   }
 
@@ -1812,8 +2106,154 @@ function initScreen() {
     await sleep(380);
     const st = v.strikes || [0, 0];
     [0, 1].forEach(i => renderStrikes(i, st[i]));
-    await sleep(900);
+    await sleep(700);
+    /* بداية السؤال: تنكشف النتيجة وتعدّ للرقم الجديد */
+    const wasMasked = S.masked;
+    setMask(false);
+    if (wasMasked) [0, 1].forEach(i => $('#tmScore' + i).animate([{ transform: 'scale(.3) rotate(-10deg)', opacity: 0 }, { transform: 'scale(1.15)', opacity: 1, offset: .6 }, { transform: 'none', opacity: 1 }], { duration: 600, easing: 'cubic-bezier(.2,1.5,.4,1)' }));
+    await Promise.all([0, 1].map(i => S.scores[i] != null && S.scores[i] !== v.teams[i].score ? countScore(i, v.teams[i].score, 1100) : null));
+    await sleep(200);
   }
+
+  /* ---------- أظهر بقية الإجابات ---------- */
+  async function doReveal(ev, v) {
+    const list = (ev.ranks || []).slice().sort((a, b) => a.rank - b.rank);
+    Sfx.whoosh(.9);
+    for (const x of list) {
+      const L = layers[x.rank];
+      setTile(x.rank, x.text, true, null);
+      L.animate([{ transform: 'perspective(900px) rotateX(-95deg)', opacity: .2 }, { transform: 'perspective(900px) rotateX(12deg)', opacity: 1, offset: .7 }, { transform: 'none', opacity: 1 }], { duration: 560, easing: 'cubic-bezier(.3,1.2,.4,1)' });
+      Sfx.clack(.8);
+      renderLeft();
+      await sleep(260);
+    }
+    Sfx.sparkle(10, .6);
+    await sleep(700);
+  }
+
+  /* ---------- التتويج ---------- */
+  const crown = $('#crown');
+  let fwT = 0;
+  function hideCrown() { clearInterval(fwT); fwT = 0; crown.classList.remove('show'); crown.innerHTML = ''; stage.classList.remove('ended'); }
+  function resultOf(v) { const s = v.teams.map(t => t.score); return s[0] === s[1] ? { tie: true } : { tie: false, w: s[0] > s[1] ? 0 : 1, l: s[0] > s[1] ? 1 : 0 }; }
+  const raysSVG = col => `<svg viewBox="0 0 1000 1000"><g fill="${col}">${Array.from({ length: 28 }, (_, i) => { const a = i * Math.PI / 14, w = .045, p = (g, r) => (500 + Math.cos(g) * r).toFixed(1) + ',' + (500 + Math.sin(g) * r).toFixed(1); return `<polygon points="${p(a - w, 520)} 500,500 ${p(a + w, 520)}" opacity="${i % 2 ? .55 : 1}"/>`; }).join('')}</g></svg>`;
+  const crownSVG = () => '<svg class="crs" viewBox="-8 -4 256 174"><use href="#crownS"/></svg>';
+  const vars = p => `--tc:${p.c};--tl:${p.l};--tdd:${p.dd};--tt:${p.t}`;
+  function namesHTML(t) { return (t.players || []).filter(Boolean).map(p => `<span class="cr-pl"><svg viewBox="0 0 100 100"><use href="#octa"/></svg><b>${esc(p)}</b></span>`).join(''); }
+  function crownHTML(v, R) {
+    const T = v.teams, P = T.map((t, i) => t.color || TEAM_COLORS[DEF_COLORS[i]]);
+    const score = t => `<div class="cr-score"><b>${t.score}</b><span>${ptWord(t.score)}</span></div>`;
+    const kick = t => `<p class="cr-kick"><svg viewBox="0 0 100 100"><use href="#octa"/></svg>${t}<svg viewBox="0 0 100 100"><use href="#octa"/></svg></p>`;
+    if (R.tie) return `<div class="cr-bg tie" style="--a:${P[0].c};--b:${P[1].c}"><div class="cr-rays">${raysSVG('rgba(255,217,120,.22)')}</div></div>
+      <div class="cr-in">${kick('تعادل!')}
+        <div class="cr-tie">${[0, 1].map(i => `<div class="cr-col" style="${vars(P[i])}">${crownSVG()}<h2 class="cr-name">${esc(T[i].name)}</h2>${score(T[i])}<div class="cr-names">${namesHTML(T[i])}</div></div>`).join('')}</div>
+        <p class="cr-go">ونتوجه على التمرين</p><p class="cr-tease">والحسم هناك يا أبطال</p></div>`;
+    const W = T[R.w], L = T[R.l], pw = P[R.w];
+    return `<div class="cr-bg" style="${vars(pw)}"><div class="cr-rays">${raysSVG('rgba(255,217,120,.2)')}</div></div>
+      <div class="cr-in" style="${vars(pw)}">${kick('الفريق المتوّج')}
+        <div class="cr-team">${crownSVG()}<h2 class="cr-name">${esc(W.name)}</h2>${score(W)}</div>
+        <div class="cr-names">${namesHTML(W)}</div>
+        <p class="cr-go">ونتوجه على التمرين</p>
+        <p class="cr-tease">أخاف تنهزمو هنا كمان يا ${esc(teamCall(L.name))}</p></div>
+      <div class="cr-lose"><b>${esc(L.name)}</b><span>${L.score}</span></div>`;
+  }
+  function fireworks(v, R, secs) {
+    clearInterval(fwT);
+    const T = v.teams, P = T.map((t, i) => t.color || TEAM_COLORS[DEF_COLORS[i]]);
+    const cols = R.tie ? [P[0].c, P[1].c, P[0].l, P[1].l, '#F4B93B', '#FFD978'] : [P[R.w].c, P[R.w].l, '#F4B93B', '#FFD978', '#FFFFFF'];
+    const until = Date.now() + secs * 1000;
+    let k = 0;
+    fwT = setInterval(() => {
+      if (S.phase !== 'end' || Date.now() > until) { clearInterval(fwT); fwT = 0; return; }
+      const x = rand(160, 1760), y = rand(110, 430);
+      Fx.burst(x, y, { n: 70, speed: 15, life: 72, colors: cols, gravity: .16, size: 1.1 });
+      if (k++ % 2 === 0) Sfx.firework();
+      if (k % 5 === 0) Fx.rain(40, cols);
+    }, 850);
+  }
+  function showCrown(v, instant) {
+    hideCrown();
+    const R = resultOf(v);
+    stage.classList.add('ended');
+    crown.innerHTML = crownHTML(v, R);
+    crown.classList.add('show');
+    if (instant) fireworks(v, R, 6);
+    return R;
+  }
+  async function doEnd(v, ev) {
+    await sleep(ev && ev.auto ? 1500 : 300);
+    setPhase('end');
+    hideCrown();
+    stage.classList.add('ended');
+    const T = v.teams, P = T.map((t, i) => t.color || TEAM_COLORS[DEF_COLORS[i]]), R = resultOf(v);
+    /* ١) المواجهة: الرقمان يعدّان مع بعض… الأقل يوقف أول */
+    crown.innerHTML = `<div class="cr-duel"><p class="cd-cap">النتيجة النهائية</p>${[0, 1].map(i => `<div class="cd" style="${vars(P[i])}"><h3>${esc(T[i].name)}</h3><b>0</b></div>`).join('<span class="cd-vs">×</span>')}</div>`;
+    crown.classList.add('show');
+    const cards = $$('.cd', crown), nums = cards.map(c => $('b', c));
+    Sfx.whoosh(1.2);
+    cards.forEach((c, i) => c.animate([{ transform: `translateX(${i ? -1000 : 1000}px) rotate(${i ? -10 : 10}deg)`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 850, delay: i * 140, easing: 'cubic-bezier(.2,1.2,.3,1)', fill: 'backwards' }));
+    $('.cd-cap', crown).animate([{ opacity: 0, transform: 'translateY(-30px)' }, { opacity: 1, transform: 'none' }], { duration: 600, delay: 500, fill: 'backwards' });
+    await sleep(1200);
+    const target = T.map(t => t.score), mx = Math.max(1, ...target.map(Math.abs));
+    const dur = Math.min(4600, 1800 + mx * 22);
+    Sfx.drumroll(dur / 1000 + .5);
+    const stopped = [false, false];
+    await new Promise(res => {
+      const t0 = performance.now(); let lastClick = 0;
+      (function tick(now) {
+        const p = Math.min(1, ((now || performance.now()) - t0) / dur), cur = mx * p;
+        let changed = false;
+        nums.forEach((nb, i) => {
+          const val = Math.sign(target[i]) * Math.min(Math.abs(target[i]), Math.floor(cur));
+          if (nb.textContent !== String(val)) { nb.textContent = val; changed = true; }
+          if (!stopped[i] && Math.abs(val) >= Math.abs(target[i]) && p < 1) {
+            stopped[i] = true; cards[i].classList.add('stop'); Sfx.stamp();
+            cards[i].animate([{ transform: 'scale(1)' }, { transform: 'scale(.95)' }, { transform: 'scale(1)' }], { duration: 300 });
+          }
+        });
+        if (changed && performance.now() - lastClick > 55) { Sfx.counter(true); lastClick = performance.now(); }
+        if (p < 1) requestAnimationFrame(tick); else res();
+      })();
+    });
+    nums.forEach((nb, i) => nb.textContent = target[i]);
+    await sleep(350);
+    /* ٢) لحظة الحسم */
+    Sfx.cut(520); await sleep(560);
+    if (!R.tie) { cards[R.w].classList.add('win'); cards[R.l].classList.add('lose'); }
+    else cards.forEach(c => c.classList.add('win'));
+    Sfx.impact(1.3); shake(14, 600);
+    await sleep(900);
+    flash(1000, 1);
+    await sleep(160);
+    /* ٣) التتويج */
+    crown.innerHTML = crownHTML(v, R);
+    const bg = $('.cr-bg', crown), rays = $('.cr-rays', crown), kick = $('.cr-kick', crown);
+    const crs = $$('.crs', crown), names = $$('.cr-name', crown), scores = $$('.cr-score', crown);
+    const pls = $$('.cr-pl', crown), go = $('.cr-go', crown), tease = $('.cr-tease', crown), lose = $('.cr-lose', crown);
+    const hideUntil = (n, d) => n && n.animate([{ opacity: 0 }, { opacity: 0 }], { duration: d, fill: 'backwards' });
+    bg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, fill: 'backwards' });
+    rays.animate([{ transform: 'scale(.2)', opacity: 0 }, { transform: 'none', opacity: .55 }], { duration: 1600, easing: 'cubic-bezier(.2,.9,.3,1)', fill: 'backwards' });
+    names.forEach((n, i) => n.animate([{ transform: 'scale(2.6)', opacity: 0, filter: 'blur(18px)' }, { transform: 'scale(.94)', opacity: 1, filter: 'blur(0)', offset: .7 }, { transform: 'none', opacity: 1 }], { duration: 900, delay: 250 + i * 150, easing: 'cubic-bezier(.3,1,.4,1)', fill: 'backwards' }));
+    crs.forEach((c, i) => c.animate([{ transform: 'translateY(-760px) rotate(-35deg)', opacity: 0 }, { transform: 'translateY(26px) rotate(5deg)', opacity: 1, offset: .72 }, { transform: 'translateY(-8px) rotate(-2deg)', offset: .86 }, { transform: 'none', opacity: 1 }], { duration: 1150, delay: 1000 + i * 180, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'backwards' }));
+    if (kick) kick.animate([{ transform: 'translateY(-90px) scale(.6)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 700, delay: 1700, easing: 'cubic-bezier(.2,1.5,.4,1)', fill: 'backwards' });
+    scores.forEach((n, i) => n.animate([{ transform: 'scale(.4)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 600, delay: 1900 + i * 120, easing: 'cubic-bezier(.2,1.6,.4,1)', fill: 'backwards' }));
+    hideUntil(lose, 2600); if (lose) lose.animate([{ transform: 'translateX(-200px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 700, delay: 2600, fill: 'backwards' });
+    const tNames = 2900, step = 230;
+    pls.forEach((p, i) => { const end = i % 2 ? 'rotate(1.5deg) translateY(6px)' : 'rotate(-1.5deg)'; p.animate([{ transform: 'translateY(80px) scale(.3) rotate(-14deg)', opacity: 0 }, { transform: 'translateY(-10px) scale(1.12) rotate(2deg)', opacity: 1, offset: .65 }, { transform: end, opacity: 1 }], { duration: 620, delay: tNames + i * step, easing: 'cubic-bezier(.2,1.5,.4,1)', fill: 'backwards' }); });
+    const tGo = tNames + pls.length * step + 500;
+    go.animate([{ transform: 'translateY(60px)', opacity: 0, letterSpacing: '.2em' }, { transform: 'none', opacity: 1, letterSpacing: '0' }], { duration: 900, delay: tGo, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'backwards' });
+    tease.animate([{ opacity: 0, transform: 'scale(.8)' }, { opacity: 1, transform: 'none' }], { duration: 600, delay: tGo + 1100, easing: 'cubic-bezier(.2,1.6,.4,1)', fill: 'backwards' });
+    /* الأصوات والجسيمات على نفس التوقيت */
+    Sfx.whoosh(1.3, true);
+    setTimeout(() => { Sfx.fanfare(); Sfx.applause(5, 1.25); Fx.burst(960, 300, { n: 160, speed: 24, life: 80, w: 260, colors: R.tie ? [P[0].c, P[1].c, '#F4B93B', '#FFD978'] : [P[R.w].c, P[R.w].l, '#F4B93B', '#FFD978', '#fff'] }); }, 300);
+    setTimeout(() => { Sfx.impact(1.1); Sfx.kaching(); Sfx.sparkle(30, 1.4); shake(10, 500); crs.forEach(c => { const q = centerOf(c); ringFx(q.x, q.y, '#F4B93B', 320, 1000); }); Fx.rain(200, R.tie ? [P[0].c, P[1].c, '#F4B93B', '#FFD978'] : [P[R.w].c, P[R.w].l, '#F4B93B', '#FFD978', '#fff']); }, 1840);
+    pls.forEach((p, i) => setTimeout(() => { Sfx.pop(); Sfx.sparkle(4, .3); }, tNames + i * step + 200));
+    setTimeout(() => { Sfx.whoosh(.9); Sfx.applause(2.4, .9); }, tGo);
+    setTimeout(() => Sfx.boing(), tGo + 1150);
+    setTimeout(() => fireworks(v, R, 24), 2600);
+    await sleep(tGo + 1800);
+  }
+  async function doResume() { hideCrown(); setPhase('live'); Sfx.rewind(); await sleep(300); }
 
   /* ---------- استقبال الرسائل ---------- */
   async function handle(ev, v) {
@@ -1827,6 +2267,9 @@ function initScreen() {
       case 'undo': return doUndo(v);
       case 'timeup': return doTimeUp();
       case 'turn': return moveTurn(v.turn);
+      case 'reveal': return doReveal(ev, v);
+      case 'end': return doEnd(v, ev);
+      case 'resume': return doResume();
     }
   }
   function onSync(v, ev) {
@@ -1909,30 +2352,63 @@ function initHost() {
     turn: saved.turn || 0,
     teams: saved.teams || [{ name: 'الفريق الأول', score: 0 }, { name: 'الفريق الثاني', score: 0 }],
     timer: { total: (saved.timer && saved.timer.total) || 30, remaining: (saved.timer && saved.timer.remaining) || (saved.timer && saved.timer.total) || 30, running: false, endsAt: 0 },
-    opts: Object.assign({ sound: true, vol: .9, suspense: 'high', autoStop: true, adj: 1 }, saved.opts || {}),
+    opts: Object.assign({ sound: true, vol: .9, suspense: 'high', autoStop: true, adj: 1, fake: true, autoTimer: true }, saved.opts || {}),
     history: saved.history || [],
-    sig: saved.sig || null
+    sig: saved.sig || null,
+    done: saved.done || {},
+    shown: saved.shown || {},
+    hideScore: !!saved.hideScore,
+    lastFake: false
   };
+  /* كل فريق: لون + 7 خانات للاعبين على الأقل */
+  H.teams.forEach((t, i) => {
+    if (!TEAM_COLORS[t.color]) t.color = DEF_COLORS[i];
+    t.players = Array.isArray(t.players) ? t.players : [];
+    while (t.players.length < 7) t.players.push('');
+  });
   let room = normRoom(lsGet(LSK.room, '')) || genRoom(); lsSet(LSK.room, room);
   let Q = DEMO, lastAlive = 0, sheetId = (lsGet(LSK.sheet, null) && lsGet(LSK.sheet, null) !== '1Cul2iqTAfG7AvQlNu4X14XijS319kUq0') ? lsGet(LSK.sheet, null) : SHEET_ID_DEFAULT;
 
-  const save = () => lsSet(LSK.host, { phase: H.phase, qi: H.qi, taken: H.taken, takenBy: H.takenBy, strikes: H.strikes, played: H.played, turn: H.turn, teams: H.teams, timer: { total: H.timer.total, remaining: H.timer.running ? remaining() : H.timer.remaining }, opts: H.opts, history: H.history.slice(-40), sig: H.sig });
+  const save = () => lsSet(LSK.host, { phase: H.phase, qi: H.qi, taken: H.taken, takenBy: H.takenBy, strikes: H.strikes, played: H.played, turn: H.turn, teams: H.teams, timer: { total: H.timer.total, remaining: H.timer.running ? remaining() : H.timer.remaining }, opts: H.opts, history: H.history.slice(-40), sig: H.sig, done: H.done, shown: H.shown, hideScore: H.hideScore });
   const remaining = () => H.timer.running ? Math.max(0, (H.timer.endsAt - Date.now()) / 1000) : H.timer.remaining;
   const takenOf = i => H.taken[i] || [];
   const strikesOf = i => (H.strikes[i] || (H.strikes[i] = [0, 0]));
   const curQ = () => (H.qi >= 0 && Q[H.qi]) ? Q[H.qi] : null;
   const tName = i => H.teams[i].name;
+  const pal = i => TEAM_COLORS[H.teams[i].color] || TEAM_COLORS[DEF_COLORS[i]];
+  const shownOf = i => H.shown[i] || [];
+  /* السؤال انتهى إذا كل إجاباته انكشفت (بالجواب أو بزر الإظهار) */
+  function complete(i) {
+    const q = Q[i]; if (!q) return false;
+    const t = takenOf(i), s = shownOf(i);
+    for (let r = 1; r <= 10; r++) if (q.a[r - 1] && !t.includes(r) && !s.includes(r)) return false;
+    return true;
+  }
+  const isDone = i => !!H.done[i] || complete(i);
+  function streakInfo(team) {
+    let t = null, n = 0;
+    for (let k = H.history.length - 1; k >= 0; k--) {
+      const h = H.history[k];
+      if (h.team !== team || (h.t !== 'ok' && h.t !== 'no')) continue;
+      if (!t) t = h.t;
+      if (h.t === t) n++; else break;
+    }
+    return { t: t || 'ok', n };
+  }
 
   function view() {
     const q = curQ();
     return {
       phase: H.phase,
       q: q ? { i: H.qi, n: Q.length, text: q.q } : null,
-      revealed: q ? takenOf(H.qi).map(r => ({ rank: r, text: q.a[r - 1] })) : [],
+      revealed: q ? takenOf(H.qi).map(r => ({ rank: r, text: q.a[r - 1], team: (H.takenBy[H.qi] || {})[r] })).concat(shownOf(H.qi).map(r => ({ rank: r, text: q.a[r - 1], team: null }))) : [],
       strikes: q ? strikesOf(H.qi).slice() : [0, 0],
       n: Q.length,
       played: Object.keys(H.played).map(Number),
-      teams: H.teams.map(t => ({ name: t.name, score: t.score })),
+      done: Q.map((_, i) => i).filter(isDone),
+      hideScore: H.hideScore,
+      streaks: [streakInfo(0), streakInfo(1)],
+      teams: H.teams.map((t, i) => ({ name: t.name, score: t.score, color: pal(i), players: t.players.map(p => p.trim()).filter(Boolean) })),
       turn: H.turn,
       timer: { total: H.timer.total, remaining: H.timer.remaining, running: H.timer.running, endsAt: H.timer.endsAt },
       sound: H.opts.sound,
@@ -1950,10 +2426,13 @@ function initHost() {
   function renderAll() { renderStart(); renderTeams(); renderTimer(); renderChips(); renderAnswers(); renderVerdict(); }
 
   function renderStart() {
+    const ended = H.phase === 'end';
     document.body.classList.toggle('live', live());
-    $('#btnStart').textContent = live() ? 'المسابقة جارية' : 'ابدأ المسابقة';
-    $('#btnStart').disabled = live();
+    $('#btnStart').textContent = live() ? 'المسابقة جارية' : ended ? 'انتهت المسابقة' : 'ابدأ المسابقة';
+    $('#btnStart').disabled = live() || ended;
     $('#liveNote').hidden = !live();
+    $('#btnEnd').hidden = !live();
+    $('#btnResume').hidden = !ended;
     ['#cardTimer', '#cardPick', '#cardAns', '#cardAdj'].forEach(s => { $(s).style.opacity = live() ? '' : '.5'; $(s).style.pointerEvents = live() ? '' : 'none'; });
   }
 
@@ -1963,12 +2442,18 @@ function initHost() {
       const inp = $('#name' + i);
       if (document.activeElement !== inp) inp.value = H.teams[i].name;
       $('#score' + i).textContent = H.teams[i].score;
-      $('.team[data-t="' + i + '"]').classList.toggle('active', H.turn === i);
+      const tb = $('.team[data-t="' + i + '"]'), p = pal(i);
+      tb.classList.toggle('active', H.turn === i);
+      tb.style.setProperty('--tcc', p.c); tb.style.setProperty('--tct', p.t); tb.style.setProperty('--tcl', p.l); tb.style.setProperty('--tcdd', p.dd);
+      $$('#tCol' + i + ' button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.c === H.teams[i].color)));
+      const n = H.teams[i].players.filter(x => x.trim()).length;
+      $('#tPl' + i + ' .cnt').textContent = n ? n + ' ' + (n === 1 ? 'لاعب' : n === 2 ? 'لاعبان' : n <= 10 ? 'لاعبين' : 'لاعبًا') : 'لم تُكتب بعد';
       let h = '';
       for (let k = 0; k < 3; k++) h += `<i class="${k < st[i] ? 'on' : ''}"><svg viewBox="0 0 100 100"><use href="#xm"/></svg></i>`;
       if (st[i] > 3) h += `<b style="color:var(--red-d);font-size:14px">×${st[i]}</b>`;
       $('#hStk' + i).innerHTML = h;
     });
+    $('#hidNote').hidden = !(live() && H.hideScore);
   }
   function flipTeams() { $$('.team').forEach(t => { t.classList.remove('flip'); void t.offsetWidth; if (t.classList.contains('active')) t.classList.add('flip'); }); }
 
@@ -1987,9 +2472,9 @@ function initHost() {
     box.innerHTML = '';
     if (!Q.length) { box.innerHTML = '<p class="qempty">لا توجد أسئلة. عبّ الشيت ثم اضغط «تحديث الأسئلة».</p>'; return; }
     Q.forEach((q, i) => {
-      const b = el('button', 'qchip' + (i === H.qi ? ' cur' : (H.played[i] ? ' played' : '')), String(i + 1));
+      const b = el('button', 'qchip' + (i === H.qi ? ' cur' : '') + (isDone(i) ? ' done' : (H.played[i] && i !== H.qi ? ' played' : '')), String(i + 1));
       b.type = 'button';
-      b.title = q.q;
+      b.title = (isDone(i) ? '(انتهى) ' : '') + q.q;
       b.setAttribute('aria-label', 'السؤال ' + (i + 1));
       b.onclick = () => selectQ(i);
       box.appendChild(b);
@@ -2005,20 +2490,22 @@ function initHost() {
       return;
     }
     $('#aQ').textContent = q.q;
-    const taken = takenOf(H.qi), by = H.takenBy[H.qi] || {};
+    const taken = takenOf(H.qi), by = H.takenBy[H.qi] || {}, shown = shownOf(H.qi);
     for (let r = 1; r <= 10; r++) {
-      const st = rankStyle(r), text = q.a[r - 1], isT = taken.includes(r);
-      const b = el('button', 'acard' + (isT ? ' taken' : '') + (H.sel === r ? ' sel' : '') + (text ? '' : ' empty'));
+      const st = rankStyle(r), text = q.a[r - 1], isT = taken.includes(r), isS = shown.includes(r);
+      const b = el('button', 'acard' + (isT ? ' taken' : '') + (isS ? ' shown' : '') + (H.sel === r ? ' sel' : '') + (text ? '' : ' empty'));
       b.type = 'button';
       b.style.setProperty('--c', st.c);
-      b.innerHTML = '<span class="rk">' + r + '</span><span class="tx"></span>' + (isT && by[r] != null ? '<span class="by"></span>' : '<span class="pt">' + ptLabel(r) + '</span>');
+      if (isT && by[r] != null) { const p = pal(by[r]); b.style.setProperty('--tcc', p.c); b.style.setProperty('--tct', p.t); b.style.setProperty('--tcl', p.l); b.style.setProperty('--tcdd', p.dd); }
+      b.innerHTML = '<span class="rk">' + r + '</span><span class="tx"></span>' + ((isT && by[r] != null) || isS ? '<span class="by"></span>' : '<span class="pt">' + ptLabel(r) + '</span>');
       $('.tx', b).textContent = text || '(فاضية في الشيت)';
       if (isT && by[r] != null) $('.by', b).textContent = '✓ ' + tName(by[r]);
-      b.disabled = isT || !text;
+      else if (isS) $('.by', b).textContent = 'انكشفت';
+      b.disabled = isT || isS || !text;
       b.onclick = () => { H.sel = (H.sel === r ? null : r); renderAnswers(); renderVerdict(); };
       grid.appendChild(b);
     }
-    const left = 10 - taken.length;
+    const left = 10 - taken.length - shown.length;
     $('#aLeft').hidden = false;
     $('#aLeft').dataset.on = left ? '1' : '2';
     $('#aLeft').innerHTML = '<i class="dot"></i><span>' + (left ? 'المتبقي ' + left + ' من 10' : 'انكشفت كل الإجابات') + '</span>';
@@ -2030,8 +2517,10 @@ function initHost() {
     if (!q) info.textContent = 'اختر سؤالًا أولًا';
     else if (H.sel) info.innerHTML = '<span class="tp">الدور: ' + team + '</span> الإجابة المختارة <b>' + H.sel + '</b> (' + ptLabel(H.sel) + ')، احكم عليها';
     else info.innerHTML = '<span class="tp">الدور: ' + team + '</span> اختر إجابتهم من القائمة، أو اضغط «جواب خاطئ» إن لم تكن فيها';
-    $('#btnOk').disabled = !(q && H.sel);
-    $('#btnNo').disabled = !q;
+    const over = !!q && complete(H.qi);
+    $('#btnOk').disabled = !(q && H.sel) || over;
+    $('#btnNo').disabled = !q || over;
+    $('#btnReveal').disabled = !q || over || !live();
     $('#adjVal').textContent = H.opts.adj;
     $('#btnDeduct').textContent = '− ' + H.opts.adj + ' من ' + tName(H.turn);
     $('#btnAdd').textContent = '+ ' + H.opts.adj + ' لـ ' + tName(H.turn);
@@ -2048,22 +2537,105 @@ function initHost() {
   /* ---------- الأفعال ---------- */
   function startGame() { if (live()) return; H.phase = 'live'; renderAll(); push({ kind: 'start' }); }
 
-  function selectQ(i) {
-    if (!live() || !Q[i]) return;
-    H.qi = i; H.played[i] = true; H.sel = null;
+  /* نافذة سؤال صغيرة بأزرار */
+  function ask(title, text, btns) {
+    const back = $('#mBack');
+    $('#mTitle').textContent = title; $('#mText').textContent = text;
+    const box = $('#mBtns'); box.innerHTML = '';
+    const close = () => { back.hidden = true; };
+    btns.forEach(b => { const x = el('button', 'btn ' + (b.cls || 'ghost'), esc(b.label)); x.type = 'button'; x.onclick = () => { close(); b.fn && b.fn(); }; box.appendChild(x); });
+    back.onclick = e => { if (e.target === back) close(); };
+    back.hidden = false;
+    setTimeout(() => { const f = $('button', box); f && f.focus(); }, 30);
+  }
+  let autoT = 0;
+  function selectQ(i, force) {
+    if (!live() || !Q[i] || i === H.qi) return;
+    if (!force && H.qi >= 0 && Q[H.qi] && !isDone(H.qi)) {
+      const prev = H.qi;
+      ask('هل تم الانتهاء من السؤال السابق؟', 'السؤال ' + (prev + 1) + ': ' + Q[prev].q, [
+        { label: 'نعم، انتهى', cls: 'ok', fn: () => { H.done[prev] = true; selectQ(i, true); } },
+        { label: 'لا، انتقل بدون ما ينتهي', cls: 'ghost', fn: () => selectQ(i, true) },
+        { label: 'رجوع', cls: 'ghost' }
+      ]);
+      return;
+    }
+    H.qi = i; H.played[i] = true; H.sel = null; H.hideScore = false;
     strikesOf(i);
-    renderChips(); renderAnswers(); renderVerdict(); renderTeams();
+    /* المؤقت يرجع كامل مع كل سؤال، ويشتغل لحاله أول ما يظهر السؤال على الشاشة */
+    clearTimeout(autoT);
+    H.timer.running = false; H.timer.remaining = H.timer.total;
+    renderChips(); renderAnswers(); renderVerdict(); renderTeams(); renderTimer();
     push({ kind: 'question' });
+    if (H.opts.autoTimer) {
+      const mark = H.history.length;
+      autoT = setTimeout(() => { if (live() && H.qi === i && H.history.length === mark && !H.timer.running) timerStart(); }, 2600);
+    }
+  }
+  /* خدعة الألوان: تشتغل أحيانًا لما تكون المنافسة حامية */
+  function fakeNow() {
+    if (!H.opts.fake) return false;
+    const [a, b] = H.teams.map(t => t.score);
+    if (!(Math.abs(a - b) <= 5 && Math.max(a, b) >= 10)) return false;
+    if (H.lastFake) { H.lastFake = false; return false; }
+    H.lastFake = Math.random() < .4;
+    return H.lastFake;
+  }
+  /* لما تنتهي كل الأسئلة يطلع التتويج تلقائيًا للأعلى نقاطًا */
+  function checkAutoEnd() {
+    if (live() && Q.length && Q.every((_, k) => isDone(k))) {
+      setTimeout(() => { if (live()) { endGame(true); toast('انتهت كل الأسئلة — ظهر التتويج على الشاشة'); } }, 400);
+    }
+  }
+  function endGame(auto) {
+    if (!live()) return;
+    freezeTimer();
+    H.phase = 'end'; H.sel = null;
+    renderAll();
+    push({ kind: 'end', auto: !!auto });
+  }
+  function resumeGame() {
+    if (H.phase !== 'end') return;
+    H.phase = 'live';
+    renderAll();
+    push({ kind: 'resume' });
+  }
+  function revealRest() {
+    const q = curQ(); if (!q || !live()) return;
+    const taken = takenOf(H.qi), sh = shownOf(H.qi), ranks = [];
+    for (let r = 1; r <= 10; r++) if (q.a[r - 1] && !taken.includes(r) && !sh.includes(r)) ranks.push(r);
+    if (!ranks.length) return;
+    H.shown[H.qi] = sh.concat(ranks);
+    H.history.push({ t: 'reveal', qi: H.qi, ranks, wasDone: !!H.done[H.qi] });
+    H.done[H.qi] = true;
+    H.sel = null;
+    if (H.opts.autoStop) freezeTimer();
+    renderAll();
+    push({ kind: 'reveal', ranks: ranks.map(r => ({ rank: r, text: q.a[r - 1] })) });
+    toast('انكشفت بقية إجابات السؤال ' + (H.qi + 1));
+    checkAutoEnd();
   }
 
   function freezeTimer() {
     if (H.timer.running) { H.timer.remaining = remaining(); H.timer.running = false; }
   }
   /* بعد كل حكم ينتقل السؤال مباشرة للفريق الآخر */
+  /* عدد مرات (ok/no) ورا بعض لنفس الفريق من آخر السجل؛ أي نتيجة عكسية تقطع السلسلة */
+  function streakOf(team, t) {
+    let n = 0;
+    for (let i = H.history.length - 1; i >= 0; i--) {
+      const h = H.history[i];
+      if (h.team !== team || h.t === 'adj') continue;
+      if (h.t === t) n++; else break;
+    }
+    return n;
+  }
   function verdictOk() {
     const q = curQ(); if (!q || !H.sel || !live()) return;
     const rank = H.sel, team = H.turn, text = q.a[rank - 1];
     if (!text) return;
+    const fake = fakeNow();
+    H.hideScore = true;
     H.taken[H.qi] = takenOf(H.qi).concat(rank);
     (H.takenBy[H.qi] = H.takenBy[H.qi] || {})[rank] = team;
     H.teams[team].score += rank;
@@ -2072,11 +2644,14 @@ function initHost() {
     H.turn = 1 - team;
     if (H.opts.autoStop) freezeTimer();
     renderAll(); flipTeams();
-    push({ kind: 'correct', rank, text, team, points: rank, suspense: H.opts.suspense });
-    toast('✓ صح لـ ' + esc(tName(team)) + ' (+' + rank + ') — الدور الآن على ' + esc(tName(H.turn)));
+    push({ kind: 'correct', rank, text, team, points: rank, streak: streakOf(team, 'ok'), fake, suspense: H.opts.suspense });
+    toast('✓ صح لـ ' + esc(tName(team)) + ' (+' + rank + ') — الدور الآن على ' + esc(tName(H.turn)) + (fake ? ' · (خدعة الألوان)' : ''));
+    checkAutoEnd();
   }
   function verdictNo() {
-    if (!curQ() || !live()) return;
+    if (!curQ() || !live() || complete(H.qi)) return;
+    const fake = fakeNow();
+    H.hideScore = true;
     const team = H.turn, st = strikesOf(H.qi);
     st[team]++;
     const count = st[team], level = Math.min(3, count);
@@ -2085,18 +2660,20 @@ function initHost() {
     H.turn = 1 - team;
     if (H.opts.autoStop) freezeTimer();
     renderAll(); flipTeams();
-    push({ kind: 'wrong', team, level, count, suspense: H.opts.suspense });
+    push({ kind: 'wrong', team, level, count, streak: streakOf(team, 'no'), fake, suspense: H.opts.suspense });
     toast('✗ خطأ على ' + esc(tName(team)) + ' (المرة ' + count + ') — الدور الآن على ' + esc(tName(H.turn)), true);
   }
   function adjust(sign) {
     if (!live()) return;
     const d = sign * H.opts.adj, team = H.turn;
     H.teams[team].score += d;
+    H.hideScore = true;
     H.history.push({ t: 'adj', team, delta: d });
     renderAll();
     push({ kind: 'adjust', team, delta: d });
   }
   function undo() {
+    if (!live()) return;
     const h = H.history.pop(); if (!h) return;
     if (h.t === 'ok') {
       H.taken[h.qi] = takenOf(h.qi).filter(r => r !== h.rank);
@@ -2107,6 +2684,11 @@ function initHost() {
       const st = strikesOf(h.qi); st[h.team] = Math.max(0, st[h.team] - 1);
       H.qi = h.qi; H.played[h.qi] = true; H.turn = h.team;
     } else if (h.t === 'adj') H.teams[h.team].score -= h.delta;
+    else if (h.t === 'reveal') {
+      H.shown[h.qi] = shownOf(h.qi).filter(r => !h.ranks.includes(r));
+      if (!h.wasDone) delete H.done[h.qi];
+      H.qi = h.qi; H.played[h.qi] = true;
+    }
     H.sel = null;
     renderAll();
     push({ kind: 'undo' });
@@ -2154,6 +2736,45 @@ function initHost() {
   $('#btnDeduct').onclick = () => adjust(-1);
   $('#btnAdd').onclick = () => adjust(1);
   $('#btnUndo').onclick = undo;
+  /* أزرار بتأكيد بضغطتين */
+  function armed(btn, label, fn) {
+    btn.onclick = () => {
+      if (!btn.classList.contains('arm')) {
+        btn.classList.add('arm'); const old = btn.innerHTML; btn.dataset.old = old; btn.textContent = label;
+        clearTimeout(btn._t); btn._t = setTimeout(() => { btn.classList.remove('arm'); btn.innerHTML = btn.dataset.old; }, 3500);
+        return;
+      }
+      clearTimeout(btn._t); btn.classList.remove('arm'); btn.innerHTML = btn.dataset.old; fn();
+    };
+  }
+  armed($('#btnReveal'), 'متأكد؟ اضغط مرة ثانية للإظهار', revealRest);
+  armed($('#btnEnd'), 'متأكد؟ اضغط مرة ثانية للتتويج', () => endGame(false));
+  $('#btnResume').onclick = resumeGame;
+  /* لون الفريق واللاعبين */
+  [0, 1].forEach(i => {
+    const cbox = $('#tCol' + i);
+    cbox.innerHTML = '<span>اللون</span>' + Object.keys(TEAM_COLORS).map(k => `<button type="button" data-c="${k}" style="--sw:${TEAM_COLORS[k].c}" aria-label="${TEAM_COLORS[k].n}" title="${TEAM_COLORS[k].n}"></button>`).join('');
+    $$('button', cbox).forEach(b => b.onclick = () => {
+      const k = b.dataset.c, o = 1 - i;
+      if (H.teams[o].color === k) H.teams[o].color = H.teams[i].color;
+      H.teams[i].color = k;
+      renderTeams(); renderAnswers(); push();
+    });
+    renderPlayers(i);
+    $('#tPl' + i + ' .pl-add').onclick = () => { H.teams[i].players.push(''); renderPlayers(i); save(); const ins = $$('#tPl' + i + ' .pl-row input'); ins[ins.length - 1].focus(); };
+  });
+  function renderPlayers(i) {
+    const list = $('#tPl' + i + ' .pl-list'), ps = H.teams[i].players;
+    list.innerHTML = '';
+    ps.forEach((p, k) => {
+      const row = el('div', 'pl-row', `<span>${k + 1}</span><input maxlength="24" placeholder="اسم اللاعب" aria-label="اللاعب ${k + 1}">` + (k >= 7 ? '<button type="button" aria-label="حذف">×</button>' : ''));
+      const inp = $('input', row); inp.value = p;
+      inp.addEventListener('input', () => { ps[k] = inp.value; renderTeams(); pushSoon(); });
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); const nx = $$('input', list)[k + 1]; if (nx) nx.focus(); else $('#tPl' + i + ' .pl-add').click(); } });
+      const x = $('button', row); if (x) x.onclick = () => { ps.splice(k, 1); renderPlayers(i); renderTeams(); pushSoon(); };
+      list.appendChild(row);
+    });
+  }
   $('#adjMinus').onclick = () => { H.opts.adj = Math.max(1, H.opts.adj - 1); renderVerdict(); save(); };
   $('#adjPlus').onclick = () => { H.opts.adj = Math.min(20, H.opts.adj + 1); renderVerdict(); save(); };
   [0, 1].forEach(i => {
@@ -2173,6 +2794,10 @@ function initHost() {
   $('#optVol').oninput = e => { H.opts.vol = +e.target.value / 100; pushSoon(); };
   $('#optAutoStop').checked = H.opts.autoStop;
   $('#optAutoStop').onchange = e => { H.opts.autoStop = e.target.checked; save(); };
+  $('#optAutoTimer').checked = H.opts.autoTimer;
+  $('#optAutoTimer').onchange = e => { H.opts.autoTimer = e.target.checked; save(); };
+  $('#optFake').checked = H.opts.fake;
+  $('#optFake').onchange = e => { H.opts.fake = e.target.checked; save(); };
   function paintSeg() { $$('#optSuspense button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === H.opts.suspense))); }
   $$('#optSuspense button').forEach(b => b.onclick = () => { H.opts.suspense = b.dataset.v; paintSeg(); save(); });
   paintSeg();
@@ -2193,7 +2818,7 @@ function initHost() {
   rb.onclick = () => {
     if (!rb.classList.contains('arm')) { rb.classList.add('arm'); rb.textContent = 'اضغط مرة ثانية للتأكيد'; setTimeout(() => { rb.classList.remove('arm'); rb.textContent = 'بدء مسابقة جديدة'; }, 3500); return; }
     rb.classList.remove('arm'); rb.textContent = 'بدء مسابقة جديدة';
-    H.phase = 'intro'; H.qi = -1; H.taken = {}; H.takenBy = {}; H.strikes = {}; H.played = {}; H.sel = null; H.turn = 0; H.history = [];
+    H.phase = 'intro'; H.qi = -1; H.taken = {}; H.takenBy = {}; H.strikes = {}; H.played = {}; H.sel = null; H.turn = 0; H.history = []; H.done = {}; H.shown = {}; H.hideScore = false;
     H.teams.forEach(t => t.score = 0);
     H.timer = { total: H.timer.total, remaining: H.timer.total, running: false, endsAt: 0 };
     renderAll(); push({ kind: 'reset' }); openDrawer(false);
@@ -2205,7 +2830,8 @@ function initHost() {
     if (!$('#host') || $('#host').hidden) return;
     const t = e.target;
     if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) { if (e.key === 'Escape') t.blur(); return; }
-    if (e.key === 'Escape') { openDrawer(false); return; }
+    if (e.key === 'Escape') { openDrawer(false); $('#mBack').hidden = true; return; }
+    if (!$('#mBack').hidden) return;
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     const q = curQ();
     if (/^[0-9]$/.test(e.key) && q) {
@@ -2225,7 +2851,7 @@ function initHost() {
   /* تحميل الأسئلة */
   function afterLoad() {
     const sig = Q.length + '|' + Q.map(x => x.q.slice(0, 8)).join('|');
-    if (H.sig && H.sig !== sig) { H.taken = {}; H.takenBy = {}; H.strikes = {}; H.played = {}; H.qi = -1; H.history = []; }
+    if (H.sig && H.sig !== sig) { H.taken = {}; H.takenBy = {}; H.strikes = {}; H.played = {}; H.qi = -1; H.history = []; H.done = {}; H.shown = {}; H.hideScore = false; }
     H.sig = sig;
     if (H.qi >= Q.length) H.qi = -1;
     H.sel = null;
