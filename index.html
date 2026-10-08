@@ -366,7 +366,8 @@ input[type=range]{width:100%;accent-color:var(--green)}
 .tm.win{box-shadow:0 0 0 6px var(--green),0 24px 60px rgba(0,163,82,.35)!important}
 
 /* عدّاد النتيجة الدوّار */
-.odo{display:inline-flex;direction:ltr;font-variant-numeric:tabular-nums}
+.odo{display:inline-flex;direction:ltr;font-variant-numeric:tabular-nums;overflow:visible}
+.odo .num{display:inline-block;line-height:1.35;padding:0 .05em;overflow:visible}
 .odo .dg{display:inline-block;height:1.24em;overflow:hidden;line-height:1.24em;width:.62em;text-align:center}
 .odo .dg.sg{width:.5em}
 .odo .strip{display:flex;flex-direction:column;transition:transform .42s cubic-bezier(.25,1.45,.45,1)}
@@ -726,6 +727,25 @@ input[type=range]{width:100%;accent-color:var(--green)}
 .cr-in.duo .cr-go{margin-top:30px;font-size:88px}
 .cr-in.duo .cr-tease{font-size:44px}
 
+/* ===== ظرف الأكشن (التصميم الجديد) ===== */
+#act{justify-content:center;gap:0}
+.act-head{position:relative;z-index:6;display:flex;align-items:center;gap:22px;margin-bottom:-6px}
+.act-head svg{width:74px;height:74px;fill:#FF6A1A;filter:drop-shadow(0 0 16px rgba(255,120,30,.75));animation:flameIco .5s ease-in-out infinite alternate}
+.act-head svg:last-child{animation-delay:-.25s}
+@keyframes flameIco{to{transform:scale(1.12,1.18) translateY(-4px);fill:#FF8A1F}}
+.act-title{font-size:112px;font-weight:900;line-height:1.35;white-space:nowrap;background:linear-gradient(180deg,#FFE9A0 0%,#FFB13B 36%,#FF6A1A 62%,#C9301A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 0 rgba(110,27,12,.35)) drop-shadow(0 0 26px rgba(255,120,30,.75));animation:titleHeat 1.3s ease-in-out infinite alternate}
+@keyframes titleHeat{to{filter:drop-shadow(0 6px 0 rgba(110,27,12,.35)) drop-shadow(0 0 46px rgba(255,170,40,.95))}}
+.env{position:relative;width:760px;height:600px;flex:none}
+.env::before{content:"";position:absolute;left:-80px;right:-80px;top:40px;height:420px;background:radial-gradient(closest-side,rgba(255,140,30,.55),rgba(255,106,26,0));animation:heat 1.6s ease-in-out infinite alternate;pointer-events:none}
+@keyframes heat{to{opacity:.55;transform:scale(1.06)}}
+.env>svg{position:absolute;left:0;top:0;width:760px;height:600px;overflow:visible}
+.env-back{z-index:1}
+.env-flap{z-index:2;transform-origin:50% 31.3%}
+.env-fire{position:absolute;z-index:3;left:30px;top:40px;width:700px;height:300px;transform-origin:50% 100%}
+.env-fire i{position:absolute;bottom:0;left:var(--x);width:var(--w);height:var(--h);border-radius:50% 50% 46% 46%/62% 62% 38% 38%;background:radial-gradient(ellipse 60% 70% at 50% 82%,#FFF6C2 0%,#FFD24A 20%,#FF8A1F 45%,rgba(232,70,30,.85) 66%,rgba(232,70,30,0) 74%);filter:blur(3px);transform-origin:50% 100%;animation:flick var(--d) ease-in-out infinite alternate}
+.env .act-logo{position:absolute;z-index:4;left:190px;top:34px;width:380px;filter:drop-shadow(0 18px 30px rgba(110,27,12,.45)) drop-shadow(0 0 30px rgba(255,200,80,.45))}
+.env-front{z-index:5;filter:drop-shadow(0 -6px 14px rgba(60,10,0,.35))}
+
 @media (prefers-reduced-motion:reduce){
   #bg .lattice,#bg .glow,#bg .sun svg,#gate::before,.gate-bg i{animation:none}
 }
@@ -1014,8 +1034,31 @@ input[type=range]{width:100%;accent-color:var(--green)}
 
       <main id="stack" class="ui"></main>
       <div id="act" aria-hidden="true">
-        <div class="act-tag"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 3.4-1.1 5.3-2.7 7.2C7.9 10.3 6.5 12 6.5 14.6A5.5 5.5 0 0 0 12 20.1a5.5 5.5 0 0 0 5.5-5.5c0-2.1-.9-3.6-1.8-4.8.1 1.5-.4 2.7-1.5 3.1.4-3.9-.6-8.3-2.2-11.4zM12 22.5c-1.9 0-3.3-1.3-3.3-3 0-1.4 1-2.3 1.8-3.1.6-.6 1.1-1.2 1.2-2.1 1.3 1 2.6 2.6 2.6 4.6 0 2.1-1 3.6-2.3 3.6z"/></svg>ظرف الأكشن<span>وضع البطاقات</span></div>
-        <div class="act-stage"><div class="act-cards"><i class="c3"></i><i class="c1"></i><i class="c2"></i></div><div class="act-logo" data-logo="full"></div></div>
+        <div class="act-head"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 3.4-1.1 5.3-2.7 7.2C7.9 10.3 6.5 12 6.5 14.6A5.5 5.5 0 0 0 12 20.1a5.5 5.5 0 0 0 5.5-5.5c0-2.1-.9-3.6-1.8-4.8.1 1.5-.4 2.7-1.5 3.1.4-3.9-.6-8.3-2.2-11.4zM12 22.5c-1.9 0-3.3-1.3-3.3-3 0-1.4 1-2.3 1.8-3.1.6-.6 1.1-1.2 1.2-2.1 1.3 1 2.6 2.6 2.6 4.6 0 2.1-1 3.6-2.3 3.6z"/></svg><h2 class="act-title">ظرف الأكشن</h2><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 3.4-1.1 5.3-2.7 7.2C7.9 10.3 6.5 12 6.5 14.6A5.5 5.5 0 0 0 12 20.1a5.5 5.5 0 0 0 5.5-5.5c0-2.1-.9-3.6-1.8-4.8.1 1.5-.4 2.7-1.5 3.1.4-3.9-.6-8.3-2.2-11.4zM12 22.5c-1.9 0-3.3-1.3-3.3-3 0-1.4 1-2.3 1.8-3.1.6-.6 1.1-1.2 1.2-2.1 1.3 1 2.6 2.6 2.6 4.6 0 2.1-1 3.6-2.3 3.6z"/></svg></div>
+        <div class="env">
+          <svg class="env-back" viewBox="0 0 760 600" aria-hidden="true">
+            <defs>
+              <linearGradient id="gEnvIn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A0805"/><stop offset="1" stop-color="#5A160A"/></linearGradient>
+              <linearGradient id="gEnvFlap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E1B0C"/><stop offset="1" stop-color="#A3361A"/></linearGradient>
+              <linearGradient id="gEnvFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B8401C"/><stop offset=".55" stop-color="#8C2A14"/><stop offset="1" stop-color="#55140A"/></linearGradient>
+              <radialGradient id="gEnvHeat" cx="380" cy="300" r="360" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFB13B" stop-opacity=".9"/><stop offset=".5" stop-color="#FF6A1A" stop-opacity=".35"/><stop offset="1" stop-color="#FF6A1A" stop-opacity="0"/></radialGradient>
+            </defs>
+            <rect x="4" y="184" width="752" height="412" rx="24" fill="url(#gEnvIn)" stroke="#F4B93B" stroke-width="6"/>
+            <ellipse cx="380" cy="250" rx="300" ry="120" fill="url(#gEnvHeat)"/>
+          </svg>
+          <svg class="env-flap" viewBox="0 0 760 600" aria-hidden="true">
+            <path d="M8 188 L380 18 L752 188 Z" fill="url(#gEnvFlap)" stroke="#F4B93B" stroke-width="6" stroke-linejoin="round"/>
+            <path d="M70 176 L380 44 L690 176" fill="none" stroke="#FFD978" stroke-opacity=".35" stroke-width="3"/>
+            <g transform="translate(380 104)"><polygon points="0,-30 9,-21 21,-21 21,-9 30,0 21,9 21,21 9,21 0,30 -9,21 -21,21 -21,9 -30,0 -21,-9 -21,-21 -9,-21" fill="url(#gGold)" stroke="#fff" stroke-width="4"/></g>
+          </svg>
+          <div class="env-fire"><i style="--x:20px;--w:110px;--h:190px;--d:0.42s;animation-delay:-0.1s"></i><i style="--x:90px;--w:90px;--h:240px;--d:0.36s;animation-delay:-0.3s"></i><i style="--x:150px;--w:120px;--h:200px;--d:0.5s;animation-delay:-0.2s"></i><i style="--x:230px;--w:80px;--h:260px;--d:0.4s;animation-delay:-0.5s"></i><i style="--x:300px;--w:110px;--h:180px;--d:0.46s;animation-delay:-0.15s"></i><i style="--x:370px;--w:90px;--h:230px;--d:0.38s;animation-delay:-0.4s"></i><i style="--x:440px;--w:120px;--h:210px;--d:0.52s;animation-delay:-0.25s"></i><i style="--x:520px;--w:90px;--h:250px;--d:0.4s;animation-delay:-0.05s"></i><i style="--x:580px;--w:110px;--h:200px;--d:0.44s;animation-delay:-0.35s"></i><i style="--x:640px;--w:100px;--h:230px;--d:0.37s;animation-delay:-0.2s"></i></div>
+          <div class="act-logo" data-logo="full"></div>
+          <svg class="env-front" viewBox="0 0 760 600" aria-hidden="true">
+            <path d="M4 332 L380 408 L756 332 V572 Q756 596 732 596 H28 Q4 596 4 572 Z" fill="url(#gEnvFront)" stroke="#F4B93B" stroke-width="6" stroke-linejoin="round"/>
+            <path d="M14 590 L380 452 L746 590" fill="none" stroke="#FFD978" stroke-opacity=".38" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M40 350 L380 418 L720 350" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="3"/>
+          </svg>
+        </div>
       </div>
       <div id="fire"></div>
 
@@ -1690,21 +1733,15 @@ function initScreen() {
   }
 
   /* ---------- عدّاد النتيجة الدوّار ---------- */
+  /* رقم النتيجة نص عادي (بدون overflow) فما ينقص منه شي، ومع كل تغيّر نبضة خفيفة */
   function Odo(node) {
-    const strip = '<span class="strip">' + Array.from({ length: 10 }, (_, i) => `<i>${i}</i>`).join('') + '</span>';
-    const sign = el('span', 'dg sg', '−'); sign.hidden = true; node.appendChild(sign);
+    const t = el('span', 'num'); node.appendChild(t);
     function set(n, instant) {
-      const s = String(Math.abs(n));
-      sign.hidden = n >= 0;
-      let ds = $$('.dg:not(.sg)', node);
-      while (ds.length < s.length) { const d = el('span', 'dg' + (instant ? '' : ' new'), strip); sign.after(d); ds.unshift(d); }
-      while (ds.length > s.length) { ds.shift().remove(); }
-      ds.forEach((d, i) => {
-        const st = d.firstChild;
-        if (instant) st.style.transition = 'none';
-        st.style.transform = `translateY(${-s[i] * 1.24}em)`;
-        if (instant) { void st.offsetWidth; st.style.transition = ''; }
-      });
+      const v = (n < 0 ? '−' : '') + Math.abs(n);
+      if (t.textContent === v) return;
+      const first = t.textContent === '';
+      t.textContent = v;
+      if (!instant && !first) t.animate([{ transform: 'translateY(.16em) scale(.92)', opacity: .35 }, { transform: 'none', opacity: 1 }], { duration: 260, easing: 'cubic-bezier(.2,1.4,.4,1)' });
     }
     return { set };
   }
@@ -2254,36 +2291,56 @@ function initScreen() {
   let emberT = 0;
   const EMB = ['#FFD24A', '#FF8A1F', '#FF6A1A', '#FFF3B0', '#E5484D'];
   function embers(n) { for (let k = 0; k < n; k++) Fx.burst(rand(60, 1860), 1090, { n: 6, dir: -Math.PI / 2, spread: .35, speed: rand(9, 17), gravity: -.03, life: 90, colors: EMB, shape: 'c', size: .6 }); }
+  const notCss = a => !(window.CSSAnimation && a instanceof CSSAnimation);
   async function enterAction(instant) {
     if (S.action && !instant) return;
     S.action = true;
     clearInterval(emberT); emberT = setInterval(() => S.action && embers(2), 650);
-    const logo = $('.act-logo .logo', actEl);
+    const env = $('.env', actEl), head = $('.act-head', actEl), flap = $('.env-flap', actEl), ef = $('.env-fire', actEl), lw = $('.act-logo', actEl), logo = $('.logo', lw);
     if (instant) { stage.classList.add('act-on'); fireEl.className = 'calm'; return; }
+    /* ١) انفجار النار والإجابات تتطاير */
     Sfx.fireRoar(); shake(18, 1000); flash(500, .55);
     vignette('fire', 3, 520);
     fireEl.className = 'roar';
     embers(14);
     vis().forEach((L, k) => L.animate([{ transform: 'none', opacity: 1 }, { transform: `translateY(${rand(-90, -30)}px) rotate(${rand(-10, 10)}deg) scale(.9)`, opacity: 0 }], { duration: 420, delay: k * 35, fill: 'forwards' }));
-    await sleep(620);
+    await sleep(600);
     stage.classList.add('act-on');
-    layers.forEach(L => L && L.getAnimations().forEach(a => a.cancel()));
+    layers.forEach(L => L && L.getAnimations().filter(notCss).forEach(a => a.cancel()));
+    const A = (n, kf, o) => n.animate(kf, Object.assign({ fill: 'backwards' }, o));
+    /* ٢) الظرف يطلع، يفتح، النار تطلع منه، والشعار يرتفع */
+    A(env, [{ transform: 'translateY(620px) rotate(-5deg)', opacity: 0 }, { transform: 'translateY(-18px) rotate(1deg)', opacity: 1, offset: .75 }, { transform: 'none', opacity: 1 }], { duration: 700, easing: 'cubic-bezier(.2,1.1,.3,1)' });
+    A(flap, [{ transform: 'scaleY(-1)' }, { transform: 'scaleY(-1)', offset: .02 }, { transform: 'scaleY(1.1)', offset: .78 }, { transform: 'none' }], { duration: 620, delay: 650, easing: 'cubic-bezier(.3,1.3,.4,1)' });
+    A(ef, [{ transform: 'scaleY(0)', opacity: 0 }, { transform: 'scaleY(1.5)', opacity: 1, offset: .45 }, { transform: 'none', opacity: 1 }], { duration: 1000, delay: 1150 });
+    A(lw, [{ transform: 'translateY(330px) scale(.75)', opacity: 0 }, { transform: 'translateY(-34px) scale(1.05)', opacity: 1, offset: .7 }, { transform: 'none', opacity: 1 }], { duration: 950, delay: 1250, easing: 'cubic-bezier(.2,1.2,.3,1)' });
+    A(head, [{ transform: 'scale(2.8)', opacity: 0, filter: 'blur(16px)' }, { transform: 'scale(.94)', opacity: 1, filter: 'blur(0)', offset: .7 }, { transform: 'none', opacity: 1 }], { duration: 650, delay: 1900, easing: 'cubic-bezier(.3,1,.4,1)' });
     if (logo) { logo.classList.remove('build'); void logo.getBoundingClientRect(); logo.classList.add('build'); }
-    $('.act-tag', actEl).animate([{ transform: 'translateY(-60px) scale(.5)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 600, delay: 300, easing: 'cubic-bezier(.2,1.6,.4,1)', fill: 'backwards' });
-    $$('.act-cards i', actEl).forEach((c, k) => { const end = getComputedStyle(c).transform; c.animate([{ transform: 'translate(0,420px) rotate(0) scale(.3)', opacity: 0 }, { transform: end, opacity: 1 }], { duration: 700, delay: 200 + k * 140, easing: 'cubic-bezier(.2,1.3,.3,1)', fill: 'backwards' }); });
-    [0, 1, 2].forEach(k => setTimeout(() => Sfx.whoosh(.4), 200 + k * 140));
-    await callout('<div class="big">ظرف الأكشن</div><div class="sub">وضع البطاقات</div>', 'fire', 1900);
-    fireEl.className = 'calm';
+    setTimeout(() => { Sfx.whoosh(1); Sfx.impact(.6); }, 80);
+    setTimeout(() => { Sfx.whoosh(.45, true); Sfx.stamp(); }, 700);
+    setTimeout(() => { if (!S.action) return; Sfx.fireRoar(); const r = rectOf(env); Fx.burst(r.x + r.w / 2, r.y + 210, { n: 110, dir: -Math.PI / 2, spread: .75, speed: 19, gravity: -.02, life: 70, colors: EMB, shape: 'c', w: 240 }); }, 1150);
+    setTimeout(() => { if (!S.action) return; Sfx.impact(1.1); shake(14, 600); flash(420, .5); }, 2350);
+    await sleep(2800);
+    if (S.action) fireEl.className = 'calm';
   }
   async function exitAction(instant) {
     if (!S.action) return;
     S.action = false; clearInterval(emberT);
-    if (instant) { stage.classList.remove('act-on'); fireEl.className = ''; return; }
+    const env = $('.env', actEl), head = $('.act-head', actEl), flap = $('.env-flap', actEl), ef = $('.env-fire', actEl), lw = $('.act-logo', actEl);
+    const clear = () => [actEl, env, head, flap, ef, lw].forEach(n => n.getAnimations().filter(notCss).forEach(a => a.cancel()));
+    if (instant) { stage.classList.remove('act-on'); fireEl.className = ''; clear(); return; }
     Sfx.whoosh(1, true);
     fireEl.className = '';
-    await actEl.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.86)' }], { duration: 420, fill: 'forwards' }).finished;
+    const F = { fill: 'forwards' };
+    head.animate([{ opacity: 1 }, { opacity: 0, transform: 'scale(.7)' }], Object.assign({ duration: 300 }, F));
+    ef.animate([{ opacity: 1 }, { opacity: 0, transform: 'scaleY(.2)' }], Object.assign({ duration: 320 }, F));
+    lw.animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(340px) scale(.8)', opacity: 0 }], Object.assign({ duration: 460, easing: 'cubic-bezier(.5,0,.7,.4)' }, F));
+    await sleep(400);
+    Sfx.stamp();
+    flap.animate([{ transform: 'none' }, { transform: 'scaleY(-1)' }], Object.assign({ duration: 360, easing: 'cubic-bezier(.5,0,.5,1)' }, F));
+    await sleep(380);
+    await env.animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(620px) rotate(4deg)', opacity: 0 }], Object.assign({ duration: 480, easing: 'cubic-bezier(.5,0,.7,.4)' }, F)).finished;
     stage.classList.remove('act-on');
-    actEl.getAnimations().forEach(a => a.cancel());
+    clear();
     stackLayers(0);
     await sleep(1000);
   }
@@ -2476,7 +2533,8 @@ function initScreen() {
     hideUntil(lose, 2600); if (lose) lose.animate([{ transform: 'translateX(-200px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 700, delay: 2600, fill: 'backwards' });
     const tNames = 2900, step = 230;
     pls.forEach((p, i) => { const end = i % 2 ? 'rotate(1.5deg) translateY(6px)' : 'rotate(-1.5deg)'; p.animate([{ transform: 'translateY(80px) scale(.3) rotate(-14deg)', opacity: 0 }, { transform: 'translateY(-10px) scale(1.12) rotate(2deg)', opacity: 1, offset: .65 }, { transform: end, opacity: 1 }], { duration: 620, delay: tNames + i * step, easing: 'cubic-bezier(.2,1.5,.4,1)', fill: 'backwards' }); });
-    const tGo = tNames + pls.length * step + 500;
+    /* جملتا الختام تطلعان بعد 30 ثانية من ظهور التتويج */
+    const tGo = 30000, tNamesEnd = tNames + pls.length * step + 500;
     go.animate([{ transform: 'translateY(60px)', opacity: 0, letterSpacing: '.2em' }, { transform: 'none', opacity: 1, letterSpacing: '0' }], { duration: 900, delay: tGo, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'backwards' });
     tease.animate([{ opacity: 0, transform: 'scale(.8)' }, { opacity: 1, transform: 'none' }], { duration: 600, delay: tGo + 1100, easing: 'cubic-bezier(.2,1.6,.4,1)', fill: 'backwards' });
     /* الأصوات والجسيمات على نفس التوقيت */
@@ -2484,10 +2542,11 @@ function initScreen() {
     setTimeout(() => { Sfx.whoosh(1.2); Sfx.applause(5, 1.25); Fx.burst(960, 300, { n: 160, speed: 24, life: 80, w: 260, colors: R.tie ? [P[0].c, P[1].c, '#F4B93B', '#FFD978'] : [P[R.w].c, P[R.w].l, '#F4B93B', '#FFD978', '#fff'] }); }, 300);
     setTimeout(() => { Sfx.impact(1.2); Sfx.kaching(); Sfx.sparkle(30, 1.4); shake(10, 500); crs.forEach(c => { const q = centerOf(c); ringFx(q.x, q.y, '#F4B93B', 320, 1000); }); Fx.rain(200, R.tie ? [P[0].c, P[1].c, '#F4B93B', '#FFD978'] : [P[R.w].c, P[R.w].l, '#F4B93B', '#FFD978', '#fff']); }, 1560);
     pls.forEach((p, i) => setTimeout(() => { Sfx.pop(); Sfx.sparkle(4, .3); }, tNames + i * step + 200));
-    setTimeout(() => { Sfx.whoosh(.9); Sfx.applause(2.4, .9); }, tGo);
-    setTimeout(() => Sfx.boing(), tGo + 1150);
+    const still = () => S.phase === 'end' && go.isConnected;
+    setTimeout(() => { if (!still()) return; Sfx.whoosh(.9); Sfx.impact(.7); Sfx.applause(2.6, 1); fireworks(v, R, 8); const q = centerOf(go); Fx.burst(q.x, q.y, { n: 80, speed: 16, life: 60, w: 300, colors: ['#FFD978', '#F4B93B', '#fff'] }); }, tGo);
+    setTimeout(() => { if (still()) Sfx.boing(); }, tGo + 1150);
     setTimeout(() => fireworks(v, R, 24), 2600);
-    await sleep(tGo + 1800);
+    await sleep(tNamesEnd + 400);
   }
   async function doResume() { hideCrown(); setPhase('live'); Sfx.rewind(); await sleep(300); }
 
