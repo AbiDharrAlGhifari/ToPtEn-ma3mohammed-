@@ -781,6 +781,10 @@ input[type=range]{width:100%;accent-color:var(--green)}
 .tr-flame{position:absolute;left:50%;top:50%;width:150px;height:240px;margin:250px 0 0 -75px;border-radius:50% 50% 46% 46%/40% 40% 60% 60%;background:radial-gradient(ellipse 60% 70% at 50% 25%,#FFF6C2 0%,#FFD24A 22%,#FF8A1F 48%,rgba(232,70,30,.85) 66%,rgba(232,70,30,0) 74%);filter:blur(4px);transform-origin:50% 0;animation:jet .09s linear infinite alternate}
 @keyframes jet{to{transform:scale(.86,1.12)}}
 
+/* ===== أسماء التتويج كاملة وواضحة بدون ظل/خلفية ===== */
+.cr-name,.cr-main .cr-name,.cr-col .cr-name{overflow:visible;text-overflow:clip;text-shadow:none;line-height:1.6;margin:0;padding:0 12px}
+.cd h3{overflow:visible;text-overflow:clip;line-height:1.6;padding:0 10px}
+
 @media (prefers-reduced-motion:reduce){
   #bg .lattice,#bg .glow,#bg .sun svg,#gate::before,.gate-bg i{animation:none}
 }
@@ -1807,6 +1811,13 @@ function initScreen() {
     for (let i = 0; i < n; i++) g.insertAdjacentHTML('beforeend', `<div class="pg${i === cur ? ' cur' : done.has(i) ? ' done' : played.has(i) ? ' played' : ''}"><svg viewBox="0 0 100 100"><use href="#octa"/></svg><b>${i + 1}</b></div>`);
   }
   /* النتيجة تظهر في بداية كل سؤال فقط، وتختفي من أول حكم */
+  /* لو الاسم طويل يصغر خطه بدل ما ينقص */
+  function fitLine(n, min = 36) {
+    if (!n || !n.isConnected) return;
+    n.style.fontSize = '';
+    let fs = parseFloat(getComputedStyle(n).fontSize);
+    while (n.scrollWidth > n.clientWidth + 1 && fs > min) { fs -= 3; n.style.fontSize = fs + 'px'; }
+  }
   function setMask(on) { S.masked = !!on; [0, 1].forEach(i => $('#team' + i).classList.toggle('masked', S.masked)); setLead(); }
   /* لما تظهر النتيجة: بطاقة الفريق المتقدم تمتلئ بلونه */
   function setLead() {
@@ -1853,7 +1864,7 @@ function initScreen() {
     if (v.vol != null) Sfx.setVol(v.vol);
     renderProgress(v);
     v.teams.forEach((t, i) => {
-      if ($('#tmName' + i).textContent !== t.name) $('#tmName' + i).textContent = t.name;
+      if ($('#tmName' + i).textContent !== t.name) { $('#tmName' + i).textContent = t.name; fitLine($('#tmName' + i), 24); }
       const p = t.color || TEAM_COLORS[DEF_COLORS[i]];
       S.pal[i] = p;
       ['c', 'd', 'dd', 'l', 't'].forEach(k => stage.style.setProperty(`--t${i}${k}`, p[k]));
@@ -2693,6 +2704,7 @@ function initScreen() {
     const R = resultOf(v);
     stage.classList.add('ended');
     crown.innerHTML = crownHTML(v, R);
+    $$('.cr-name', crown).forEach(n => fitLine(n));
     crown.classList.add('show');
     if (instant) fireworks(v, R, 6);
     return R;
@@ -2705,6 +2717,7 @@ function initScreen() {
     const T = v.teams, P = T.map((t, i) => t.color || TEAM_COLORS[DEF_COLORS[i]]), R = resultOf(v);
     /* ١) المواجهة: الرقمان يعدّان مع بعض… الأقل يوقف أول */
     crown.innerHTML = `<div class="cr-duel"><p class="cd-cap">النتيجة النهائية</p>${[0, 1].map(i => `<div class="cd" style="${vars(P[i])}"><h3>${esc(T[i].name)}</h3><b>0</b></div>`).join('<span class="cd-vs">×</span>')}</div>`;
+    crown.classList.add('show'); $$('.cd h3', crown).forEach(n => fitLine(n, 30));
     crown.classList.add('show');
     const cards = $$('.cd', crown), nums = cards.map(c => $('b', c));
     Sfx.whoosh(1.2);
@@ -2744,6 +2757,7 @@ function initScreen() {
     await sleep(160);
     /* ٣) التتويج */
     crown.innerHTML = crownHTML(v, R);
+    $$('.cr-name', crown).forEach(n => fitLine(n));
     const bg = $('.cr-bg', crown), rays = $('.cr-rays', crown), kick = $('.cr-kick', crown);
     const crs = $$('.trophy', crown), names = $$('.cr-name', crown), scores = $$('.cr-score', crown);
     const pls = $$('.cr-pl', crown), go = $('.cr-go', crown), tease = $('.cr-tease', crown), lose = $('.cr-lose', crown);
@@ -2758,8 +2772,8 @@ function initScreen() {
     hideUntil(lose, 2600); if (lose) lose.animate([{ transform: 'translateX(-200px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 700, delay: 2600, fill: 'backwards' });
     const tNames = 2900, step = 230;
     pls.forEach((p, i) => { const end = i % 2 ? 'rotate(1.5deg) translateY(6px)' : 'rotate(-1.5deg)'; p.animate([{ transform: 'translateY(80px) scale(.3) rotate(-14deg)', opacity: 0 }, { transform: 'translateY(-10px) scale(1.12) rotate(2deg)', opacity: 1, offset: .65 }, { transform: end, opacity: 1 }], { duration: 620, delay: tNames + i * step, easing: 'cubic-bezier(.2,1.5,.4,1)', fill: 'backwards' }); });
-    /* جملتا الختام تطلعان بعد 30 ثانية من ظهور التتويج */
-    const tGo = 30000, tNamesEnd = tNames + pls.length * step + 500;
+    /* جملتا الختام تطلعان بعد 8 ثواني من ظهور التتويج */
+    const tGo = 8000, tNamesEnd = tNames + pls.length * step + 500;
     go.animate([{ transform: 'translateY(60px)', opacity: 0, letterSpacing: '.2em' }, { transform: 'none', opacity: 1, letterSpacing: '0' }], { duration: 900, delay: tGo, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'backwards' });
     tease.animate([{ opacity: 0, transform: 'scale(.8)' }, { opacity: 1, transform: 'none' }], { duration: 600, delay: tGo + 1100, easing: 'cubic-bezier(.2,1.6,.4,1)', fill: 'backwards' });
     /* الأصوات والجسيمات على نفس التوقيت */
@@ -2768,7 +2782,7 @@ function initScreen() {
     setTimeout(() => { Sfx.impact(1.2); Sfx.kaching(); Sfx.sparkle(30, 1.4); shake(10, 500); crs.forEach(c => { const q = centerOf(c); ringFx(q.x, q.y, '#F4B93B', 320, 1000); }); Fx.rain(200, R.tie ? [P[0].c, P[1].c, '#F4B93B', '#FFD978'] : [P[R.w].c, P[R.w].l, '#F4B93B', '#FFD978', '#fff']); }, 1560);
     pls.forEach((p, i) => setTimeout(() => { Sfx.pop(); Sfx.sparkle(4, .3); }, tNames + i * step + 200));
     const still = () => S.phase === 'end' && go.isConnected;
-    setTimeout(() => { if (!still()) return; Sfx.whoosh(.9); Sfx.impact(.7); Sfx.applause(2.6, 1); fireworks(v, R, 8); const q = centerOf(go); Fx.burst(q.x, q.y, { n: 80, speed: 16, life: 60, w: 300, colors: ['#FFD978', '#F4B93B', '#fff'] }); }, tGo);
+    setTimeout(() => { if (!still()) return; Sfx.whoosh(.9); Sfx.impact(.7); Sfx.applause(2.6, 1); fireworks(v, R, 16); const q = centerOf(go); Fx.burst(q.x, q.y, { n: 80, speed: 16, life: 60, w: 300, colors: ['#FFD978', '#F4B93B', '#fff'] }); }, tGo);
     setTimeout(() => { if (still()) Sfx.boing(); }, tGo + 1150);
     setTimeout(() => fireworks(v, R, 24), 2600);
     await sleep(tNamesEnd + 400);
