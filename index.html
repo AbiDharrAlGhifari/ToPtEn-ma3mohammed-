@@ -328,7 +328,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
 #stage[data-phase="intro"] #tagline{opacity:1;transform:none;transition-delay:2.3s}
 #stage[data-phase="intro"] #wait{opacity:1;transition-delay:2.9s}
 #stage[data-phase="intro"] #brand .emrow{opacity:1;transition-delay:2.6s}
-#stage[data-phase="live"] #brand .emrow{opacity:1;transition-delay:1.6s}
+#stage[data-phase="live"] #brand .emrow,#stage[data-phase="end"] #brand .emrow{display:none}
 #stage.nt #brand,#stage.nt #tagline,#stage.nt #wait,#stage.nt #brand .emrow{transition:none!important}
 #stage[data-phase="intro"] .ui{opacity:0;pointer-events:none}
 .ui{transition:opacity .6s}
@@ -367,10 +367,10 @@ input[type=range]{width:100%;accent-color:var(--green)}
 
 /* عدّاد النتيجة الدوّار */
 .odo{display:inline-flex;direction:ltr;font-variant-numeric:tabular-nums}
-.odo .dg{display:inline-block;height:1em;overflow:hidden;line-height:1;width:.62em;text-align:center}
+.odo .dg{display:inline-block;height:1.24em;overflow:hidden;line-height:1.24em;width:.62em;text-align:center}
 .odo .dg.sg{width:.5em}
 .odo .strip{display:flex;flex-direction:column;transition:transform .42s cubic-bezier(.25,1.45,.45,1)}
-.odo .strip i{display:block;height:1em;font-style:normal}
+.odo .strip i{display:block;height:1.24em;line-height:1.24em;font-style:normal}
 .odo .dg.new{animation:dgIn .45s cubic-bezier(.2,1.5,.4,1)}
 @keyframes dgIn{from{transform:translateY(-.8em) scale(.4);opacity:0}to{transform:none;opacity:1}}
 
@@ -500,8 +500,6 @@ input[type=range]{width:100%;accent-color:var(--green)}
 .token svg{position:absolute;inset:0;width:100%;height:100%;fill:url(#gGold);stroke:#fff;stroke-width:5;filter:drop-shadow(0 8px 16px rgba(221,156,25,.55))}
 .token b{position:relative;font-size:24px;color:#3B2800}
 
-#soundhint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);font-size:20px;font-weight:700;color:var(--ink2);z-index:40;padding:8px 20px;border-radius:99px;background:rgba(255,255,255,.9);box-shadow:var(--shadow);transition:opacity .5s}
-#soundhint.gone{opacity:0}
 
 /* ===== ألوان الفريقين على الشاشة ===== */
 #team0{--tc:var(--t0c,#2E7CD6);--tcd:var(--t0d,#1F62B3);--tcdd:var(--t0dd,#123F78);--tcl:var(--t0l,#8DBBEF);--tct:var(--t0t,#E7F1FC)}
@@ -632,6 +630,102 @@ input[type=range]{width:100%;accent-color:var(--green)}
 .tm{padding-top:12px;padding-bottom:16px}
 .tm h4{line-height:1.55;padding:0 6px}
 
+/* ===== الأرقام واضحة بدون قص ===== */
+.tm .sc{font-size:116px;height:132px;line-height:1}
+/* ===== قفل النتيجة أثناء الجولة ===== */
+.tm .mask{gap:0}
+.tm .mask svg{width:122px;height:122px;color:var(--tc);filter:drop-shadow(0 8px 14px rgba(20,58,42,.18));animation:vbob 2.6s ease-in-out infinite}
+@keyframes vbob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-6px) rotate(3deg)}}
+/* ===== الفريق المتقدم: البطاقة ممتلئة بلونه ===== */
+.tm::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,var(--tc),var(--tcd) 70%,var(--tcdd));opacity:0;transition:opacity .7s}
+.tm .tmi::before,.tm .tmi::after{transition:opacity .7s}
+.tm.lead::before{opacity:1}
+.tm.lead .tmi::after{opacity:0}
+.tm.lead .tmi::before{opacity:.12;filter:brightness(3)}
+.tm h4,.tm .sc{transition:color .6s}
+.tm.lead h4,.tm.lead .sc{color:#fff}
+.tm.lead h4::before{background:#FFD978}
+.tm.lead .stk i:not(.on){background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+.tm.lead.win,.tm.lead.hurt{box-shadow:var(--shadow-lg)}
+/* ===== عدد الإجابات حسب الشيت ===== */
+.layer.off{display:none}
+#stack.few{justify-content:center;gap:14px}
+/* ===== اسم المسابقة بجانب الشعار أثناء اللعب ===== */
+#brandSub{display:none;margin-top:4px;padding:8px 26px;border-radius:99px;font-size:28px;font-weight:900;color:#fff;background:linear-gradient(135deg,#1DB668,#008A44);box-shadow:0 8px 20px rgba(0,138,68,.3),inset 0 0 0 3px rgba(255,255,255,.35);white-space:nowrap}
+#stage[data-phase="live"] #brandSub,#stage[data-phase="end"] #brandSub{display:block}
+
+/* ===== شرح اللعبة ===== */
+#rules{position:absolute;inset:0;z-index:45;display:none;place-items:center;background:rgba(14,40,28,.5);backdrop-filter:blur(7px)}
+#rules.show{display:grid}
+.ru-card{position:relative;width:1340px;padding:54px 70px 60px;border-radius:44px;background:linear-gradient(180deg,#FFFDF6,#fff 40%);box-shadow:0 40px 100px rgba(10,30,20,.45),inset 0 0 0 6px #F4B93B,inset 0 0 0 12px #fff,inset 0 0 0 14px rgba(244,185,59,.45)}
+.ru-head{display:flex;align-items:center;gap:26px;margin-bottom:34px}
+.ru-head .logo{width:120px;flex:none;filter:drop-shadow(0 8px 16px rgba(221,156,25,.35))}
+.ru-head h2{font-size:64px;font-weight:900;line-height:1.35;color:var(--green-dd)}
+.ru-sub{display:inline-block;margin-top:6px;padding:4px 26px;border-radius:99px;font-size:34px;font-weight:900;color:#3B2800;background:linear-gradient(135deg,#FFE08A,#F4B93B 60%,#E8A425)}
+.ru-list{list-style:none;display:flex;flex-direction:column;gap:18px}
+.ru-list li{display:flex;align-items:center;gap:26px;padding:16px 26px;border-radius:24px;background:#F6F9F4;box-shadow:inset 0 0 0 2px #E2EBE0}
+.ru-n{position:relative;flex:none;width:78px;height:78px;display:grid;place-items:center}
+.ru-n svg{position:absolute;inset:0;width:100%;height:100%;fill:url(#gGold);stroke:#fff;stroke-width:5}
+.ru-n b{position:relative;font-size:38px;line-height:1.3;color:#3B2800}
+.ru-t{font-size:44px;font-weight:900;line-height:1.5;color:var(--ink)}
+.ru-t small{display:block;font-size:30px;font-weight:700;color:var(--ink2);line-height:1.5}
+
+/* ===== ظرف الأكشن ===== */
+#act{position:absolute;left:500px;width:920px;top:296px;height:760px;z-index:4;display:none;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+#stage.act-on #act{display:flex}
+#stage.act-on #stack{visibility:hidden}
+.act-tag{position:relative;z-index:3;display:inline-flex;align-items:center;gap:14px;padding:10px 30px 10px 22px;border-radius:99px;background:linear-gradient(135deg,#FFB347,#FF6A1A 55%,#D9361B);color:#fff;font-size:42px;font-weight:900;line-height:1.4;box-shadow:0 14px 34px rgba(217,54,27,.45),inset 0 0 0 3px rgba(255,255,255,.45);animation:tagGlow 1.2s ease-in-out infinite alternate}
+.act-tag span{font-size:28px;padding:2px 18px;border-radius:99px;background:rgba(255,255,255,.22)}
+.act-tag svg{width:42px;height:42px;fill:#FFF3B0}
+@keyframes tagGlow{to{box-shadow:0 14px 50px rgba(255,106,26,.7),inset 0 0 0 3px rgba(255,255,255,.6)}}
+.act-stage{position:relative;width:700px;height:600px;display:grid;place-items:center}
+.act-logo{position:relative;z-index:2;width:470px;filter:drop-shadow(0 22px 40px rgba(217,54,27,.35))}
+.act-cards{position:absolute;inset:0;z-index:1}
+.act-cards i{position:absolute;left:50%;top:50%;width:200px;height:290px;margin:-145px 0 0 -100px;border-radius:24px;background:radial-gradient(circle at 50% 50%,#1C7A4A,#0B5E36 60%,#073F24);box-shadow:0 18px 36px rgba(0,0,0,.3),inset 0 0 0 6px #F4B93B,inset 0 0 0 11px #0B5E36,inset 0 0 0 13px rgba(244,185,59,.55)}
+.act-cards i::after{content:"";position:absolute;left:50%;top:50%;width:96px;height:96px;margin:-48px 0 0 -48px;background:linear-gradient(135deg,#FFE08A,#F4B93B 60%,#DD9314);clip-path:polygon(50% 0,64% 15%,85% 15%,85% 36%,100% 50%,85% 64%,85% 85%,64% 85%,50% 100%,36% 85%,15% 85%,15% 64%,0 50%,15% 36%,15% 15%,36% 15%)}
+.act-cards .c1{transform:translate(-255px,40px) rotate(-20deg)}
+.act-cards .c2{transform:translate(255px,40px) rotate(20deg)}
+.act-cards .c3{transform:translate(0,-150px) rotate(-4deg) scale(.86)}
+#fire{position:absolute;left:0;right:0;bottom:0;height:620px;pointer-events:none;z-index:11;opacity:0;transition:opacity .6s;overflow:hidden}
+#fire.roar,#fire.calm{opacity:1}
+#fire .fglow{position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 112%,rgba(255,140,30,.8),rgba(255,90,20,.35) 42%,rgba(255,90,20,0) 70%);transition:opacity .8s}
+#fire.calm .fglow{opacity:.5}
+#fire .fl{position:absolute;inset:0;transform-origin:50% 100%;transform:scaleY(.15);transition:transform .8s cubic-bezier(.2,1.2,.3,1)}
+#fire.roar .fl{transform:scaleY(1.45)}
+#fire.calm .fl{transform:scaleY(.52)}
+#fire i{position:absolute;bottom:-34px;left:var(--x);width:var(--w);height:var(--h);border-radius:50% 50% 46% 46%/62% 62% 38% 38%;background:radial-gradient(ellipse 60% 70% at 50% 82%,#FFF6C2 0%,#FFD24A 20%,#FF8A1F 45%,rgba(232,70,30,.82) 66%,rgba(232,70,30,0) 74%);filter:blur(4px);transform-origin:50% 100%;animation:flick var(--d) ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(1,.82) skewX(-4deg)}50%{transform:scale(.9,1.1) skewX(3deg)}100%{transform:scale(1.06,.94) translateY(-8px) skewX(-2deg)}}
+#vignette.fire{background:radial-gradient(75% 75% at 50% 50%,rgba(255,120,30,0) 35%,rgba(255,100,20,.6) 100%)}
+.co.fire .big{color:#FF6A1A;-webkit-text-stroke:14px #fff;filter:drop-shadow(0 12px 0 rgba(140,40,0,.3)) drop-shadow(0 0 50px rgba(255,120,30,.85));animation:fireTxt .18s steps(2) infinite}
+.co.fire .sub{color:#B8360F;box-shadow:var(--shadow-lg),inset 0 0 0 3px #FFB347}
+@keyframes fireTxt{50%{filter:drop-shadow(0 12px 0 rgba(140,40,0,.3)) drop-shadow(0 0 70px rgba(255,170,40,.95))}}
+.btn.act{background:#fff;box-shadow:inset 0 0 0 2px #FFB347;color:#B8360F;font-weight:900}
+.btn.act svg{fill:#FF6A1A}
+.btn.act.on{background:linear-gradient(135deg,#FFB347,#FF6A1A 55%,#D9361B);color:#fff;box-shadow:0 6px 18px rgba(217,54,27,.35)}
+.btn.act.on svg{fill:#FFF3B0}
+.btn.rulesb{width:100%;margin-top:12px;font-size:20px!important}
+.btn.rulesb.on{background:linear-gradient(135deg,#FFD978,#F4B93B 60%,#E8A425);color:#3B2800;box-shadow:0 6px 18px rgba(221,156,25,.35)}
+
+/* ===== التتويج: كأس بدل التاج ===== */
+.trophy{width:220px;height:293px;color:var(--tc);overflow:visible;filter:drop-shadow(0 24px 30px rgba(0,0,0,.4)) drop-shadow(0 0 50px rgba(255,217,120,.55))}
+.cr-in.solo{flex-direction:row;align-items:stretch;padding:0}
+.cr-hero{position:relative;width:700px;flex:none;display:grid;place-items:center}
+.cr-hero .trophy{width:510px;height:680px}
+.cr-hero .gl{position:absolute;width:46px;height:46px;background:#FFF6D0;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);animation:twk 2.2s ease-in-out infinite;filter:drop-shadow(0 0 10px #FFE08A)}
+.cr-hero .g1{left:205px;top:250px}.cr-hero .g2{left:470px;top:330px;animation-delay:.7s;transform:scale(.7)}.cr-hero .g3{left:300px;top:560px;animation-delay:1.4s}
+@keyframes twk{0%,100%{opacity:0;transform:scale(.2) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+.cr-main{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 60px 40px 30px}
+.cr-main .cr-name{font-size:118px;max-width:1120px}
+.cr-main .cr-names{flex:none;max-width:1100px;margin-top:30px}
+.cr-go{font-size:98px;margin-top:40px}
+.cr-tease{font-size:48px;font-weight:900;margin:4px 0 0;color:#fff;text-shadow:0 4px 0 rgba(0,0,0,.2)}
+.cr-rays.solo{left:1570px;top:540px}
+.cr-lose{top:40px;bottom:auto}
+.cr-in.duo{justify-content:center;padding:30px 0 40px}
+.cr-in.duo .cr-tie{flex:none}
+.cr-in.duo .cr-go{margin-top:30px;font-size:88px}
+.cr-in.duo .cr-tease{font-size:44px}
+
 @media (prefers-reduced-motion:reduce){
   #bg .lattice,#bg .glow,#bg .sun svg,#gate::before,.gate-bg i{animation:none}
 }
@@ -653,6 +747,34 @@ input[type=range]{width:100%;accent-color:var(--green)}
     <symbol id="octa" viewBox="0 0 100 100"><polygon points="50.00,2.00 64.06,16.06 83.94,16.06 83.94,35.94 98.00,50.00 83.94,64.06 83.94,83.94 64.06,83.94 50.00,98.00 35.94,83.94 16.06,83.94 16.06,64.06 2.00,50.00 16.06,35.94 16.06,16.06 35.94,16.06"/></symbol>
     <linearGradient id="gCrown" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFEFB0"/><stop offset=".5" stop-color="#F4B93B"/><stop offset="1" stop-color="#C98A10"/></linearGradient>
     <symbol id="crownS" viewBox="-8 -4 256 174"><path d="M24 132 L10 44 L72 92 L120 16 L168 92 L230 44 L216 132 Z" fill="url(#gCrown)" stroke="#8F6200" stroke-width="6" stroke-linejoin="round"/><rect x="20" y="124" width="200" height="34" rx="11" fill="url(#gCrown)" stroke="#8F6200" stroke-width="6"/><circle cx="10" cy="44" r="12" fill="#FFE08A" stroke="#8F6200" stroke-width="5"/><circle cx="120" cy="16" r="13" fill="#FFE08A" stroke="#8F6200" stroke-width="5"/><circle cx="230" cy="44" r="12" fill="#FFE08A" stroke="#8F6200" stroke-width="5"/><path d="M120 62 L133 92 L120 106 L107 92Z" fill="currentColor" stroke="#fff" stroke-width="3"/><circle cx="120" cy="141" r="10" fill="currentColor" stroke="#fff" stroke-width="3"/><circle cx="74" cy="141" r="7" fill="currentColor" stroke="#fff" stroke-width="3"/><circle cx="166" cy="141" r="7" fill="currentColor" stroke="#fff" stroke-width="3"/><path d="M40 112 Q120 100 200 112" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/></symbol>
+    <linearGradient id="gTro" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B87A08"/><stop offset=".22" stop-color="#FFE9A0"/><stop offset=".48" stop-color="#F4B93B"/><stop offset=".76" stop-color="#FFD978"/><stop offset="1" stop-color="#A86E05"/></linearGradient>
+    <linearGradient id="gTroV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF2C4"/><stop offset=".55" stop-color="#F4B93B"/><stop offset="1" stop-color="#A86E05"/></linearGradient>
+    <symbol id="trophyS" viewBox="0 0 300 400">
+      <path d="M62 72 C2 66 0 172 96 216" fill="none" stroke="#8F6200" stroke-width="22" stroke-linecap="round"/>
+      <path d="M238 72 C298 66 300 172 204 216" fill="none" stroke="#8F6200" stroke-width="22" stroke-linecap="round"/>
+      <path d="M62 72 C2 66 0 172 96 216" fill="none" stroke="url(#gTroV)" stroke-width="14" stroke-linecap="round"/>
+      <path d="M238 72 C298 66 300 172 204 216" fill="none" stroke="url(#gTroV)" stroke-width="14" stroke-linecap="round"/>
+      <path d="M52 46 H248 V84 C248 190 212 246 150 258 C88 246 52 190 52 84 Z" fill="url(#gTro)" stroke="#8F6200" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M78 66 C78 150 96 206 124 238" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="9" stroke-linecap="round"/>
+      <rect x="40" y="32" width="220" height="26" rx="13" fill="url(#gTroV)" stroke="#8F6200" stroke-width="5"/>
+      <polygon points="150.0,70.0 168.2,88.2 193.8,88.2 193.8,113.8 212.0,132.0 193.8,150.2 193.8,175.8 168.2,175.8 150.0,194.0 131.8,175.8 106.2,175.8 106.2,150.2 88.0,132.0 106.2,113.8 106.2,88.2 131.8,88.2" fill="#fff" stroke="#DD9C19" stroke-width="7" stroke-linejoin="round"/>
+      <polygon points="150.0,82.0 164.6,96.6 185.4,96.6 185.4,117.4 200.0,132.0 185.4,146.6 185.4,167.4 164.6,167.4 150.0,182.0 135.4,167.4 114.6,167.4 114.6,146.6 100.0,132.0 114.6,117.4 114.6,96.6 135.4,96.6" fill="none" stroke="#F4B93B" stroke-width="2.5" stroke-linejoin="round"/>
+      <text x="150" y="155" text-anchor="middle" font-size="64" font-weight="900" fill="url(#gGreen)" direction="ltr">10</text>
+      <circle cx="150" cy="226" r="9" fill="currentColor" stroke="#fff" stroke-width="3"/>
+      <path d="M134 256 H166 L160 292 H140 Z" fill="url(#gTro)" stroke="#8F6200" stroke-width="4" stroke-linejoin="round"/>
+      <ellipse cx="150" cy="292" rx="40" ry="11" fill="url(#gTroV)" stroke="#8F6200" stroke-width="4"/>
+      <path d="M118 300 H182 L198 322 H102 Z" fill="url(#gTro)" stroke="#8F6200" stroke-width="4" stroke-linejoin="round"/>
+      <rect x="42" y="320" width="216" height="56" rx="10" fill="url(#gBand)" stroke="#054A26" stroke-width="5"/>
+      <rect x="50" y="325" width="200" height="4" rx="2" fill="#fff" opacity=".3"/>
+      <text x="150" y="357" text-anchor="middle" font-size="24" font-weight="900" fill="#fff">توب تن <tspan fill="#FFD978">مع محمد</tspan></text>
+      <rect x="32" y="372" width="236" height="24" rx="9" fill="url(#gTroV)" stroke="#8F6200" stroke-width="5"/>
+    </symbol>
+    <symbol id="vaultS" viewBox="0 0 120 120">
+      <polygon points="60.0,5.0 76.1,21.1 98.9,21.1 98.9,43.9 115.0,60.0 98.9,76.1 98.9,98.9 76.1,98.9 60.0,115.0 43.9,98.9 21.1,98.9 21.1,76.1 5.0,60.0 21.1,43.9 21.1,21.1 43.9,21.1" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M45 57 V47 a15 15 0 0 1 30 0 V57" fill="none" stroke="currentColor" stroke-width="7.5" stroke-linecap="round"/>
+      <rect x="35" y="54" width="50" height="38" rx="10" fill="currentColor"/>
+      <circle cx="60" cy="69" r="5.5" fill="#fff"/><rect x="57.4" y="70" width="5.2" height="12" rx="2.6" fill="#fff"/>
+    </symbol>
     <symbol id="xm" viewBox="0 0 100 100"><path d="M27 27 L73 73 M73 27 L27 73" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></symbol>
     <symbol id="chk" viewBox="0 0 100 100"><path d="M22 54 L42 73 L79 30" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs>
@@ -664,7 +786,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
   <div class="gate-in">
     <button class="gate-logo" id="gateLogo" type="button" aria-label="توب تن مع محمد"><span class="tilt" data-logo="full"></span></button>
     <p class="gate-hint">المس الشعار ✦</p>
-    <p class="gate-sub">مسابقة ثقافي المرحلة الثانوية</p>
+    <p class="gate-sub">مسابقة ثقافي المرحلة الثانوية والجامعيين</p>
     <div class="gate-cards">
       <a class="gate-card host" href="#host">
         <span class="gc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="11.5" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21.5M8.5 21.5h7"/></svg></span>
@@ -756,7 +878,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
             <button class="btn big ok" id="btnOk" type="button"><svg viewBox="0 0 100 100"><use href="#chk"/></svg>جواب صحيح <span class="k">Enter</span></button>
             <button class="btn big no" id="btnNo" type="button"><svg viewBox="0 0 100 100"><use href="#xm"/></svg>جواب خاطئ <span class="k">X</span></button>
           </div>
-          <div class="v-more"><button class="btn reveal" id="btnReveal" type="button">أظهر بقية الإجابات</button></div>
+          <div class="v-more"><button class="btn reveal" id="btnReveal" type="button">أظهر بقية الإجابات</button><button class="btn act" id="btnAction" type="button"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 3.4-1.1 5.3-2.7 7.2C7.9 10.3 6.5 12 6.5 14.6A5.5 5.5 0 0 0 12 20.1a5.5 5.5 0 0 0 5.5-5.5c0-2.1-.9-3.6-1.8-4.8.1 1.5-.4 2.7-1.5 3.1.4-3.9-.6-8.3-2.2-11.4zM12 22.5c-1.9 0-3.3-1.3-3.3-3 0-1.4 1-2.3 1.8-3.1.6-.6 1.1-1.2 1.2-2.1 1.3 1 2.6 2.6 2.6 4.6 0 2.1-1 3.6-2.3 3.6z"/></svg><span>ظرف الأكشن</span></button></div>
           <p class="v-toast" id="vToast" aria-live="polite"></p>
         </div>
       </section>
@@ -767,6 +889,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
         <h3>المسابقة</h3>
         <button class="btn big gold" id="btnStart" type="button">ابدأ المسابقة</button>
         <p class="live-note" id="liveNote" hidden><i class="dot"></i>المسابقة شغّالة على الشاشة</p>
+        <button class="btn big rulesb" id="btnRules" type="button" hidden>إخفاء الشرح وبدء اللعب</button>
         <button class="btn big endg" id="btnEnd" type="button" hidden><svg viewBox="-8 -4 256 174" style="color:#00A352"><use href="#crownS"/></svg><span>أنهِ اللعبة</span></button>
         <button class="btn ghost" id="btnResume" type="button" hidden>رجوع للعبة (إخفاء التتويج)</button>
         <div class="link-box">
@@ -859,8 +982,9 @@ input[type=range]{width:100%;accent-color:var(--green)}
 
       <div id="brand">
         <div class="lgw" data-logo="full"></div>
+        <p id="brandSub">الثانوية والجامعيين</p>
         <div class="emrow"><i class="emb"></i><span>مجمع أبي ذر الغفاري</span></div>
-        <p id="tagline">مسابقة ثقافي المرحلة الثانوية</p>
+        <p id="tagline">مسابقة ثقافي المرحلة الثانوية والجامعيين</p>
         <p id="wait">بانتظار انطلاق المسابقة <i></i><i></i><i></i></p>
       </div>
 
@@ -869,7 +993,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
         <span class="turn"><svg viewBox="0 0 100 100"><use href="#octa" fill="#fff"/></svg>الدور عليكم</span>
         <h4 id="tmName0">الفريق الأول</h4>
         <b class="sc odo" id="tmScore0"></b>
-        <b class="mask" id="tmMask0" aria-label="النتيجة مخفية"><i>؟</i><i>؟</i><i>؟</i></b>
+        <b class="mask" id="tmMask0" aria-label="النتيجة مخفية"><svg viewBox="0 0 120 120"><use href="#vaultS"/></svg></b>
         <div class="stk" id="stk0"></div>
         <span class="streak" id="tmStr0"></span>
       </div>
@@ -878,7 +1002,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
         <span class="turn"><svg viewBox="0 0 100 100"><use href="#octa" fill="#fff"/></svg>الدور عليكم</span>
         <h4 id="tmName1">الفريق الثاني</h4>
         <b class="sc odo" id="tmScore1"></b>
-        <b class="mask" id="tmMask1" aria-label="النتيجة مخفية"><i>؟</i><i>؟</i><i>؟</i></b>
+        <b class="mask" id="tmMask1" aria-label="النتيجة مخفية"><svg viewBox="0 0 120 120"><use href="#vaultS"/></svg></b>
         <div class="stk" id="stk1"></div>
         <span class="streak" id="tmStr1"></span>
       </div>
@@ -889,6 +1013,11 @@ input[type=range]{width:100%;accent-color:var(--green)}
       </header>
 
       <main id="stack" class="ui"></main>
+      <div id="act" aria-hidden="true">
+        <div class="act-tag"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 3.4-1.1 5.3-2.7 7.2C7.9 10.3 6.5 12 6.5 14.6A5.5 5.5 0 0 0 12 20.1a5.5 5.5 0 0 0 5.5-5.5c0-2.1-.9-3.6-1.8-4.8.1 1.5-.4 2.7-1.5 3.1.4-3.9-.6-8.3-2.2-11.4zM12 22.5c-1.9 0-3.3-1.3-3.3-3 0-1.4 1-2.3 1.8-3.1.6-.6 1.1-1.2 1.2-2.1 1.3 1 2.6 2.6 2.6 4.6 0 2.1-1 3.6-2.3 3.6z"/></svg>ظرف الأكشن<span>وضع البطاقات</span></div>
+        <div class="act-stage"><div class="act-cards"><i class="c3"></i><i class="c1"></i><i class="c2"></i></div><div class="act-logo" data-logo="full"></div></div>
+      </div>
+      <div id="fire"></div>
 
       <aside id="side" class="ui dim">
         <div class="timer" id="timer">
@@ -909,7 +1038,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
         </div>
       </aside>
 
-      <div id="prog" class="ui dim" aria-hidden="true"><p class="cap">مسار الأسئلة</p><div class="grid" id="progGrid"></div></div>
+      <div id="prog" class="ui dim" aria-hidden="true"><p class="cap">السؤال رقم</p><div class="grid" id="progGrid"></div></div>
 
       <div id="fuse"><i id="fuseBar"></i><b id="fuseSpark"></b></div>
       <div id="decide"></div>
@@ -917,9 +1046,9 @@ input[type=range]{width:100%;accent-color:var(--green)}
       <svg id="cracks" viewBox="0 0 1920 1080" preserveAspectRatio="none"></svg>
       <canvas id="fx" width="1920" height="1080"></canvas>
       <div id="callout" aria-live="assertive"></div>
+      <div id="rules" aria-live="polite"></div>
       <div id="crown"></div>
      </div>
-      <div id="soundhint">اضغط في أي مكان لتفعيل الأصوات</div>
     </div>
   </div>
 </section>
@@ -964,6 +1093,9 @@ const TEAM_COLORS = {
 const DEF_COLORS = ['blue', 'purple'];
 /* «يا فريق النسور» — وإذا الاسم أصلًا يبدأ بـ«فريق» ما نكررها */
 const teamCall = n => /^(ال)?فريق/.test(n) ? n : 'فريق ' + n;
+const toAr = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+/* إجابات كل سؤال كما هي في الشيت: لو 7 تصير 7 طبقات، لو 8 تصير 8 */
+const normQ = x => ({ q: x.q, a: (x.a || []).map(v => String(v || '').trim()).filter(Boolean).slice(0, 10) });
 
 /* لون كل طبقة: الأسهل (1-5) من أخضر الشعار يتعمّق، والأصعب (6-10) من ذهب النجمة يتوهّج */
 const RANK = [null,
@@ -1379,6 +1511,8 @@ const Sfx = (() => {
       o.connect(v); v.connect(master); o.start(t0); lfo.start(t0); o.stop(t0 + d + .05); lfo.stop(t0 + d + .05);
     },
     rewind() { [0, .12, .24].forEach(t => noise({ t, d: .14, g: .22, f: 5000, to: 400, type: 'bandpass', q: 1.5 })); },
+    /* ظرف الأكشن: هدير نار وطقطقة */
+    fireRoar() { noise({ d: 1.8, g: .5, f: 160, to: 1500, type: 'lowpass', q: .7, a: .45 }); noise({ d: 1.3, g: .28, f: 600, to: 3200, type: 'bandpass', q: .6, a: .3 }); tone({ f: 72, to: 36, d: 1, g: .5, a: .01 }); if (ok()) for (let i = 0; i < 80; i++) noise({ t: rand(.1, 2.8), d: rand(.004, .02), g: rand(.08, .32), f: rand(1500, 6500), type: 'bandpass', q: rand(1, 4), a: .001 }); },
     /* «بوف» دخان الخدعة */
     poof() { noise({ d: .5, g: .55, f: 900, to: 110, type: 'lowpass', a: .004 }); noise({ d: .26, g: .25, f: 2600, to: 500, type: 'bandpass', q: .8, a: .002 }); tone({ f: 340, to: 80, d: .24, g: .32, a: .002 }); },
     /* التتويج */
@@ -1547,7 +1681,8 @@ function initScreen() {
     fitText(L);
   }
   function clearTiles() { for (let r = 1; r <= 10; r++) setTile(r, '', false); }
-  const hidden = () => layers.filter(L => L && !L.classList.contains('on'));
+  const vis = () => layers.filter(L => L && !L.classList.contains('off'));
+  const hidden = () => vis().filter(L => !L.classList.contains('on'));
   function renderLeft() {
     const n = hidden().length;
     $('#leftN').textContent = n;
@@ -1567,7 +1702,7 @@ function initScreen() {
       ds.forEach((d, i) => {
         const st = d.firstChild;
         if (instant) st.style.transition = 'none';
-        st.style.transform = `translateY(${-s[i]}em)`;
+        st.style.transform = `translateY(${-s[i] * 1.24}em)`;
         if (instant) { void st.offsetWidth; st.style.transition = ''; }
       });
     }
@@ -1598,11 +1733,18 @@ function initScreen() {
     for (let i = 0; i < n; i++) g.insertAdjacentHTML('beforeend', `<div class="pg${i === cur ? ' cur' : done.has(i) ? ' done' : played.has(i) ? ' played' : ''}"><svg viewBox="0 0 100 100"><use href="#octa"/></svg><b>${i + 1}</b></div>`);
   }
   /* النتيجة تظهر في بداية كل سؤال فقط، وتختفي من أول حكم */
-  function setMask(on) { S.masked = !!on; [0, 1].forEach(i => $('#team' + i).classList.toggle('masked', S.masked)); }
+  function setMask(on) { S.masked = !!on; [0, 1].forEach(i => $('#team' + i).classList.toggle('masked', S.masked)); setLead(); }
+  /* لما تظهر النتيجة: بطاقة الفريق المتقدم تمتلئ بلونه */
+  function setLead() {
+    const a = S.scores, show = !S.masked && a[0] != null && a[1] != null && a[0] !== a[1];
+    [0, 1].forEach(i => $('#team' + i).classList.toggle('lead', show && a[i] > a[1 - i]));
+  }
   async function scoreTo(i, to, ms) {
     if (S.masked) {
-      $('#tmMask' + i).animate([{ transform: 'scale(1)' }, { transform: 'scale(1.25) rotate(-6deg)' }, { transform: 'scale(1)' }], { duration: 560, easing: 'cubic-bezier(.2,1.6,.4,1)' });
-      Sfx.pop(); await sleep(420); return;
+      const m = $('#tmMask' + i), c = centerOf(m);
+      m.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.3) rotate(-8deg)', offset: .35 }, { transform: 'scale(.92) rotate(4deg)', offset: .7 }, { transform: 'scale(1)' }], { duration: 640, easing: 'cubic-bezier(.2,1.6,.4,1)' });
+      ringFx(c.x, c.y, S.pal[i].c, 170, 700);
+      Sfx.lock(); Sfx.sparkle(6, .4); await sleep(460); return;
     }
     return countScore(i, to, ms);
   }
@@ -1630,6 +1772,7 @@ function initScreen() {
     });
     renderStreaks(v);
     renderLeft();
+    setLead();
   }
   function applyStatic(v) {
     Sfx.muted = !v.sound;
@@ -1652,6 +1795,9 @@ function initScreen() {
     qt.className = n > 120 ? 'xl' : n > 90 ? 'l' : n > 60 ? 'm' : '';
     qt.innerHTML = wordsHTML(q.text);
     clearTiles();
+    const cnt = Math.max(1, Math.min(10, q.count || 10));
+    layers.forEach((L, r) => L && L.classList.toggle('off', r > cnt));
+    stackEl.classList.toggle('few', cnt < 10);
     revealed.forEach(x => setTile(x.rank, x.text, true, x.team));
     renderLeft();
     if (instant) return;
@@ -1664,6 +1810,7 @@ function initScreen() {
   /* الطبقات تتكدّس من الأسفل للأعلى */
   function stackLayers(delay) {
     for (let r = 10; r >= 1; r--) {
+      if (layers[r].classList.contains('off')) continue;
       const k = 10 - r, d = delay + k * 75;
       layers[r].animate([
         { transform: 'translateY(-260px) scale(.96)', opacity: 0 },
@@ -1676,6 +1823,7 @@ function initScreen() {
     S.qi = -1; S.qtext = null;
     $('#qcount span').textContent = 'جاهزون؟';
     $('#qtext').className = ''; $('#qtext').textContent = 'السؤال الأول على وشك الظهور';
+    layers.forEach(L => L && L.classList.remove('off')); stackEl.classList.remove('few');
     clearTiles(); renderLeft();
   }
   function setPhase(p, instant) {
@@ -1689,6 +1837,8 @@ function initScreen() {
     S.scores = [null, null]; S.strikes = [-1, -1];
     settle(v);
     if (v.phase === 'end') showCrown(v, true); else hideCrown();
+    if (v.rules && v.phase === 'live') showRules(v, true); else { S.rules = false; rulesEl.classList.remove('show'); rulesEl.innerHTML = ''; }
+    if (v.action && v.phase === 'live') enterAction(true); else exitAction(true);
   }
 
   /* ---------- أدوات المؤثرات ---------- */
@@ -1787,6 +1937,7 @@ function initScreen() {
     }
     await sleep(520);
     card.classList.remove('win', 'hurt');
+    setLead();
   }
   async function floatChip(from, i, txt, neg) {
     const p = el('div', 'plus' + (neg ? ' neg' : ''), txt);
@@ -1839,7 +1990,7 @@ function initScreen() {
     stage.classList.add('suspense');
     tm.classList.add('press');
     Sfx.lock();
-    const dq = el('div', 'dq', `<span class="oc"><svg viewBox="0 0 100 100"><use href="#octa"/></svg><b>؟</b></span><span class="lb">والحكم…<small>${esc($('#tmName' + team).textContent)}</small></span>`);
+    const dq = el('div', 'dq', `<span class="oc"><svg viewBox="0 0 100 100"><use href="#octa"/></svg><b>؟</b></span><span class="lb">الإجااااااابة…<small>${esc(teamCall($('#tmName' + team).textContent.trim()))}</small></span>`);
     $('#decide').appendChild(dq);
     dq.animate([{ opacity: 0, transform: 'scale(.5) rotate(-6deg)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 480, easing: 'cubic-bezier(.2,1.5,.4,1)', fill: 'forwards' });
     const pulse = dq.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 640, iterations: Infinity, delay: 480, composite: 'add' });
@@ -1848,7 +1999,7 @@ function initScreen() {
     bar.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: ms, easing: 'linear', fill: 'forwards' });
     spark.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-840px)' }], { duration: ms, easing: 'linear', fill: 'forwards' });
     /* الماسح يمرّ على الطبقات المخفية ذهابًا وإيابًا ويتسارع */
-    const pool = hidden().length ? hidden() : layers.filter(Boolean);
+    const pool = hidden().length ? hidden() : vis();
     const order = pool.concat(pool.slice(1, -1).reverse());
     let idx = randInt(0, order.length - 1), prev = null;
     const t0 = performance.now();
@@ -1902,7 +2053,7 @@ function initScreen() {
     await sleep(520);
   }
   async function fakeOut(kind) {
-    const pool = hidden().length ? hidden() : layers.filter(Boolean);
+    const pool = hidden().length ? hidden() : vis();
     if (kind === 'red') {
       pool.forEach(L => L.classList.add('redd'));
       Sfx.buzzer(1); shake(10, 520);
@@ -1989,7 +2140,7 @@ function initScreen() {
     setMask(v.hideScore);
     await suspense(ev.suspense || 'high', team);
     if (ev.fake) await fakeOut('green');
-    const pool = hidden().length ? hidden() : layers.filter(Boolean);
+    const pool = hidden().length ? hidden() : vis();
     pool.forEach(L => L.classList.add('redd'));
     Sfx.buzzer(level);
     const dur = [0, 1500, 2000, 2700][level];
@@ -2054,7 +2205,90 @@ function initScreen() {
     await callout('<div class="big" style="font-size:140px">انتهى الوقت!</div>', 'bad', 1500);
   }
 
-  async function doStart() {
+  async function launch() {
+    Sfx.impact(1); Sfx.sparkle(22, 1.2); Sfx.applause(2.6, 1);
+    flash(800, .6);
+    Fx.burst(960, 560, { n: 90, speed: 20, life: 70, w: 200 });
+    ringFx(960, 560, '#F4B93B', 300);
+    Fx.rain(110);
+    await callout('<div class="big">انطلقنا!</div>', 'gold', 1400);
+  }
+  /* ---------- شرح اللعبة ---------- */
+  const rulesEl = $('#rules');
+  function rulesHTML(v) {
+    const sec = toAr((v && v.timer && v.timer.total) || 30);
+    const R = ['الحكم يسأل: «اذكروا 10 كذا كذا…»<small>(مثال: 10 فواكه، 10 لاعبين، 10 دول)</small>',
+      'الإجابة رقم ١٠ = بعشرة نقاط، والإجابة رقم ١ = بنقطة',
+      'ممنوع تكرار إجابة قد قيلت',
+      `لكل فريق ${sec} ثانية للإجابة`,
+      'أكثر فريق يجمع نقاط هو الفائز'];
+    return `<div class="ru-card"><div class="ru-head">${logoMark()}<div><h2>شرح لعبة توب 10 مع محمد</h2><p class="ru-sub">كيف نلعب؟</p></div></div><ol class="ru-list">${R.map((t, i) => `<li><span class="ru-n"><svg viewBox="0 0 100 100"><use href="#octa"/></svg><b>${i + 1}</b></span><span class="ru-t">${t}</span></li>`).join('')}</ol></div>`;
+  }
+  async function showRules(v, instant) {
+    rulesEl.innerHTML = rulesHTML(v);
+    rulesEl.classList.add('show'); S.rules = true;
+    if (instant) return;
+    Sfx.whoosh(1);
+    rulesEl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 450 });
+    $('.ru-card', rulesEl).animate([{ transform: 'translateY(-120px) scale(.86)', opacity: 0 }, { transform: 'translateY(10px) scale(1.01)', opacity: 1, offset: .7 }, { transform: 'none', opacity: 1 }], { duration: 750, easing: 'cubic-bezier(.2,1.2,.3,1)', fill: 'backwards' });
+    $$('.ru-list li', rulesEl).forEach((li, i) => {
+      li.animate([{ transform: 'translateX(140px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 520, delay: 450 + i * 160, easing: 'cubic-bezier(.2,1.3,.3,1)', fill: 'backwards' });
+      setTimeout(() => Sfx.clack(.7), 520 + i * 160);
+    });
+    await sleep(450 + 5 * 160 + 400);
+  }
+  async function hideRules(go) {
+    if (!S.rules) return;
+    S.rules = false;
+    Sfx.whoosh(.8, true);
+    const card = $('.ru-card', rulesEl);
+    if (card) card.animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(-160px) scale(.9)', opacity: 0 }], { duration: 450, easing: 'cubic-bezier(.5,0,.6,1)', fill: 'forwards' });
+    await rulesEl.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 480, fill: 'forwards' }).finished;
+    rulesEl.classList.remove('show'); rulesEl.innerHTML = '';
+    rulesEl.getAnimations().forEach(a => a.cancel());
+    if (go) await launch();
+  }
+  /* ---------- ظرف الأكشن ---------- */
+  const actEl = $('#act'), fireEl = $('#fire');
+  fireEl.innerHTML = '<div class="fglow"></div><div class="fl">' + Array.from({ length: 26 }, (_, i) => { const w = rand(100, 200), h = w * rand(1.7, 2.5); return `<i style="--x:${(i / 25 * 1920 - w / 2 + rand(-30, 30)).toFixed(0)}px;--w:${w.toFixed(0)}px;--h:${h.toFixed(0)}px;--d:${rand(.3, .65).toFixed(2)}s;animation-delay:-${rand(0, .6).toFixed(2)}s"></i>`; }).join('') + '</div>';
+  let emberT = 0;
+  const EMB = ['#FFD24A', '#FF8A1F', '#FF6A1A', '#FFF3B0', '#E5484D'];
+  function embers(n) { for (let k = 0; k < n; k++) Fx.burst(rand(60, 1860), 1090, { n: 6, dir: -Math.PI / 2, spread: .35, speed: rand(9, 17), gravity: -.03, life: 90, colors: EMB, shape: 'c', size: .6 }); }
+  async function enterAction(instant) {
+    if (S.action && !instant) return;
+    S.action = true;
+    clearInterval(emberT); emberT = setInterval(() => S.action && embers(2), 650);
+    const logo = $('.act-logo .logo', actEl);
+    if (instant) { stage.classList.add('act-on'); fireEl.className = 'calm'; return; }
+    Sfx.fireRoar(); shake(18, 1000); flash(500, .55);
+    vignette('fire', 3, 520);
+    fireEl.className = 'roar';
+    embers(14);
+    vis().forEach((L, k) => L.animate([{ transform: 'none', opacity: 1 }, { transform: `translateY(${rand(-90, -30)}px) rotate(${rand(-10, 10)}deg) scale(.9)`, opacity: 0 }], { duration: 420, delay: k * 35, fill: 'forwards' }));
+    await sleep(620);
+    stage.classList.add('act-on');
+    layers.forEach(L => L && L.getAnimations().forEach(a => a.cancel()));
+    if (logo) { logo.classList.remove('build'); void logo.getBoundingClientRect(); logo.classList.add('build'); }
+    $('.act-tag', actEl).animate([{ transform: 'translateY(-60px) scale(.5)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 600, delay: 300, easing: 'cubic-bezier(.2,1.6,.4,1)', fill: 'backwards' });
+    $$('.act-cards i', actEl).forEach((c, k) => { const end = getComputedStyle(c).transform; c.animate([{ transform: 'translate(0,420px) rotate(0) scale(.3)', opacity: 0 }, { transform: end, opacity: 1 }], { duration: 700, delay: 200 + k * 140, easing: 'cubic-bezier(.2,1.3,.3,1)', fill: 'backwards' }); });
+    [0, 1, 2].forEach(k => setTimeout(() => Sfx.whoosh(.4), 200 + k * 140));
+    await callout('<div class="big">ظرف الأكشن</div><div class="sub">وضع البطاقات</div>', 'fire', 1900);
+    fireEl.className = 'calm';
+  }
+  async function exitAction(instant) {
+    if (!S.action) return;
+    S.action = false; clearInterval(emberT);
+    if (instant) { stage.classList.remove('act-on'); fireEl.className = ''; return; }
+    Sfx.whoosh(1, true);
+    fireEl.className = '';
+    await actEl.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.86)' }], { duration: 420, fill: 'forwards' }).finished;
+    stage.classList.remove('act-on');
+    actEl.getAnimations().forEach(a => a.cancel());
+    stackLayers(0);
+    await sleep(1000);
+  }
+
+  async function doStart(v) {
     setPhase('live');
     Sfx.whoosh(1.1);
     const ent = (n, from, d) => n.animate([{ transform: from, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 900, delay: d, easing: 'cubic-bezier(.2,1.25,.3,1)', fill: 'backwards' });
@@ -2064,17 +2298,13 @@ function initScreen() {
     ent($('#side'), 'translateY(120px)', 1050);
     ent($('#prog'), 'translateY(120px)', 1150);
     stackLayers(1000);
-    await sleep(1150);
-    Sfx.impact(1); Sfx.sparkle(22, 1.2); Sfx.applause(2.6, 1);
-    flash(800, .6);
-    Fx.burst(960, 560, { n: 90, speed: 20, life: 70, w: 200 });
-    ringFx(960, 560, '#F4B93B', 300);
-    Fx.rain(110);
-    await callout('<div class="big">انطلقنا!</div>', 'gold', 1400);
+    await sleep(1600);
+    if (v && v.rules) await showRules(v); else await launch();
   }
 
   function doReset() {
-    hideCrown(); setMask(false);
+    hideCrown(); setMask(false); exitAction(true);
+    S.rules = false; rulesEl.classList.remove('show'); rulesEl.innerHTML = '';
     setPhase('intro');
     [0, 1].forEach(i => { S.scores[i] = 0; odos[i].set(0); renderStrikes(i, 0); });
     clearQuestion();
@@ -2097,6 +2327,8 @@ function initScreen() {
   }
 
   async function doQuestion(v) {
+    if (S.rules) await hideRules(false);
+    if (S.action) await exitAction(true);
     Sfx.whoosh(.7);
     [0, 1].forEach(i => {
       const on = $$('#stk' + i + ' i.on');
@@ -2137,7 +2369,7 @@ function initScreen() {
   function hideCrown() { clearInterval(fwT); fwT = 0; crown.classList.remove('show'); crown.innerHTML = ''; stage.classList.remove('ended'); }
   function resultOf(v) { const s = v.teams.map(t => t.score); return s[0] === s[1] ? { tie: true } : { tie: false, w: s[0] > s[1] ? 0 : 1, l: s[0] > s[1] ? 1 : 0 }; }
   const raysSVG = col => `<svg viewBox="0 0 1000 1000"><g fill="${col}">${Array.from({ length: 28 }, (_, i) => { const a = i * Math.PI / 14, w = .045, p = (g, r) => (500 + Math.cos(g) * r).toFixed(1) + ',' + (500 + Math.sin(g) * r).toFixed(1); return `<polygon points="${p(a - w, 520)} 500,500 ${p(a + w, 520)}" opacity="${i % 2 ? .55 : 1}"/>`; }).join('')}</g></svg>`;
-  const crownSVG = () => '<svg class="crs" viewBox="-8 -4 256 174"><use href="#crownS"/></svg>';
+  const crownSVG = () => '<svg class="trophy" viewBox="0 0 300 400"><use href="#trophyS"/></svg>';
   const vars = p => `--tc:${p.c};--tl:${p.l};--tdd:${p.dd};--tt:${p.t}`;
   function namesHTML(t) { return (t.players || []).filter(Boolean).map(p => `<span class="cr-pl"><svg viewBox="0 0 100 100"><use href="#octa"/></svg><b>${esc(p)}</b></span>`).join(''); }
   function crownHTML(v, R) {
@@ -2145,16 +2377,19 @@ function initScreen() {
     const score = t => `<div class="cr-score"><b>${t.score}</b><span>${ptWord(t.score)}</span></div>`;
     const kick = t => `<p class="cr-kick"><svg viewBox="0 0 100 100"><use href="#octa"/></svg>${t}<svg viewBox="0 0 100 100"><use href="#octa"/></svg></p>`;
     if (R.tie) return `<div class="cr-bg tie" style="--a:${P[0].c};--b:${P[1].c}"><div class="cr-rays">${raysSVG('rgba(255,217,120,.22)')}</div></div>
-      <div class="cr-in">${kick('تعادل!')}
+      <div class="cr-in duo">${kick('تعادل!')}
         <div class="cr-tie">${[0, 1].map(i => `<div class="cr-col" style="${vars(P[i])}">${crownSVG()}<h2 class="cr-name">${esc(T[i].name)}</h2>${score(T[i])}<div class="cr-names">${namesHTML(T[i])}</div></div>`).join('')}</div>
         <p class="cr-go">ونتوجه على التمرين</p><p class="cr-tease">والحسم هناك يا أبطال</p></div>`;
     const W = T[R.w], L = T[R.l], pw = P[R.w];
-    return `<div class="cr-bg" style="${vars(pw)}"><div class="cr-rays">${raysSVG('rgba(255,217,120,.2)')}</div></div>
-      <div class="cr-in" style="${vars(pw)}">${kick('الفريق المتوّج')}
-        <div class="cr-team">${crownSVG()}<h2 class="cr-name">${esc(W.name)}</h2>${score(W)}</div>
-        <div class="cr-names">${namesHTML(W)}</div>
-        <p class="cr-go">ونتوجه على التمرين</p>
-        <p class="cr-tease">أخاف تنهزمو هنا كمان يا ${esc(teamCall(L.name))}</p></div>
+    return `<div class="cr-bg" style="${vars(pw)}"><div class="cr-rays solo">${raysSVG('rgba(255,217,120,.2)')}</div></div>
+      <div class="cr-in solo" style="${vars(pw)}">
+        <div class="cr-hero">${crownSVG()}<i class="gl g1"></i><i class="gl g2"></i><i class="gl g3"></i></div>
+        <div class="cr-main">${kick('الفريق المتوّج')}
+          <h2 class="cr-name">${esc(W.name)}</h2>${score(W)}
+          <div class="cr-names">${namesHTML(W)}</div>
+          <p class="cr-go">ونتوجه على التمرين</p>
+          <p class="cr-tease">أخاف تنهزموا هناك كمان يا ${esc(teamCall(L.name))}</p>
+        </div></div>
       <div class="cr-lose"><b>${esc(L.name)}</b><span>${L.score}</span></div>`;
   }
   function fireworks(v, R, secs) {
@@ -2196,7 +2431,7 @@ function initScreen() {
     await sleep(1200);
     const target = T.map(t => t.score), mx = Math.max(1, ...target.map(Math.abs));
     const dur = Math.min(4600, 1800 + mx * 22);
-    Sfx.drumroll(dur / 1000 + .5);
+    Sfx.fuse(dur / 1000 + .3); Sfx.riser(dur / 1000 + .3);
     const stopped = [false, false];
     await new Promise(res => {
       const t0 = performance.now(); let lastClick = 0;
@@ -2228,13 +2463,14 @@ function initScreen() {
     /* ٣) التتويج */
     crown.innerHTML = crownHTML(v, R);
     const bg = $('.cr-bg', crown), rays = $('.cr-rays', crown), kick = $('.cr-kick', crown);
-    const crs = $$('.crs', crown), names = $$('.cr-name', crown), scores = $$('.cr-score', crown);
+    const crs = $$('.trophy', crown), names = $$('.cr-name', crown), scores = $$('.cr-score', crown);
     const pls = $$('.cr-pl', crown), go = $('.cr-go', crown), tease = $('.cr-tease', crown), lose = $('.cr-lose', crown);
     const hideUntil = (n, d) => n && n.animate([{ opacity: 0 }, { opacity: 0 }], { duration: d, fill: 'backwards' });
     bg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, fill: 'backwards' });
     rays.animate([{ transform: 'scale(.2)', opacity: 0 }, { transform: 'none', opacity: .55 }], { duration: 1600, easing: 'cubic-bezier(.2,.9,.3,1)', fill: 'backwards' });
     names.forEach((n, i) => n.animate([{ transform: 'scale(2.6)', opacity: 0, filter: 'blur(18px)' }, { transform: 'scale(.94)', opacity: 1, filter: 'blur(0)', offset: .7 }, { transform: 'none', opacity: 1 }], { duration: 900, delay: 250 + i * 150, easing: 'cubic-bezier(.3,1,.4,1)', fill: 'backwards' }));
-    crs.forEach((c, i) => c.animate([{ transform: 'translateY(-760px) rotate(-35deg)', opacity: 0 }, { transform: 'translateY(26px) rotate(5deg)', opacity: 1, offset: .72 }, { transform: 'translateY(-8px) rotate(-2deg)', offset: .86 }, { transform: 'none', opacity: 1 }], { duration: 1150, delay: 1000 + i * 180, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'backwards' }));
+    crs.forEach((c, i) => c.animate([{ transform: 'translateY(-900px) rotate(-18deg) scale(.7)', opacity: 0 }, { transform: 'translateY(30px) rotate(3deg) scale(1.04)', opacity: 1, offset: .72 }, { transform: 'translateY(-10px) rotate(-1deg)', offset: .86 }, { transform: 'none', opacity: 1 }], { duration: 1150, delay: 700 + i * 180, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'backwards' }));
+    $$('.gl', crown).forEach(g => g.animate([{ opacity: 0 }, { opacity: 0 }], { duration: 1900, fill: 'backwards' }));
     if (kick) kick.animate([{ transform: 'translateY(-90px) scale(.6)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 700, delay: 1700, easing: 'cubic-bezier(.2,1.5,.4,1)', fill: 'backwards' });
     scores.forEach((n, i) => n.animate([{ transform: 'scale(.4)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 600, delay: 1900 + i * 120, easing: 'cubic-bezier(.2,1.6,.4,1)', fill: 'backwards' }));
     hideUntil(lose, 2600); if (lose) lose.animate([{ transform: 'translateX(-200px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 700, delay: 2600, fill: 'backwards' });
@@ -2245,8 +2481,8 @@ function initScreen() {
     tease.animate([{ opacity: 0, transform: 'scale(.8)' }, { opacity: 1, transform: 'none' }], { duration: 600, delay: tGo + 1100, easing: 'cubic-bezier(.2,1.6,.4,1)', fill: 'backwards' });
     /* الأصوات والجسيمات على نفس التوقيت */
     Sfx.whoosh(1.3, true);
-    setTimeout(() => { Sfx.fanfare(); Sfx.applause(5, 1.25); Fx.burst(960, 300, { n: 160, speed: 24, life: 80, w: 260, colors: R.tie ? [P[0].c, P[1].c, '#F4B93B', '#FFD978'] : [P[R.w].c, P[R.w].l, '#F4B93B', '#FFD978', '#fff'] }); }, 300);
-    setTimeout(() => { Sfx.impact(1.1); Sfx.kaching(); Sfx.sparkle(30, 1.4); shake(10, 500); crs.forEach(c => { const q = centerOf(c); ringFx(q.x, q.y, '#F4B93B', 320, 1000); }); Fx.rain(200, R.tie ? [P[0].c, P[1].c, '#F4B93B', '#FFD978'] : [P[R.w].c, P[R.w].l, '#F4B93B', '#FFD978', '#fff']); }, 1840);
+    setTimeout(() => { Sfx.whoosh(1.2); Sfx.applause(5, 1.25); Fx.burst(960, 300, { n: 160, speed: 24, life: 80, w: 260, colors: R.tie ? [P[0].c, P[1].c, '#F4B93B', '#FFD978'] : [P[R.w].c, P[R.w].l, '#F4B93B', '#FFD978', '#fff'] }); }, 300);
+    setTimeout(() => { Sfx.impact(1.2); Sfx.kaching(); Sfx.sparkle(30, 1.4); shake(10, 500); crs.forEach(c => { const q = centerOf(c); ringFx(q.x, q.y, '#F4B93B', 320, 1000); }); Fx.rain(200, R.tie ? [P[0].c, P[1].c, '#F4B93B', '#FFD978'] : [P[R.w].c, P[R.w].l, '#F4B93B', '#FFD978', '#fff']); }, 1560);
     pls.forEach((p, i) => setTimeout(() => { Sfx.pop(); Sfx.sparkle(4, .3); }, tNames + i * step + 200));
     setTimeout(() => { Sfx.whoosh(.9); Sfx.applause(2.4, .9); }, tGo);
     setTimeout(() => Sfx.boing(), tGo + 1150);
@@ -2258,7 +2494,9 @@ function initScreen() {
   /* ---------- استقبال الرسائل ---------- */
   async function handle(ev, v) {
     switch (ev.kind) {
-      case 'start': return doStart();
+      case 'start': return doStart(v);
+      case 'rules': return ev.on ? showRules(v) : hideRules(!v.q);
+      case 'action': return ev.on ? enterAction() : exitAction();
       case 'reset': return doReset();
       case 'question': return doQuestion(v);
       case 'correct': return doCorrect(ev, v);
@@ -2323,8 +2561,9 @@ function initScreen() {
   })();
 
   /* ---------- الصوت وملء الشاشة ---------- */
-  const hint = $('#soundhint');
-  function unlock() { if (Sfx.unlock()) { setTimeout(() => { if (Sfx.ready) { hint.classList.add('gone'); Sfx.pop(); } }, 120); } }
+  /* الصوت مفعّل من البداية (وأي لمسة على الشاشة تضمن تشغيله بصمت بدون أي رسالة) */
+  const unlock = () => Sfx.unlock();
+  unlock();
   addEventListener('pointerdown', unlock);
   addEventListener('keydown', e => {
     unlock();
@@ -2358,7 +2597,9 @@ function initHost() {
     done: saved.done || {},
     shown: saved.shown || {},
     hideScore: !!saved.hideScore,
-    lastFake: false
+    lastFake: false,
+    rules: !!saved.rules,
+    action: !!saved.action
   };
   /* كل فريق: لون + 7 خانات للاعبين على الأقل */
   H.teams.forEach((t, i) => {
@@ -2369,12 +2610,13 @@ function initHost() {
   let room = normRoom(lsGet(LSK.room, '')) || genRoom(); lsSet(LSK.room, room);
   let Q = DEMO, lastAlive = 0, sheetId = (lsGet(LSK.sheet, null) && lsGet(LSK.sheet, null) !== '1Cul2iqTAfG7AvQlNu4X14XijS319kUq0') ? lsGet(LSK.sheet, null) : SHEET_ID_DEFAULT;
 
-  const save = () => lsSet(LSK.host, { phase: H.phase, qi: H.qi, taken: H.taken, takenBy: H.takenBy, strikes: H.strikes, played: H.played, turn: H.turn, teams: H.teams, timer: { total: H.timer.total, remaining: H.timer.running ? remaining() : H.timer.remaining }, opts: H.opts, history: H.history.slice(-40), sig: H.sig, done: H.done, shown: H.shown, hideScore: H.hideScore });
+  const save = () => lsSet(LSK.host, { phase: H.phase, qi: H.qi, taken: H.taken, takenBy: H.takenBy, strikes: H.strikes, played: H.played, turn: H.turn, teams: H.teams, timer: { total: H.timer.total, remaining: H.timer.running ? remaining() : H.timer.remaining }, opts: H.opts, history: H.history.slice(-40), sig: H.sig, done: H.done, shown: H.shown, hideScore: H.hideScore, rules: H.rules, action: H.action });
   const remaining = () => H.timer.running ? Math.max(0, (H.timer.endsAt - Date.now()) / 1000) : H.timer.remaining;
   const takenOf = i => H.taken[i] || [];
   const strikesOf = i => (H.strikes[i] || (H.strikes[i] = [0, 0]));
   const curQ = () => (H.qi >= 0 && Q[H.qi]) ? Q[H.qi] : null;
-  const tName = i => H.teams[i].name;
+  /* الاسم يظهر دائمًا وقبله «فريق» */
+  const tName = i => teamCall(H.teams[i].name);
   const pal = i => TEAM_COLORS[H.teams[i].color] || TEAM_COLORS[DEF_COLORS[i]];
   const shownOf = i => H.shown[i] || [];
   /* السؤال انتهى إذا كل إجاباته انكشفت (بالجواب أو بزر الإظهار) */
@@ -2400,7 +2642,9 @@ function initHost() {
     const q = curQ();
     return {
       phase: H.phase,
-      q: q ? { i: H.qi, n: Q.length, text: q.q } : null,
+      q: q ? { i: H.qi, n: Q.length, text: q.q, count: q.a.length } : null,
+      rules: H.rules,
+      action: H.action,
       revealed: q ? takenOf(H.qi).map(r => ({ rank: r, text: q.a[r - 1], team: (H.takenBy[H.qi] || {})[r] })).concat(shownOf(H.qi).map(r => ({ rank: r, text: q.a[r - 1], team: null }))) : [],
       strikes: q ? strikesOf(H.qi).slice() : [0, 0],
       n: Q.length,
@@ -2408,7 +2652,7 @@ function initHost() {
       done: Q.map((_, i) => i).filter(isDone),
       hideScore: H.hideScore,
       streaks: [streakInfo(0), streakInfo(1)],
-      teams: H.teams.map((t, i) => ({ name: t.name, score: t.score, color: pal(i), players: t.players.map(p => p.trim()).filter(Boolean) })),
+      teams: H.teams.map((t, i) => ({ name: tName(i), score: t.score, color: pal(i), players: t.players.map(p => p.trim()).filter(Boolean) })),
       turn: H.turn,
       timer: { total: H.timer.total, remaining: H.timer.remaining, running: H.timer.running, endsAt: H.timer.endsAt },
       sound: H.opts.sound,
@@ -2432,6 +2676,10 @@ function initHost() {
     $('#btnStart').disabled = live() || ended;
     $('#liveNote').hidden = !live();
     $('#btnEnd').hidden = !live();
+    const rb = $('#btnRules'); rb.hidden = !live(); rb.classList.toggle('on', H.rules);
+    rb.textContent = H.rules ? 'إخفاء الشرح وبدء اللعب' : 'اعرض شرح اللعبة';
+    const ab = $('#btnAction'); ab.classList.toggle('on', H.action); ab.disabled = !live();
+    $('span', ab).textContent = H.action ? 'إنهاء ظرف الأكشن' : 'ظرف الأكشن';
     $('#btnResume').hidden = !ended;
     ['#cardTimer', '#cardPick', '#cardAns', '#cardAdj'].forEach(s => { $(s).style.opacity = live() ? '' : '.5'; $(s).style.pointerEvents = live() ? '' : 'none'; });
   }
@@ -2491,24 +2739,25 @@ function initHost() {
     }
     $('#aQ').textContent = q.q;
     const taken = takenOf(H.qi), by = H.takenBy[H.qi] || {}, shown = shownOf(H.qi);
-    for (let r = 1; r <= 10; r++) {
+    const N = q.a.length;
+    for (let r = 1; r <= N; r++) {
       const st = rankStyle(r), text = q.a[r - 1], isT = taken.includes(r), isS = shown.includes(r);
-      const b = el('button', 'acard' + (isT ? ' taken' : '') + (isS ? ' shown' : '') + (H.sel === r ? ' sel' : '') + (text ? '' : ' empty'));
+      const b = el('button', 'acard' + (isT ? ' taken' : '') + (isS ? ' shown' : '') + (H.sel === r ? ' sel' : ''));
       b.type = 'button';
       b.style.setProperty('--c', st.c);
       if (isT && by[r] != null) { const p = pal(by[r]); b.style.setProperty('--tcc', p.c); b.style.setProperty('--tct', p.t); b.style.setProperty('--tcl', p.l); b.style.setProperty('--tcdd', p.dd); }
       b.innerHTML = '<span class="rk">' + r + '</span><span class="tx"></span>' + ((isT && by[r] != null) || isS ? '<span class="by"></span>' : '<span class="pt">' + ptLabel(r) + '</span>');
-      $('.tx', b).textContent = text || '(فاضية في الشيت)';
+      $('.tx', b).textContent = text;
       if (isT && by[r] != null) $('.by', b).textContent = '✓ ' + tName(by[r]);
       else if (isS) $('.by', b).textContent = 'انكشفت';
       b.disabled = isT || isS || !text;
       b.onclick = () => { H.sel = (H.sel === r ? null : r); renderAnswers(); renderVerdict(); };
       grid.appendChild(b);
     }
-    const left = 10 - taken.length - shown.length;
+    const left = N - taken.length - shown.length;
     $('#aLeft').hidden = false;
     $('#aLeft').dataset.on = left ? '1' : '2';
-    $('#aLeft').innerHTML = '<i class="dot"></i><span>' + (left ? 'المتبقي ' + left + ' من 10' : 'انكشفت كل الإجابات') + '</span>';
+    $('#aLeft').innerHTML = '<i class="dot"></i><span>' + (left ? 'المتبقي ' + left + ' من ' + N : 'انكشفت كل الإجابات') + '</span>';
   }
 
   function renderVerdict() {
@@ -2518,9 +2767,9 @@ function initHost() {
     else if (H.sel) info.innerHTML = '<span class="tp">الدور: ' + team + '</span> الإجابة المختارة <b>' + H.sel + '</b> (' + ptLabel(H.sel) + ')، احكم عليها';
     else info.innerHTML = '<span class="tp">الدور: ' + team + '</span> اختر إجابتهم من القائمة، أو اضغط «جواب خاطئ» إن لم تكن فيها';
     const over = !!q && complete(H.qi);
-    $('#btnOk').disabled = !(q && H.sel) || over;
-    $('#btnNo').disabled = !q || over;
-    $('#btnReveal').disabled = !q || over || !live();
+    $('#btnOk').disabled = !(q && H.sel) || over || H.action;
+    $('#btnNo').disabled = !q || over || H.action;
+    $('#btnReveal').disabled = !q || over || !live() || H.action;
     $('#adjVal').textContent = H.opts.adj;
     $('#btnDeduct').textContent = '− ' + H.opts.adj + ' من ' + tName(H.turn);
     $('#btnAdd').textContent = '+ ' + H.opts.adj + ' لـ ' + tName(H.turn);
@@ -2535,7 +2784,15 @@ function initHost() {
   }
 
   /* ---------- الأفعال ---------- */
-  function startGame() { if (live()) return; H.phase = 'live'; renderAll(); push({ kind: 'start' }); }
+  function startGame() { if (live() || H.phase === 'end') return; H.phase = 'live'; H.rules = true; H.action = false; renderAll(); push({ kind: 'start' }); }
+  function toggleRules() { if (!live()) return; H.rules = !H.rules; renderStart(); push({ kind: 'rules', on: H.rules }); }
+  function toggleAction() {
+    if (!live()) return;
+    H.action = !H.action; H.sel = null;
+    if (H.action) freezeTimer();
+    renderAll(); push({ kind: 'action', on: H.action });
+    toast(H.action ? 'ظرف الأكشن شغّال — النقاط محفوظة، وتقدر تعدّلها من «تعديل الدرجات»' : 'رجعت الإجابات العشر مثل ما كانت');
+  }
 
   /* نافذة سؤال صغيرة بأزرار */
   function ask(title, text, btns) {
@@ -2560,7 +2817,7 @@ function initHost() {
       ]);
       return;
     }
-    H.qi = i; H.played[i] = true; H.sel = null; H.hideScore = false;
+    H.qi = i; H.played[i] = true; H.sel = null; H.hideScore = false; H.rules = false; H.action = false;
     strikesOf(i);
     /* المؤقت يرجع كامل مع كل سؤال، ويشتغل لحاله أول ما يظهر السؤال على الشاشة */
     clearTimeout(autoT);
@@ -2590,7 +2847,7 @@ function initHost() {
   function endGame(auto) {
     if (!live()) return;
     freezeTimer();
-    H.phase = 'end'; H.sel = null;
+    H.phase = 'end'; H.sel = null; H.rules = false; H.action = false;
     renderAll();
     push({ kind: 'end', auto: !!auto });
   }
@@ -2750,6 +3007,8 @@ function initHost() {
   armed($('#btnReveal'), 'متأكد؟ اضغط مرة ثانية للإظهار', revealRest);
   armed($('#btnEnd'), 'متأكد؟ اضغط مرة ثانية للتتويج', () => endGame(false));
   $('#btnResume').onclick = resumeGame;
+  $('#btnRules').onclick = toggleRules;
+  $('#btnAction').onclick = toggleAction;
   /* لون الفريق واللاعبين */
   [0, 1].forEach(i => {
     const cbox = $('#tCol' + i);
@@ -2818,7 +3077,7 @@ function initHost() {
   rb.onclick = () => {
     if (!rb.classList.contains('arm')) { rb.classList.add('arm'); rb.textContent = 'اضغط مرة ثانية للتأكيد'; setTimeout(() => { rb.classList.remove('arm'); rb.textContent = 'بدء مسابقة جديدة'; }, 3500); return; }
     rb.classList.remove('arm'); rb.textContent = 'بدء مسابقة جديدة';
-    H.phase = 'intro'; H.qi = -1; H.taken = {}; H.takenBy = {}; H.strikes = {}; H.played = {}; H.sel = null; H.turn = 0; H.history = []; H.done = {}; H.shown = {}; H.hideScore = false;
+    H.phase = 'intro'; H.qi = -1; H.taken = {}; H.takenBy = {}; H.strikes = {}; H.played = {}; H.sel = null; H.turn = 0; H.history = []; H.done = {}; H.shown = {}; H.hideScore = false; H.rules = false; H.action = false;
     H.teams.forEach(t => t.score = 0);
     H.timer = { total: H.timer.total, remaining: H.timer.total, running: false, endsAt: 0 };
     renderAll(); push({ kind: 'reset' }); openDrawer(false);
@@ -2850,6 +3109,7 @@ function initHost() {
 
   /* تحميل الأسئلة */
   function afterLoad() {
+    Q = Q.map(normQ).filter(x => x.a.length);
     const sig = Q.length + '|' + Q.map(x => x.q.slice(0, 8)).join('|');
     if (H.sig && H.sig !== sig) { H.taken = {}; H.takenBy = {}; H.strikes = {}; H.played = {}; H.qi = -1; H.history = []; H.done = {}; H.shown = {}; H.hideScore = false; }
     H.sig = sig;
