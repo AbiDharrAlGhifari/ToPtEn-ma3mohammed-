@@ -995,7 +995,7 @@ input[type=range]{width:100%;accent-color:var(--green)}
       <input type="range" id="optVol" min="10" max="100" step="5" value="90">
     </div>
     <label class="row"><span>فواصل متحركة بين الأسئلة</span><input type="checkbox" id="optTrans" class="switch" checked></label>
-    <label class="row"><span>تشغيل المؤقت تلقائيًا مع بداية كل سؤال</span><input type="checkbox" id="optAutoTimer" class="switch" checked></label>
+    <label class="row"><span>تشغيل المؤقت تلقائيًا عند تحويل الدور للفريق الآخر</span><input type="checkbox" id="optAutoTimer" class="switch" checked></label>
     <label class="row"><span>إيقاف المؤقت عند الحكم على الجواب</span><input type="checkbox" id="optAutoStop" class="switch" checked></label>
     <div class="row col">
       <span>مستوى الإثارة قبل كشف الحكم</span>
@@ -2922,7 +2922,7 @@ function initHost() {
     turn: saved.turn || 0,
     teams: saved.teams || [{ name: 'الفريق الأول', score: 0 }, { name: 'الفريق الثاني', score: 0 }],
     timer: { total: (saved.timer && saved.timer.total) || 30, remaining: (saved.timer && saved.timer.remaining) || (saved.timer && saved.timer.total) || 30, running: false, endsAt: 0 },
-    opts: Object.assign({ sound: true, vol: .9, suspense: 'high', autoStop: true, adj: 1, fake: true, autoTimer: false, trans: true }, saved.opts || {}),
+    opts: Object.assign({ sound: true, vol: .9, suspense: 'high', autoStop: true, adj: 1, fake: true, autoTimer: true, trans: true }, saved.opts || {}),
     history: saved.history || [],
     sig: saved.sig || null,
     done: saved.done || {},
@@ -2933,7 +2933,7 @@ function initHost() {
     action: !!saved.action
   };
   /* النسخ السابقة كان فيها التشغيل التلقائي مفعّل: صار الأصل «ابدأ» */
-  if (saved.optsV !== 2) H.opts.autoTimer = false;
+  if (saved.optsV !== 3) H.opts.autoTimer = true;
   /* كل فريق: لون + 7 خانات للاعبين على الأقل */
   H.teams.forEach((t, i) => {
     if (!TEAM_COLORS[t.color]) t.color = DEF_COLORS[i];
@@ -2943,7 +2943,7 @@ function initHost() {
   let room = normRoom(lsGet(LSK.room, '')) || genRoom(); lsSet(LSK.room, room);
   let Q = DEMO, lastAlive = 0, sheetId = (lsGet(LSK.sheet, null) && lsGet(LSK.sheet, null) !== '1Cul2iqTAfG7AvQlNu4X14XijS319kUq0') ? lsGet(LSK.sheet, null) : SHEET_ID_DEFAULT;
 
-  const save = () => lsSet(LSK.host, { phase: H.phase, qi: H.qi, taken: H.taken, takenBy: H.takenBy, strikes: H.strikes, played: H.played, turn: H.turn, teams: H.teams, timer: { total: H.timer.total, remaining: H.timer.running ? remaining() : H.timer.remaining }, opts: H.opts, history: H.history.slice(-40), sig: H.sig, done: H.done, shown: H.shown, hideScore: H.hideScore, rules: H.rules, action: H.action, optsV: 2 });
+  const save = () => lsSet(LSK.host, { phase: H.phase, qi: H.qi, taken: H.taken, takenBy: H.takenBy, strikes: H.strikes, played: H.played, turn: H.turn, teams: H.teams, timer: { total: H.timer.total, remaining: H.timer.running ? remaining() : H.timer.remaining }, opts: H.opts, history: H.history.slice(-40), sig: H.sig, done: H.done, shown: H.shown, hideScore: H.hideScore, rules: H.rules, action: H.action, optsV: 3 });
   const remaining = () => H.timer.running ? Math.max(0, (H.timer.endsAt - Date.now()) / 1000) : H.timer.remaining;
   const takenOf = i => H.taken[i] || [];
   const strikesOf = i => (H.strikes[i] || (H.strikes[i] = [0, 0]));
@@ -3158,12 +3158,6 @@ function initHost() {
     H.timer.running = false; H.timer.remaining = H.timer.total;
     renderChips(); renderAnswers(); renderVerdict(); renderTeams(); renderTimer();
     push({ kind: 'question' });
-    if (H.opts.autoTimer) {
-      const mark = H.history.length;
-      pendingAuto = () => { pendingAuto = null; clearTimeout(autoT); if (live() && H.qi === i && H.history.length === mark && !H.timer.running && !H.action) timerStart(); };
-      /* يبدأ لما تبلّغ الشاشة إن السؤال ظهر؛ وإذا ما فيه شاشة يبدأ بعد مهلة */
-      autoT = setTimeout(() => pendingAuto && pendingAuto(), Date.now() - lastAlive < 6500 ? 14000 : 2600);
-    }
   }
   /* خدعة الألوان: تشتغل أحيانًا لما تكون المنافسة حامية */
   function fakeNow() {
@@ -3289,7 +3283,16 @@ function initHost() {
   }
   function setTurn(i) {
     if (H.turn === i) return;
-    H.turn = i; renderTeams(); renderVerdict(); flipTeams();
+    H.turn = i;
+    /* الإعداد التلقائي: تحويل الدور للفريق الآخر يشغّل مؤقته فورًا من البداية */
+    if (H.opts.autoTimer && live() && curQ() && !H.action) {
+      clearTimeout(autoT); pendingAuto = null;
+      H.timer.remaining = H.timer.total;
+      H.timer.endsAt = Date.now() + H.timer.total * 1000;
+      H.timer.running = true;
+      renderTimer();
+    }
+    renderTeams(); renderVerdict(); flipTeams();
     push({ kind: 'turn' });
   }
 
