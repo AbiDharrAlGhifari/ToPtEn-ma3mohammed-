@@ -785,6 +785,11 @@ input[type=range]{width:100%;accent-color:var(--green)}
 .cr-name,.cr-main .cr-name,.cr-col .cr-name{overflow:visible;text-overflow:clip;text-shadow:none;line-height:1.6;margin:0;padding:0 12px}
 .cd h3{overflow:visible;text-overflow:clip;line-height:1.6;padding:0 10px}
 
+/* ===== آخر 3 ثواني ===== */
+#stage.panic .timer{box-shadow:0 0 0 6px var(--red),0 0 60px rgba(229,72,77,.5),var(--shadow-lg)}
+#stage.panic .timer .tn b{color:var(--red)}
+#stage.panic #veil{opacity:.55;background:radial-gradient(70% 70% at 50% 55%,rgba(90,10,10,0) 45%,rgba(90,10,10,.35) 100%)}
+
 @media (prefers-reduced-motion:reduce){
   #bg .lattice,#bg .glow,#bg .sun svg,#gate::before,.gate-bg i{animation:none}
 }
@@ -1529,8 +1534,18 @@ const Sfx = (() => {
     stamp() { noise({ d: .14, g: .45, f: 2400, to: 220, type: 'lowpass', a: .001 }); tone({ f: 150, to: 55, d: .18, g: .55, a: .002 }); },
     impact(p = 1) { noise({ d: .55, g: .55 * p, f: 6000, to: 160, type: 'lowpass', a: .002 }); tone({ f: 115, to: 36, d: .5, g: .7 * p, a: .002 }); tone({ f: 58, to: 30, d: .7, g: .35 * p, a: .004 }); },
     /* عدّ الوقت */
+    /* آخر 3 ثواني: تيك/تاك خشبي حاد + نبض قلب منخفض */
+    tk(hi, p = 1) {
+      noise({ d: .035, g: .62 * p, f: hi ? 3300 : 1500, type: 'bandpass', q: 9, a: .0008 });
+      tone({ f: (hi ? 1900 : 1050) * (.92 + p * .1), to: (hi ? 1500 : 820), d: .05, g: .2 * p, type: 'triangle', a: .001 });
+      noise({ d: .01, g: .22 * p, f: 7000, type: 'highpass', a: .0005 });
+    },
+    beat(p = 1) {
+      tone({ f: 62, to: 38, d: .2, g: .75 * p, a: .004 }); noise({ d: .1, g: .18 * p, f: 260, to: 90, type: 'lowpass', a: .002 });
+      tone({ t: .17, f: 54, to: 34, d: .18, g: .5 * p, a: .004 });
+    },
     tick(alt, loud) { noise({ d: .02, g: loud ? .55 : .3, f: alt ? 2500 : 3400, type: 'bandpass', q: 7, a: .001 }); noise({ d: .012, g: loud ? .25 : .12, f: 6500, type: 'highpass', a: .001 }); },
-    alarm() { [0, .14, .42, .56, .84, .98, 1.26, 1.4].forEach(t => tone({ f: 2150, t, d: .1, g: .13, type: 'square', a: .004 })); noise({ d: .5, g: .15, f: 800, to: 120, type: 'lowpass' }); },
+    alarm() { tone({ f: 120, to: 40, d: .5, g: .7, a: .002 }); noise({ d: .35, g: .4, f: 5000, to: 200, type: 'lowpass', a: .001 }); [.05, .19, .47, .61, .89, 1.03].forEach(t => tone({ f: 2150, t, d: .1, g: .13, type: 'square', a: .004 })); noise({ d: .5, g: .15, f: 800, to: 120, type: 'lowpass' }); },
     /* التشويق */
     scan() { tone({ f: rand(1750, 2350), d: .035, g: .09, type: 'square', a: .002 }); },
     fuse(d) {
@@ -2840,6 +2855,19 @@ function initScreen() {
 
   /* ---------- المؤقت (يُرسم كل إطار) ---------- */
   const arc = $('#tArc'), C = 2 * Math.PI * 132;
+  /* آخر 3 ثواني: تيك-تاك يتسارع كل ثانية + نبض قلب + الشاشة تنبض بالأحمر */
+  const PANIC = { 3: [0, 500], 2: [0, 333, 666], 1: [0, 200, 400, 600, 800] };
+  function panicSecond(secs) {
+    const live = () => S.timer.running && S.lastSec === secs;
+    const k = 4 - secs, num = $('#tNum'), tm = $('#timer');
+    Sfx.beat(.7 + k * .15);
+    PANIC[secs].forEach((ms, j) => setTimeout(() => { if (live()) Sfx.tk(j % 2 === 0, .75 + k * .12); }, ms));
+    num.animate([{ transform: 'scale(1.9)', color: '#E5484D' }, { transform: 'scale(.92)', offset: .55 }, { transform: 'scale(1)' }], { duration: 520, easing: 'cubic-bezier(.2,1.6,.4,1)' });
+    tm.animate([{ boxShadow: '0 0 0 0 rgba(229,72,77,.9)' }, { boxShadow: '0 0 0 34px rgba(229,72,77,0)' }], { duration: 700, easing: 'ease-out' });
+    const v = $('#vignette'); v.className = 'red';
+    v.animate([{ opacity: 0 }, { opacity: .35 + k * .15, offset: .15 }, { opacity: 0 }], { duration: 900 });
+    shake(3 + k * 3, 380, world);
+  }
   (function loop() {
     const t = S.timer, rem = t.running ? Math.max(0, (t.endsAt - Date.now()) / 1000) : t.remaining;
     const frac = t.total ? Math.max(0, Math.min(1, rem / t.total)) : 0;
@@ -2851,9 +2879,14 @@ function initScreen() {
     tm.classList.toggle('crit', rem <= 5 && rem > 0 && t.running);
     tm.classList.toggle('off', !t.running);
     if (t.running && secs <= 10 && secs > 0 && S.lastSec !== secs) {
-      S.lastSec = secs; Sfx.tick(secs % 2, secs <= 5);
-      if (secs <= 5) num.animate([{ transform: 'scale(1.35)' }, { transform: 'scale(1)' }], { duration: 400, easing: 'cubic-bezier(.2,1.6,.4,1)' });
+      S.lastSec = secs;
+      if (secs <= 3) panicSecond(secs);
+      else {
+        Sfx.tick(secs % 2, false);
+        if (secs <= 5) num.animate([{ transform: 'scale(1.35)' }, { transform: 'scale(1)' }], { duration: 400, easing: 'cubic-bezier(.2,1.6,.4,1)' });
+      }
     }
+    stage.classList.toggle('panic', t.running && rem > 0 && rem <= 3);
     if (!t.running) S.lastSec = null;
     requestAnimationFrame(loop);
   })();
@@ -2889,7 +2922,7 @@ function initHost() {
     turn: saved.turn || 0,
     teams: saved.teams || [{ name: 'الفريق الأول', score: 0 }, { name: 'الفريق الثاني', score: 0 }],
     timer: { total: (saved.timer && saved.timer.total) || 30, remaining: (saved.timer && saved.timer.remaining) || (saved.timer && saved.timer.total) || 30, running: false, endsAt: 0 },
-    opts: Object.assign({ sound: true, vol: .9, suspense: 'high', autoStop: true, adj: 1, fake: true, autoTimer: true, trans: true }, saved.opts || {}),
+    opts: Object.assign({ sound: true, vol: .9, suspense: 'high', autoStop: true, adj: 1, fake: true, autoTimer: false, trans: true }, saved.opts || {}),
     history: saved.history || [],
     sig: saved.sig || null,
     done: saved.done || {},
@@ -2899,6 +2932,8 @@ function initHost() {
     rules: !!saved.rules,
     action: !!saved.action
   };
+  /* النسخ السابقة كان فيها التشغيل التلقائي مفعّل: صار الأصل «ابدأ» */
+  if (saved.optsV !== 2) H.opts.autoTimer = false;
   /* كل فريق: لون + 7 خانات للاعبين على الأقل */
   H.teams.forEach((t, i) => {
     if (!TEAM_COLORS[t.color]) t.color = DEF_COLORS[i];
@@ -2908,7 +2943,7 @@ function initHost() {
   let room = normRoom(lsGet(LSK.room, '')) || genRoom(); lsSet(LSK.room, room);
   let Q = DEMO, lastAlive = 0, sheetId = (lsGet(LSK.sheet, null) && lsGet(LSK.sheet, null) !== '1Cul2iqTAfG7AvQlNu4X14XijS319kUq0') ? lsGet(LSK.sheet, null) : SHEET_ID_DEFAULT;
 
-  const save = () => lsSet(LSK.host, { phase: H.phase, qi: H.qi, taken: H.taken, takenBy: H.takenBy, strikes: H.strikes, played: H.played, turn: H.turn, teams: H.teams, timer: { total: H.timer.total, remaining: H.timer.running ? remaining() : H.timer.remaining }, opts: H.opts, history: H.history.slice(-40), sig: H.sig, done: H.done, shown: H.shown, hideScore: H.hideScore, rules: H.rules, action: H.action });
+  const save = () => lsSet(LSK.host, { phase: H.phase, qi: H.qi, taken: H.taken, takenBy: H.takenBy, strikes: H.strikes, played: H.played, turn: H.turn, teams: H.teams, timer: { total: H.timer.total, remaining: H.timer.running ? remaining() : H.timer.remaining }, opts: H.opts, history: H.history.slice(-40), sig: H.sig, done: H.done, shown: H.shown, hideScore: H.hideScore, rules: H.rules, action: H.action, optsV: 2 });
   const remaining = () => H.timer.running ? Math.max(0, (H.timer.endsAt - Date.now()) / 1000) : H.timer.remaining;
   const takenOf = i => H.taken[i] || [];
   const strikesOf = i => (H.strikes[i] || (H.strikes[i] = [0, 0]));
@@ -3259,9 +3294,11 @@ function initHost() {
   }
 
   /* المؤقت */
+  /* «ابدأ» يشغّل المؤقت فورًا من البداية (30 ثانية، أو المدة المختارة 15/45/60) */
   function timerStart() {
     if (!live() || H.timer.running) return;
-    if (H.timer.remaining <= 0.05) H.timer.remaining = H.timer.total;
+    clearTimeout(autoT); pendingAuto = null;
+    H.timer.remaining = H.timer.total;
     H.timer.endsAt = Date.now() + H.timer.remaining * 1000;
     H.timer.running = true;
     renderTimer(); push();
